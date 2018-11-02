@@ -30,4 +30,7 @@ public class CategoryService {
     }
 
 
+    public String getString( String str){
+        return str.substring(0,2);
+    }
 }
