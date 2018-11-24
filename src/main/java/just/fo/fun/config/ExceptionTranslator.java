@@ -13,7 +13,7 @@ public class ExceptionTranslator {
 
 
     @ExceptionHandler(MessageException.class)
-    public ResponseEntity<String> processValidationException(final MessageException ex) {
+    public ResponseEntity<String> processMessageException(final MessageException ex) {
         log.error("There is something wrong: " + ex);
 //
 //        ErrorVM errorVM = ex.processValidationError();
@@ -42,6 +42,11 @@ public class ExceptionTranslator {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> processException(final Exception ex) {
+        log.error("There is something wrong: " + ex);
+        return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+    }
 
 
 

@@ -2,21 +2,14 @@ package just.fo.fun.category.controller;
 
 import just.fo.fun.category.service.CategoryService;
 import just.fo.fun.entities.Category;
-import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
-import just.fo.fun.user.models.dtos.UserDto;
-import just.fo.fun.user.service.UserService;
-import just.fo.fun.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -27,7 +20,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity insertUser(@Valid @RequestBody final Category category) {
+    public ResponseEntity insertCategory(@Valid @RequestBody final Category category) {
 
         if (category.getId() != null)
             throw new MessageException("id must be empty !");
@@ -45,7 +38,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity updateUser(@Valid @RequestBody final Category category) {
+    public ResponseEntity updateCategory(@Valid @RequestBody final Category category) {
 
         if (category.getId() == null)
             throw new MessageException("id must not be empty !");
@@ -55,43 +48,35 @@ public class CategoryController {
                 : new ResponseEntity<>(result, HttpStatus.OK);
 
     }
-/*
+
     @GetMapping("/{id}")
-    public ResponseEntity getUser(@PathVariable final Long id) {
+    public ResponseEntity getCategory(@PathVariable final Integer id) {
 
-        UserDto userDto = new UserDto();
-        User user = userService.findOne(id);
+        Category category = categoryService.findOne(id);
 
-        BeanUtils.copyProperties(user, userDto);
-        return userDto == null
+        return category == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(userDto, HttpStatus.OK);
+                : new ResponseEntity<>(category, HttpStatus.OK);
 
     }
 
     @GetMapping("/")
-    public ResponseEntity getUsers() {
+    public ResponseEntity getCategorys() {
 
-        List<User> users = userService.findAll();
+        List<Category> categorys = categoryService.findAll();
 
-        List<UserDto> resultUserDto = users.stream().map(itm -> {
-            UserDto userDto = new UserDto();
-            BeanUtils.copyProperties(itm, userDto);
-            return userDto;
-        }).collect(Collectors.toList());
-
-        return resultUserDto == null
+        return categorys == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(resultUserDto, HttpStatus.OK);
+                : new ResponseEntity<>(categorys, HttpStatus.OK);
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete (@PathVariable final Long id) {
-        userService.delete(id);
+    public ResponseEntity delete (@PathVariable final Integer id) {
+        categoryService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
-*/
+
 
 }
