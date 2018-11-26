@@ -10,11 +10,7 @@ import javax.persistence.*;
 @Entity
 @ToString
 @Data
-public class translations {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
+public class translations extends SuperEntity{
 
     @Column(unique = true, nullable = false)
     private String key;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import just.fo.fun.utils.serializers.LocalDateTimeDeserializer;
 import just.fo.fun.utils.serializers.LocalDateTimeSerializer;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -16,10 +17,7 @@ import java.time.LocalDateTime;
 @ToString
 @Data
 @Table(name = "\"user\"")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
+public class User extends SuperEntity{
 
     @Column(unique = true, nullable = false)
     private String login;

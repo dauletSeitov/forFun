@@ -1,6 +1,7 @@
 package just.fo.fun.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,10 +15,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @ToString
 @Data
-public class Category {
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Integer id;
+public class Category extends SuperEntity{
 
     @NotNull
     private String name;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import just.fo.fun.utils.serializers.LocalDateTimeDeserializer;
 import just.fo.fun.utils.serializers.LocalDateTimeSerializer;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,10 +18,7 @@ import java.time.LocalDateTime;
 @Entity
 @ToString
 @Data
-public class Post {
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
-    private Long id;
+public class Post extends SuperEntity{
 
     @ManyToOne
     @JoinColumn(name = "user_id")
