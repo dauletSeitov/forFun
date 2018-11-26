@@ -29,8 +29,4 @@ public class CategoryService {
         categoryRepository.delete(id);
     }
 
-
-    public String getString( String str){
-        return str.substring(0,2);
-    }
 }

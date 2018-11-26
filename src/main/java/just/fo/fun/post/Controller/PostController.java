@@ -100,28 +100,22 @@ public class PostController {
     public ResponseEntity getPost(Pageable request) {
 
         Page<Post> posts = postService.getAll(request);
-/*
-        List<UserDto> resultUserDto = users.stream().map(itm -> {
-            UserDto userDto = new UserDto();
-            BeanUtils.copyProperties(itm, userDto);
-            return userDto;
-        }).collect(Collectors.toList());*/
 
-    Long totalEl = posts.getTotalElements();
-    Integer totalPage = posts.getTotalPages();
-    List<Post> postList = posts.getContent();
+
+       /* Long totalEl = posts.getTotalElements();
+        Integer totalPage = posts.getTotalPages();
+        List<Post> postList = posts.getContent();
 
 
         HashMap<String, Object> response = new HashMap<>();
 
         response.put("postList", postList);
         response.put("totalPage", totalPage);
-        response.put("totalEl", totalEl);
+        response.put("totalEl", totalEl);*/
 
-
-        return totalEl == null || totalEl.equals(0L)
+        return posts.getContent() == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(response, HttpStatus.OK);
+                : new ResponseEntity<>(posts, HttpStatus.OK);
 
     }
 

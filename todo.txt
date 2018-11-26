@@ -44,3 +44,54 @@ JOIN users u ON c.user_id = u.id
 LEFT JOIN comments r ON c.id = r.parent_comment_id
 JOIN users u2 ON r.user_id = u2.id
 WHERE c.topic_id = 9
+
+//------------------------------------------------------------------------------
+public class GridResponse<T> { // TODO replace R by T and T by R
+
+    public List<T> rows;
+    public Total total = new Total();
+
+    public GridResponse(List<T> rows, Total total) {
+        this.rows = rows;
+        this.total = total;
+    }
+
+    public <R> GridResponse(List<R> rows, Function<R, T> mapper, Total total) {
+        this.rows = rows.stream()
+            .map(mapper)
+            .collect(toList());
+
+        this.total = total;
+    }
+
+    public <R> GridResponse(List<R> rows, Function<R, T> mapper, Total total, List<DomesticTransferService.DocRow> listId) {
+        this.rows = rows.stream()
+            .map(mapper)
+            .collect(toList());
+
+        this.total = total;
+    }
+
+    public GridResponse(List<T> rows, long total) {
+        this.rows = rows;
+        this.total = new Total(total);
+    }
+
+    public static class Total {
+        public Long count;
+
+        public Total() {
+        }
+
+        public Total(final Long count) {
+            this.count = count;
+        }
+
+        public Total(final int count) {
+            this.count = (long) count;
+        }
+    }
+
+    public GridResponse() {
+    }
+}
