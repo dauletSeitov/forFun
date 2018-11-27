@@ -1,11 +1,14 @@
 package just.fo.fun.user.service;
 
 import just.fo.fun.entities.User;
+import just.fo.fun.user.model.UserDto;
 import just.fo.fun.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -17,12 +20,14 @@ public class UserService {
         return UserRepository.save(user);
     }
 
-    public User findOne(Long id){
-        return UserRepository.findOne(id);
+    public UserDto findOne(Long id){
+        final User user = UserRepository.findOne(id);
+        return Objects.isNull(user) ? null : new UserDto(user);
     }
 
-    public List<User> findAll(){
-        return UserRepository.findAll();
+    public Page<UserDto> findAll(Pageable pageable){
+        final Page<User> page = UserRepository.findAll(pageable);
+        return page.map(UserDto::new);
     }
 
     public void delete(Long id){
