@@ -17,7 +17,7 @@ public class PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private static UserRepository userRepository;
+    private UserRepository userRepository;
 
     public Page<PostDto> findAll(Pageable pageable) {
         Page<Post> page = postRepository.findAll(pageable);

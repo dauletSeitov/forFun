@@ -42,6 +42,7 @@ public class PostController {
         try {
             postService.save(postDto);
         }catch (Exception e){
+            log.error("erron while post", e);
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(HttpStatus.OK);
