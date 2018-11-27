@@ -1,6 +1,6 @@
 package just.fo.fun.commentary.service;
 
-import just.fo.fun.commentary.dtos.CommentaryDto;
+import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.entities.Commentary;
 import just.fo.fun.utils.Utils;

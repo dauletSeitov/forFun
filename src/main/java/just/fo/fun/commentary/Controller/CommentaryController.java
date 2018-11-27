@@ -1,6 +1,6 @@
 package just.fo.fun.commentary.Controller;
 
-import just.fo.fun.commentary.dtos.CommentaryDto;
+import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.service.CommentaryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class CommentaryController {
     private CommentaryService commentaryService;
 
  /*   @PostMapping
-    public ResponseEntity insertUser(@Valid @RequestBody final UserDto userDto) {
+    public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userDto) {
 
         if (userDto.getId() != null)
             throw new MessageException("id must be empty !");
@@ -34,12 +34,12 @@ public class CommentaryController {
         }
         return resultUser == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(Utils.copyProperties(resultUser, new UserDto()), HttpStatus.OK);
+                : new ResponseEntity<>(Utils.copyProperties(resultUser, new UserLoginDto()), HttpStatus.OK);
 
     }
 
     @PutMapping
-    public ResponseEntity updateUser(@Valid @RequestBody final UserDto userDto) {
+    public ResponseEntity updateUser(@Valid @RequestBody final UserLoginDto userDto) {
 
         if (userDto.getId() == null)
             throw new MessageException("id must not be empty !");
@@ -55,7 +55,7 @@ public class CommentaryController {
     @GetMapping("/{id}")
     public ResponseEntity getUser(@PathVariable final Long id) {
 
-        UserDto userDto = new UserDto();
+        UserLoginDto userDto = new UserLoginDto();
         User user = userService.findOne(id);
 
         BeanUtils.copyProperties(user, userDto);
@@ -70,8 +70,8 @@ public class CommentaryController {
 
         List<User> users = userService.findAll();
 
-        List<UserDto> resultUserDto = users.stream().map(itm -> {
-            UserDto userDto = new UserDto();
+        List<UserLoginDto> resultUserDto = users.stream().map(itm -> {
+            UserLoginDto userDto = new UserLoginDto();
             BeanUtils.copyProperties(itm, userDto);
             return userDto;
         }).collect(Collectors.toList());

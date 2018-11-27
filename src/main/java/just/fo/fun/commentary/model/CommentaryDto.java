@@ -1,4 +1,4 @@
-package just.fo.fun.commentary.dtos;
+package just.fo.fun.commentary.model;
 
 import just.fo.fun.entities.User;
 import lombok.Data;

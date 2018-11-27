@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query("select p from Post p")
-    Page<Post> getAll(Pageable pageable);
+/*    @Query("select p from Post p")
+    Page<Post> getAll(Pageable pageable);*/
 }

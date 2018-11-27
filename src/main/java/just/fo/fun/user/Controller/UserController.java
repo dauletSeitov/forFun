@@ -2,7 +2,7 @@ package just.fo.fun.user.Controller;
 
 import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
-import just.fo.fun.user.models.dtos.UserDto;
+import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.service.UserService;
 import just.fo.fun.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +25,13 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity insertUser(@Valid @RequestBody final UserDto userDto) {
+    public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
-        if (userDto.getId() != null)
+        if (userLoginDto.getId() != null)
             throw new MessageException("id must be empty !");
 
         User user = new User();
-        Utils.copyProperties(userDto, user);
+        Utils.copyProperties(userLoginDto, user);
         User resultUser = null;
         try {
             resultUser = userService.save(user);
@@ -40,17 +40,17 @@ public class UserController {
         }
         return resultUser == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(Utils.copyProperties(resultUser, new UserDto()), HttpStatus.OK);
+                : new ResponseEntity<>(Utils.copyProperties(resultUser, new UserLoginDto()), HttpStatus.OK);
 
     }
 
     @PutMapping
-    public ResponseEntity updateUser(@Valid @RequestBody final UserDto userDto) {
+    public ResponseEntity updateUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
-        if (userDto.getId() == null)
+        if (userLoginDto.getId() == null)
             throw new MessageException("id must not be empty !");
         User user = new User();
-        BeanUtils.copyProperties(userDto, user);
+        BeanUtils.copyProperties(userLoginDto, user);
         User resultUser = userService.save(user);
         return resultUser == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
@@ -61,13 +61,13 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity getUser(@PathVariable final Long id) {
 
-        UserDto userDto = new UserDto();
+        UserLoginDto userLoginDto = new UserLoginDto();
         User user = userService.findOne(id);
 
-        BeanUtils.copyProperties(user, userDto);
-        return userDto == null
+        BeanUtils.copyProperties(user, userLoginDto);
+        return userLoginDto == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(userDto, HttpStatus.OK);
+                : new ResponseEntity<>(userLoginDto, HttpStatus.OK);
 
     }
 
@@ -76,15 +76,15 @@ public class UserController {
 
         List<User> users = userService.findAll();
 
-        List<UserDto> resultUserDto = users.stream().map(itm -> {
-            UserDto userDto = new UserDto();
-            BeanUtils.copyProperties(itm, userDto);
-            return userDto;
+        List<UserLoginDto> resultUserLoginDto = users.stream().map(itm -> {
+            UserLoginDto userLoginDto = new UserLoginDto();
+            BeanUtils.copyProperties(itm, userLoginDto);
+            return userLoginDto;
         }).collect(Collectors.toList());
 
-        return resultUserDto == null
+        return resultUserLoginDto == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(resultUserDto, HttpStatus.OK);
+                : new ResponseEntity<>(resultUserLoginDto, HttpStatus.OK);
 
     }
 

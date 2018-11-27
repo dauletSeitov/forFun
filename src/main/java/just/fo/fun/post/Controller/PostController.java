@@ -1,7 +1,7 @@
 package just.fo.fun.post.Controller;
 
-import just.fo.fun.entities.Post;
-
+import just.fo.fun.exception.MessageException;
+import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,114 +12,60 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/post")
 public class PostController {
+
     @Autowired
     private PostService postService;
 
-/*
-
-
-    @PostMapping
-    public ResponseEntity insertUser(@Valid @RequestBody final UserDto userDto) {
-
-        if (userDto.getId() != null)
-            throw new MessageException("id must be empty !");
-
-        User user = new User();
-        Utils.copyProperties(userDto, user);
-        User resultUser = null;
-        try {
-            resultUser = userService.save(user);
-        }catch (Exception e){
-            throw new MessageException("ffffffff" + e.getMessage());
-        }
-        return resultUser == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(Utils.copyProperties(resultUser, new UserDto()), HttpStatus.OK);
-
-    }
-
-    @PutMapping
-    public ResponseEntity updateUser(@Valid @RequestBody final UserDto userDto) {
-
-        if (userDto.getId() == null)
-            throw new MessageException("id must not be empty !");
-        User user = new User();
-        BeanUtils.copyProperties(userDto, user);
-        User resultUser = userService.save(user);
-        return resultUser == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(resultUser, HttpStatus.OK);
-
+    @GetMapping
+    public ResponseEntity getAllPost(Pageable request) {
+        Page<PostDto> posts = postService.findAll(request);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getUser(@PathVariable final Long id) {
-
-        UserDto userDto = new UserDto();
-        User user = userService.findOne(id);
-
-        BeanUtils.copyProperties(user, userDto);
-        return userDto == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(userDto, HttpStatus.OK);
-
+    public ResponseEntity getOnePost(@PathVariable final Long id) {
+        final PostDto post = postService.findOne(id);
+        return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping("/")
-    public ResponseEntity getUsers() {
+    @PostMapping
+    public ResponseEntity insertPost(@Valid @RequestBody final PostDto postDto) {
 
-        List<User> users = userService.findAll();
+        if (postDto.getId() != null)
+            throw new MessageException("id must be empty !");
 
-        List<UserDto> resultUserDto = users.stream().map(itm -> {
-            UserDto userDto = new UserDto();
-            BeanUtils.copyProperties(itm, userDto);
-            return userDto;
-        }).collect(Collectors.toList());
+        try {
+            postService.save(postDto);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-        return resultUserDto == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(resultUserDto, HttpStatus.OK);
+    @PutMapping
+    public ResponseEntity updatePost(@Valid @RequestBody final PostDto postDto) {
 
+        if (postDto.getId() == null)
+            throw new MessageException("id must not be empty !");
+
+        try {
+            postService.save(postDto);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete (@PathVariable final Long id) {
-        userService.delete(id);
+        postService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
-*/
-
-
-    @GetMapping
-    public ResponseEntity getPost(Pageable request) {
-
-        Page<Post> posts = postService.getAll(request);
-
-
-       /* Long totalEl = posts.getTotalElements();
-        Integer totalPage = posts.getTotalPages();
-        List<Post> postList = posts.getContent();
-
-
-        HashMap<String, Object> response = new HashMap<>();
-
-        response.put("postList", postList);
-        response.put("totalPage", totalPage);
-        response.put("totalEl", totalEl);*/
-
-        return posts.getContent() == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(posts, HttpStatus.OK);
-
-    }
-
 
 }

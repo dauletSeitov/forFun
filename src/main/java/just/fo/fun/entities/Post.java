@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import just.fo.fun.utils.serializers.LocalDateTimeDeserializer;
 import just.fo.fun.utils.serializers.LocalDateTimeSerializer;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -31,8 +30,6 @@ public class Post extends SuperEntity{
 
     @Column
     @UpdateTimestamp
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime updated;
 
     @ManyToOne

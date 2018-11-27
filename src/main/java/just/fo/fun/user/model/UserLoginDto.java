@@ -1,4 +1,4 @@
-package just.fo.fun.user.models.dtos;
+package just.fo.fun.user.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @Data
 @ToString
 @NoArgsConstructor
-public class UserDto {
+public class UserLoginDto {
 
     private Long id;
     @NotNull
