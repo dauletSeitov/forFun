@@ -15,10 +15,13 @@ buildscript {
     repositories {
         mavenCentral()
     }
+
+    apply from: 'common.gradle'
     dependencies {
         classpath group: 'com.querydsl', name: 'querydsl-core', version: "${querydslVersion}"
         classpath group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
         classpath group: 'com.querydsl', name: 'querydsl-sql-codegen', version: "${querydslVersion}"
+
         classpath group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
@@ -46,8 +49,13 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    jdbcdriver
+}
+
 
 dependencies {
+    jdbcdriver "org.postgresql:postgresql:42.1.1"
     compileOnly 'org.projectlombok:lombok:1.18.2'
 
     apt "org.projectlombok:lombok:1.18.2"
@@ -57,6 +65,12 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: "${hibernateVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springBootVersion}"
+
+
+    compileOnly group: 'com.querydsl', name: 'querydsl-core', version: "${querydslVersion}"
+    compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
+    compileOnly group: 'com.querydsl', name: 'querydsl-sql-spring', version: "${querydslVersion}"
+
 
     compile("org.hibernate:hibernate-core:${hibernateVersion}") {
         exclude group: 'org.apache.geronimo.specs', module: 'geronimo-jta_1.1_spec'

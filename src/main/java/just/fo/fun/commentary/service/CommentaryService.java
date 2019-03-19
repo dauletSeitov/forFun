@@ -1,16 +1,25 @@
 package just.fo.fun.commentary.service;
 
+import com.querydsl.sql.SQLQueryFactory;
+import generated.just.fo.fun.dsl.DBCommentary;
+import generated.just.fo.fun.dsl.QCommentary;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.entities.Commentary;
 import just.fo.fun.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Transactional
 @Service
 public class CommentaryService {
+
+    @Inject
+    private SQLQueryFactory queryFactory;
 
     @Autowired
     private CommentaryRepository commentaryRepository;
@@ -32,6 +41,9 @@ public class CommentaryService {
     }
 
     public List<CommentaryDto> getAll(Long id){
+
+        QCommentary commentary = QCommentary.commentary;
+        List<DBCommentary> fetch = queryFactory.select(commentary).from(commentary).fetch();
 
         List<CommentaryDto> parentles = commentaryRepository.getAllByParentIsNullAndPostIdOrderByRatingDesc(id)
                 .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());

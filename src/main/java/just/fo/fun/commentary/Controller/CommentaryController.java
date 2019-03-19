@@ -1,5 +1,8 @@
 package just.fo.fun.commentary.Controller;
 
+import com.querydsl.sql.SQLQueryFactory;
+import generated.just.fo.fun.dsl.DBCommentary;
+import generated.just.fo.fun.dsl.QCommentary;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.service.CommentaryService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @Slf4j
@@ -18,8 +22,6 @@ public class CommentaryController {
     @Autowired
     private CommentaryService commentaryService;
 
-    @Autowired
-    private SQLqu
 
  /*   @PostMapping
     public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userDto) {
