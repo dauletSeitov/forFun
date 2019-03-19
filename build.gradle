@@ -1,4 +1,8 @@
 import groovy.sql.Sql
+import com.querydsl.sql.codegen.MetaDataExporter
+import com.querydsl.codegen.BeanSerializer
+import com.querydsl.sql.Configuration
+import com.querydsl.sql.SQLTemplates
 
 buildscript {
     ext {
