@@ -6,6 +6,7 @@ import com.querydsl.sql.SQLTemplates
 
 buildscript {
     ext {
+        ext.querydslVersion = '4.1.4'
         ext.springVersion = '4.3.17.RELEASE'
         ext.springSecurityVersion = '4.2.6.RELEASE'
         ext.springBootVersion = '1.5.13.RELEASE'
@@ -15,6 +16,10 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath group: 'com.querydsl', name: 'querydsl-core', version: "${querydslVersion}"
+        classpath group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
+        classpath group: 'com.querydsl', name: 'querydsl-sql-codegen', version: "${querydslVersion}"
+        classpath group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }

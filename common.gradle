@@ -28,12 +28,12 @@ ext {
     getDPVersion = this.&getDPVersion
     defaultManifest = this.&defaultManifest
 
-    ext.querydslVersion = '4.1.4'
-    ext.springVersion = '4.3.17.RELEASE'
-    ext.springSecurityVersion = '4.2.6.RELEASE'
-    ext.springBootVersion = '1.5.13.RELEASE'
-    ext.hibernateVersion = '5.2.3.Final'
-    ext.jacksonVersion = '2.9.3'
+//    ext.querydslVersion = '4.1.4'
+//    ext.springVersion = '4.3.17.RELEASE'
+//    ext.springSecurityVersion = '4.2.6.RELEASE'
+//    ext.springBootVersion = '1.5.13.RELEASE'
+//    ext.hibernateVersion = '5.2.3.Final'
+//    ext.jacksonVersion = '2.9.3'
 
 }
 

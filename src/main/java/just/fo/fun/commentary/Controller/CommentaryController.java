@@ -18,6 +18,9 @@ public class CommentaryController {
     @Autowired
     private CommentaryService commentaryService;
 
+    @Autowired
+    private SQLqu
+
  /*   @PostMapping
     public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userDto) {
 
