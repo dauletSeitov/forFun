@@ -27,6 +27,8 @@ apply plugin: 'io.spring.dependency-management'
 
 
 
+def querydslDir = file("src/main/java")
+
 group = 'just.fo'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
