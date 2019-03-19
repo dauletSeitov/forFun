@@ -1,55 +1,171 @@
+import groovy.sql.Sql
+import com.querydsl.sql.codegen.MetaDataExporter
+import com.querydsl.codegen.BeanSerializer
+import com.querydsl.sql.Configuration
+import com.querydsl.sql.SQLTemplates
+
 buildscript {
-    ext {
-        ext.springVersion = '4.3.17.RELEASE'
-        ext.springSecurityVersion = '4.2.6.RELEASE'
-        ext.springBootVersion = '1.5.13.RELEASE'
-        ext.hibernateVersion = '5.2.3.Final'
-    }
     repositories {
+        mavenLocal()
         mavenCentral()
+        flatDir {
+            dirs "$rootDir/../lib"
+        }
     }
+    apply from: 'common.gradle'
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath group: 'com.querydsl', name: 'querydsl-core', version: "${querydslVersion}"
+        classpath group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
+        classpath group: 'com.querydsl', name: 'querydsl-sql-codegen', version: "${querydslVersion}"
+        classpath group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
     }
 }
 
 plugins {
-    id 'net.ltgt.apt' version '0.10'
+    id "org.flywaydb.flyway" version "4.2.0"
 }
 
 
+apply plugin: 'maven'
 apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
 
 
-
-group = 'just.fo'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext {
+    DB_SOURCE_DIR = file("src/main/resources/db")
+    DB_TARGET_DIR = file("build/resources/db")
+}
+apply from: 'common.gradle'
+
+
+def querydslDir = file("build/generated-sources/qdsl")
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 repositories {
+    mavenLocal()
     mavenCentral()
+    flatDir {
+        dirs "$rootDir/../lib"
+    }
 }
+
+configurations {
+    provided
+    jdbcdriver
+}
+
+
+idea{
+    module {
+        downloadJavadoc=true
+        sourceDirs += querydslDir
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java'
+        }
+        resources {
+            exclude '**/*'
+        }
+    }
+}
+
+
 
 
 dependencies {
-    compileOnly 'org.projectlombok:lombok:1.18.2'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.flywaydb', name: 'flyway-core', version: '4.2.0'
 
-    apt "org.projectlombok:lombok:1.18.2"
-    compile group: 'org.springframework', name: 'spring-web', version: "${springVersion}"
-    compile('org.springframework.boot:spring-boot-starter')
-    compile('org.springframework.boot:spring-boot-starter-tomcat')
-    compile('org.springframework.boot:spring-boot-starter-data-rest')
-    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: "${hibernateVersion}"
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springBootVersion}"
+    compile group: 'com.querydsl', name: 'querydsl-core', version: "${querydslVersion}"
+    compile group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
 
-    compile("org.hibernate:hibernate-core:${hibernateVersion}") {
-        exclude group: 'org.apache.geronimo.specs', module: 'geronimo-jta_1.1_spec'
-    }
-
-    runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
-    //compile('org.springframework.boot:spring-boot-starter-web')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+//	testCompile 'org.testng:testng:latest.integration'
 }
+
+
+task initDB {
+    doLast {
+        println 'Use ' + DB_DRIVER + ', ' + DB_URL
+        URLClassLoader loader = GroovyObject.class.classLoader
+        configurations.jdbcdriver.each { File file ->
+            loader.addURL(file.toURI().toURL())
+        }
+        println 'init end'
+    }
+}
+
+
+
+
+task queryDSL(dependsOn: initDB) {
+    doLast {
+        println 'queryDSL begin'
+        MetaDataExporter exporter = new MetaDataExporter()
+        exporter.setPackageName("com.infin.it.ibank.querydsl")
+        exporter.setBeanPrefix("DB")
+
+        exporter.setTargetFolder(querydslDir)
+        SQLTemplates templates = new SQLTemplates('"', '\\' as char, false)
+
+        Configuration config = new Configuration(templates)
+
+        config.registerType("nvarchar2", String.class)
+        config.registerType("tboolean", Byte.class)
+        exporter.setConfiguration(config);
+        BeanSerializer serializer = new BeanSerializer()
+        serializer.setAddFullConstructor(true)
+        serializer.setAddToString(true)
+        exporter.setBeanSerializer(serializer)
+        def sql = Sql.newInstance(DB_URL, DB_USER, DB_PASSWORD, DB_DRIVER)
+        println DB_URL + ' : ' + DB_DRIVER
+        exporter.export(sql.getConnection().getMetaData())
+    }
+}
+
+
+clean.doLast {
+    delete querydslDir
+}
+
+clean.doFirst {
+    delete fileTree("$rootDir/../build.lib")  { include 'digitalbank-db*.jar' }
+}
+
+compileJava {
+    dependsOn queryDSL
+    sourceSets.main.java.srcDir querydslDir
+}
+
+jar {
+    manifest.attributes.putAll(defaultManifest())
+//  version = null
+//  manifest {
+//    attributes 'Implementation-Title': title,
+//      'Implementation-Version': version,
+//      'Built-By': System.getProperty('user.name'),
+//      'Built-Date': new Date(),
+//      'Built-JDK': System.getProperty('java.version')
+//  }
+    baseName = 'digitalbank-db'
+    from("${buildDir}/resources")
+}
+
+
+tasks.withType(Jar) {
+//	destinationDir = file("$rootDir/lib")
+    destinationDir = file("$rootDir/../build.lib")
+}
+
