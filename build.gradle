@@ -1,3 +1,5 @@
+import groovy.sql.Sql
+
 buildscript {
     ext {
         ext.springVersion = '4.3.17.RELEASE'
@@ -52,4 +54,29 @@ dependencies {
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
     //compile('org.springframework.boot:spring-boot-starter-web')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+task queryDSL(dependsOn: initDB) {
+    doLast {
+
+        MetaDataExporter exporter = new MetaDataExporter()
+        exporter.setPackageName("generated.just.fo.fun.dsl")
+        exporter.setBeanPrefix("DB")
+
+        exporter.setTargetFolder(querydslDir)
+        SQLTemplates templates = new SQLTemplates('"', '\\' as char, false)
+
+        Configuration config = new Configuration(templates)
+
+        config.registerType("nvarchar2", String.class)
+        config.registerType("tboolean", Byte.class)
+        exporter.setConfiguration(config);
+        BeanSerializer serializer = new BeanSerializer()
+        serializer.setAddFullConstructor(true)
+        serializer.setAddToString(true)
+        exporter.setBeanSerializer(serializer)
+        def sql = Sql.newInstance(DB_URL, DB_USER, DB_PASSWORD, DB_DRIVER)
+        println DB_URL + ' : ' + DB_DRIVER
+        exporter.export(sql.getConnection().getMetaData())
+    }
 }
