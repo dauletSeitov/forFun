@@ -17,7 +17,7 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryService categoryService;
+    private CategoryService categoryService; /// servics koi mynai degengit
 
     @PostMapping
     public ResponseEntity insertCategory(@Valid @RequestBody final Category category) {
