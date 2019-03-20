@@ -20,7 +20,7 @@ public class PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private DSLPostRepository changeRatingByid;
+    private DSLPostRepository dslPostRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -43,7 +43,7 @@ public class PostService {
     }
 
     public void changeRating(Long postId, Boolean isUpVote) {
-        changeRatingByid.changeRatingByid(postId, isUpVote);
+            dslPostRepository.changeRatingByid(postId, isUpVote);
     }
 
     //-------------------CONVERTER----------------------------

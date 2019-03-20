@@ -23,7 +23,7 @@ public class PostController {
     private PostService postService;
 
     @GetMapping
-    public ResponseEntity getAllPost(Pageable request) {
+    public ResponseEntity getPostByCategory(Pageable request) {
         Page<PostDto> posts = postService.findAll(request);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
@@ -76,7 +76,7 @@ public class PostController {
         try {
             postService.changeRating(postId, isUpVote);
         }catch (Exception e){
-            log.error("erron while post", e);
+            log.error("error while post", e);
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(HttpStatus.OK);
