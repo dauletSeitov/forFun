@@ -26,7 +26,7 @@ public class QUser extends com.querydsl.sql.RelationalPathBase<DBUser> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<java.math.BigInteger> isDeleted = createNumber("isDeleted", java.math.BigInteger.class);
+    public final NumberPath<Byte> isDeleted = createNumber("isDeleted", Byte.class);
 
     public final StringPath login = createString("login");
 
@@ -69,11 +69,11 @@ public class QUser extends com.querydsl.sql.RelationalPathBase<DBUser> {
 
     public void addMetadata() {
         addMetadata(id, ColumnMetadata.named("id").withIndex(1).ofType(Types.BIGINT).withSize(19).notNull());
-        addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(6).ofType(Types.NUMERIC).withSize(131089));
-        addMetadata(login, ColumnMetadata.named("login").withIndex(2).ofType(Types.VARCHAR).withSize(255).notNull());
-        addMetadata(name, ColumnMetadata.named("name").withIndex(3).ofType(Types.VARCHAR).withSize(255).notNull());
-        addMetadata(password, ColumnMetadata.named("password").withIndex(4).ofType(Types.VARCHAR).withSize(255).notNull());
-        addMetadata(updated, ColumnMetadata.named("updated").withIndex(5).ofType(Types.TIMESTAMP).withSize(29).withDigits(6));
+        addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(2).ofType(Types.NUMERIC).withSize(1));
+        addMetadata(login, ColumnMetadata.named("login").withIndex(3).ofType(Types.VARCHAR).withSize(255).notNull());
+        addMetadata(name, ColumnMetadata.named("name").withIndex(4).ofType(Types.VARCHAR).withSize(255).notNull());
+        addMetadata(password, ColumnMetadata.named("password").withIndex(5).ofType(Types.VARCHAR).withSize(255).notNull());
+        addMetadata(updated, ColumnMetadata.named("updated").withIndex(6).ofType(Types.TIMESTAMP).withSize(29).withDigits(6));
     }
 
 }

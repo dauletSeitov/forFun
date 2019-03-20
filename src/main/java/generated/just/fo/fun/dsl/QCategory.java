@@ -24,9 +24,9 @@ public class QCategory extends com.querydsl.sql.RelationalPathBase<DBCategory> {
 
     public static final QCategory category = new QCategory("category");
 
-    public final NumberPath<Integer> id = createNumber("id", Integer.class);
+    public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<java.math.BigInteger> isDeleted = createNumber("isDeleted", java.math.BigInteger.class);
+    public final NumberPath<Byte> isDeleted = createNumber("isDeleted", Byte.class);
 
     public final StringPath name = createString("name");
 
@@ -60,9 +60,9 @@ public class QCategory extends com.querydsl.sql.RelationalPathBase<DBCategory> {
     }
 
     public void addMetadata() {
-        addMetadata(id, ColumnMetadata.named("id").withIndex(1).ofType(Types.INTEGER).withSize(10).notNull());
-        addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(3).ofType(Types.NUMERIC).withSize(131089));
-        addMetadata(name, ColumnMetadata.named("name").withIndex(2).ofType(Types.VARCHAR).withSize(255).notNull());
+        addMetadata(id, ColumnMetadata.named("id").withIndex(1).ofType(Types.BIGINT).withSize(19).notNull());
+        addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(2).ofType(Types.NUMERIC).withSize(1));
+        addMetadata(name, ColumnMetadata.named("name").withIndex(3).ofType(Types.VARCHAR).withSize(255).notNull());
     }
 
 }

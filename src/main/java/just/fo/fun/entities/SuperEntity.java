@@ -19,7 +19,7 @@ public class SuperEntity {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    @Column(name = "is_deleted", columnDefinition="numeric")
+    @Column(name = "is_deleted", columnDefinition = "numeric(1, 0) default '0'")
     @JsonDeserialize(using = ConstantsDeserializer.class)
     public Byte deleted = FALSE;
 

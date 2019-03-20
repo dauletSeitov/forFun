@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Slf4j
 @RestController
@@ -69,4 +70,15 @@ public class PostController {
 
     }
 
+    @PostMapping("/change-rating")
+    public ResponseEntity changeRatingPost(@NotNull final Long postId, @NotNull final Boolean isUpVote) {
+
+        try {
+            postService.changeRating(postId, isUpVote);
+        }catch (Exception e){
+            log.error("erron while post", e);
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

@@ -11,7 +11,7 @@ public class DBTranslations {
     public DBTranslations() {
     }
 
-    public DBTranslations(String chanel, String en, Long id, java.math.BigInteger isDeleted, String key, String kk, String ru) {
+    public DBTranslations(String chanel, String en, Long id, Byte isDeleted, String key, String kk, String ru) {
         this.chanel = chanel;
         this.en = en;
         this.id = id;
@@ -27,7 +27,7 @@ public class DBTranslations {
 
     private Long id;
 
-    private java.math.BigInteger isDeleted;
+    private Byte isDeleted;
 
     private String key;
 
@@ -59,11 +59,11 @@ public class DBTranslations {
         this.id = id;
     }
 
-    public java.math.BigInteger getIsDeleted() {
+    public Byte getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(java.math.BigInteger isDeleted) {
+    public void setIsDeleted(Byte isDeleted) {
         this.isDeleted = isDeleted;
     }
 

@@ -11,7 +11,7 @@ public class DBCommentary {
     public DBCommentary() {
     }
 
-    public DBCommentary(Long id, String imageUrl, java.math.BigInteger isDeleted, Long parentId, Long postId, Long rating, String text, java.sql.Timestamp updated, Long userId) {
+    public DBCommentary(Long id, String imageUrl, Byte isDeleted, Long parentId, Long postId, Long rating, String text, java.sql.Timestamp updated, Long userId) {
         this.id = id;
         this.imageUrl = imageUrl;
         this.isDeleted = isDeleted;
@@ -27,7 +27,7 @@ public class DBCommentary {
 
     private String imageUrl;
 
-    private java.math.BigInteger isDeleted;
+    private Byte isDeleted;
 
     private Long parentId;
 
@@ -57,11 +57,11 @@ public class DBCommentary {
         this.imageUrl = imageUrl;
     }
 
-    public java.math.BigInteger getIsDeleted() {
+    public Byte getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(java.math.BigInteger isDeleted) {
+    public void setIsDeleted(Byte isDeleted) {
         this.isDeleted = isDeleted;
     }
 
