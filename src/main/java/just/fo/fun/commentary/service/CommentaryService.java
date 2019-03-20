@@ -6,10 +6,15 @@ import generated.just.fo.fun.dsl.QCommentary;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.entities.Commentary;
+import just.fo.fun.entities.Post;
+import just.fo.fun.entities.User;
+import just.fo.fun.post.repository.PostRepository;
+import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -24,9 +29,17 @@ public class CommentaryService {
     @Autowired
     private CommentaryRepository commentaryRepository;
 
-    public Commentary save(Commentary commentary){
-        return commentaryRepository.save(commentary);
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public Commentary save(CommentaryDto commentaryDto){
+        return commentaryRepository.save(commentaryDtoToCommentary(commentaryDto));
     }
+
+
 
     public Commentary findOne(Long id){
         return commentaryRepository.findOne(id);
@@ -60,11 +73,31 @@ public class CommentaryService {
         List<CommentaryDto> children = commentaryRepository.getAllByParentIdOrderByRatingDesc(commentaryDto.getId())
                 .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());
 
-        if (children == null || children.isEmpty()) return;
+        if (CollectionUtils.isEmpty(children))
+            return;
+
         commentaryDto.setChildren(children);
         for (CommentaryDto dto : children) {
             recursion(dto);
         }
 
     }
+    //converter
+    private Commentary commentaryDtoToCommentary(CommentaryDto commentaryDto) {
+
+        Commentary parentCommentary = commentaryRepository.findOne(commentaryDto.getParentId());
+        Post post = postRepository.findOne(commentaryDto.getPostId());
+        User user = userRepository.findOne(commentaryDto.getUserId());
+
+        Commentary commentary = new Commentary();
+        commentary.setImageUrl(commentaryDto.getImageUrl());
+        commentary.setParent(parentCommentary);
+        commentary.setPost(post);
+        commentary.setRating(0L);
+        commentary.setText(commentaryDto.getText());
+        commentary.setUser(user);
+
+        return commentary;
+    }
+    //converter
 }

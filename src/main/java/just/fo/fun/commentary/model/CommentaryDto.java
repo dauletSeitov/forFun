@@ -12,7 +12,13 @@ import java.util.List;
 @NoArgsConstructor
 public class CommentaryDto {
 
+    private Long postId;
+
+    private Long parentId;
+
     private Long id;
+
+    private Long userId;
 
     private User user;
 

@@ -1,17 +1,15 @@
 package just.fo.fun.commentary.Controller;
 
-import com.querydsl.sql.SQLQueryFactory;
-import generated.just.fo.fun.dsl.DBCommentary;
-import generated.just.fo.fun.dsl.QCommentary;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.service.CommentaryService;
+import just.fo.fun.entities.Commentary;
+import just.fo.fun.exception.MessageException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.inject.Inject;
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -23,26 +21,21 @@ public class CommentaryController {
     private CommentaryService commentaryService;
 
 
- /*   @PostMapping
-    public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userDto) {
+    @PostMapping
+    public ResponseEntity insertCommentary(@Valid @RequestBody final CommentaryDto userDto) {
 
-        if (userDto.getId() != null)
-            throw new MessageException("id must be empty !");
-
-        User user = new User();
-        Utils.copyProperties(userDto, user);
-        User resultUser = null;
+        Commentary commentary;
         try {
-            resultUser = userService.save(user);
+            commentary = commentaryService.save(userDto);
         }catch (Exception e){
             throw new MessageException("ffffffff" + e.getMessage());
         }
-        return resultUser == null
+        return commentary == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(Utils.copyProperties(resultUser, new UserLoginDto()), HttpStatus.OK);
+                : new ResponseEntity<>(HttpStatus.OK);
 
     }
-
+/*
     @PutMapping
     public ResponseEntity updateUser(@Valid @RequestBody final UserLoginDto userDto) {
 
