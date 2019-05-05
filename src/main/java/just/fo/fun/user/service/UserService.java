@@ -20,8 +20,14 @@ public class UserService {
         return UserRepository.save(user);
     }
 
-    public UserDto findOne(Long id){
+    public UserDto getOne(Long id){
         final User user = UserRepository.findOne(id);
+        return Objects.isNull(user) ? null : new UserDto(user);
+    }
+
+    public UserDto getOne(String login){
+        Objects.requireNonNull(login, "login can not be null");
+        final User user = UserRepository.getOneByLogin(login);
         return Objects.isNull(user) ? null : new UserDto(user);
     }
 

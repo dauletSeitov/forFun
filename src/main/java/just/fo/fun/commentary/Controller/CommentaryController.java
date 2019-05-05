@@ -54,7 +54,7 @@ public class CommentaryController {
     public ResponseEntity getUser(@PathVariable final Long id) {
 
         UserLoginDto userDto = new UserLoginDto();
-        User user = userService.findOne(id);
+        User user = userService.getOne(id);
 
         BeanUtils.copyProperties(user, userDto);
         return userDto == null

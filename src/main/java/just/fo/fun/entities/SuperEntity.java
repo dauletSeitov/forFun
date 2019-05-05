@@ -3,7 +3,6 @@ package just.fo.fun.entities;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import just.fo.fun.utils.serializers.ConstantsDeserializer;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;

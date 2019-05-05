@@ -65,13 +65,17 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: "${hibernateVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springBootVersion}"
-
+    compile group: 'org.springframework.security', name: 'spring-security-config', version: "${springSecurityVersion}"
 
     compileOnly group: 'com.querydsl', name: 'querydsl-core', version: "${querydslVersion}"
     compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
     compileOnly group: 'com.querydsl', name: 'querydsl-sql-spring', version: "${querydslVersion}"
 
-
+    compile('com.auth0:java-jwt:2.3.0') {
+        exclude group: 'org.apache.commons', module: 'commons-codec'
+    }
+    compile group: 'org.springframework.security', name: 'spring-security-web', version: "${springSecurityVersion}"
+    
     compile("org.hibernate:hibernate-core:${hibernateVersion}") {
         exclude group: 'org.apache.geronimo.specs', module: 'geronimo-jta_1.1_spec'
     }

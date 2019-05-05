@@ -11,7 +11,7 @@ public class CategoryServiceTest {
 //    }
 //
 //    @Test
-//    public void findOne() {
+//    public void getOne() {
 //    }
 //
 //    @Test

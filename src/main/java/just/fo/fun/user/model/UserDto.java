@@ -17,6 +17,7 @@ public class UserDto {
 
     private Long id;
     private String name;
+    private String login;
 
     @Serialize
     private LocalDateTime updated;
@@ -25,5 +26,6 @@ public class UserDto {
         this.id = user.getId();
         this.name = user.getName();
         this.updated = user.getUpdated();
+        this.login = user.getLogin();
     }
 }
