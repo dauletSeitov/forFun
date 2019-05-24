@@ -37,6 +37,9 @@ public class AuthService {
     @Value("${jwt.issuer}")
     private String issuer;
 
+    @Value("${jwt.expiration}")
+    private Long tokenExpiration;
+
     public void authenticate(String token) {
 
         if (token == null) {
@@ -76,6 +79,7 @@ public class AuthService {
 
             
         } catch (JWTVerifyException | NoSuchAlgorithmException | IOException | InvalidKeyException | SignatureException e) {
+            e.printStackTrace();
             throw new AuthenticationServiceException("Unable to auth", e);
         }
     }
@@ -83,15 +87,17 @@ public class AuthService {
 
     public String generateToken(Long userId, UserType type, String login) {
 
-        Long iat = System.currentTimeMillis();
+        Long iat = System.currentTimeMillis() / 1000;
+
         JWTSigner signer = new JWTSigner(secret);
         Map<String, Object> claims = new HashMap<>();
         claims.put("iss", issuer);
         claims.put("aud", audience);
         claims.put("iat", iat);
-        claims.put("userId", "" + userId);
+        claims.put("exp", iat + tokenExpiration);
+        claims.put("userId", userId);
         claims.put("jit", UUID.randomUUID().toString());
-        claims.put("type", type == null ? null : type.name());
+        claims.put("type", type.name());
         claims.put("login", login);
 
         return signer.sign(claims);
