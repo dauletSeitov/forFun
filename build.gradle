@@ -71,14 +71,12 @@ dependencies {
     compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
     compileOnly group: 'com.querydsl', name: 'querydsl-sql-spring', version: "${querydslVersion}"
 
-    compile('com.auth0:java-jwt:2.3.0') {
-        exclude group: 'org.apache.commons', module: 'commons-codec'
-    }
+    compile('com.auth0:java-jwt:2.3.0')
+
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: "${springSecurityVersion}"
     compile group: 'org.springframework.security', name: 'spring-security-web', version: "${springSecurityVersion}"
     
-    compile("org.hibernate:hibernate-core:${hibernateVersion}") {
-        exclude group: 'org.apache.geronimo.specs', module: 'geronimo-jta_1.1_spec'
-    }
+    compile("org.hibernate:hibernate-core:${hibernateVersion}")
 
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
     //compile('org.springframework.boot:spring-boot-starter-web')

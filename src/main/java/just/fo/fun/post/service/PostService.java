@@ -43,7 +43,7 @@ public class PostService {
     }
 
     public void changeRating(Long postId, Boolean isUpVote) {
-            dslPostRepository.changeRatingByid(postId, isUpVote);
+            dslPostRepository.changeRatingById(postId, isUpVote);
     }
 
     //-------------------CONVERTER----------------------------
