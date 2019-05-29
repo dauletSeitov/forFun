@@ -72,12 +72,7 @@ public class PostController {
     @PostMapping("/change-rating")
     public ResponseEntity changeRatingPost(@NotNull final Long postId, @NotNull final Boolean isUpVote) {
 
-        try {
-            postService.changeRating(postId, isUpVote);
-        }catch (Exception e){
-            log.error("error while post", e);
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        postService.changeRating(postId, isUpVote);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import java.io.IOException;
 
 
+@Deprecated
 public class ConstantsDeserializer extends JsonDeserializer<Byte> {
 
 

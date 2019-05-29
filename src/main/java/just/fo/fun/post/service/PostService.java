@@ -1,16 +1,22 @@
 package just.fo.fun.post.service;
 
+import just.fo.fun.UserPostMapRepository;
 import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
+import just.fo.fun.entities.UserPostMap;
+import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.repository.DSLPostRepository;
 import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.user.repository.UserRepository;
+import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Transactional
 @Service
@@ -20,10 +26,13 @@ public class PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private DSLPostRepository dslPostRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private RequestUtils requestUtils;
+
+    @Autowired
+    private UserPostMapRepository userPostMapRepository;
 
     public Page<PostDto> findAll(Pageable pageable) {
         Page<Post> page = postRepository.findAll(pageable);
@@ -39,11 +48,63 @@ public class PostService {
     }
 
     public void delete(Long id){
-        postRepository.delete(id);
+
+        Objects.requireNonNull(id, "id can not be null");
+        Post post = postRepository.findOne(id);
+
+        if (post != null && post.getUser().getId().equals(requestUtils.getUser().getId())){
+            postRepository.delete(id);
+        } else throw new MessageException("this is not your post!");
     }
 
     public void changeRating(Long postId, Boolean isUpVote) {
-            dslPostRepository.changeRatingById(postId, isUpVote);
+
+        Objects.requireNonNull(postId, "id can not be null!");
+        Objects.requireNonNull(postId, "isUpVote can not be null!");
+
+        User user = requestUtils.getUser();
+        UserPostMap userPostMap = userPostMapRepository.findByUserAndPost(user.getId(), postId);
+
+        Post post = postRepository.findOne(postId);
+        Objects.requireNonNull(post, "there is no post with id " + postId);
+
+        Long rating = post.getRating();
+
+        if (userPostMap == null) {
+
+            if (isUpVote) {
+                rating++;
+            } else {
+                rating--;
+            }
+        } else if (isUpVote && userPostMap.getIsUpVote()) {
+            rating--;
+        } else if (!isUpVote && !userPostMap.getIsUpVote()) {
+            rating++;
+        } else if (!isUpVote && userPostMap.getIsUpVote()) {
+            rating -= 2;
+        } else if (isUpVote && !userPostMap.getIsUpVote()) {
+            rating += 2;
+        }
+
+        System.out.println("rating = " + rating);
+        System.out.println("post = " + post.getRating());
+
+
+
+
+        if (userPostMap == null){
+            userPostMap = new UserPostMap();
+            userPostMap.setIsUpVote(isUpVote);
+            userPostMap.setPost(post);
+            userPostMap.setUser(user);
+        } else {
+            userPostMap.setIsUpVote(isUpVote);
+        }
+
+
+        userPostMapRepository.save(userPostMap);
+
     }
 
     //-------------------CONVERTER----------------------------

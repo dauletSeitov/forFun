@@ -62,7 +62,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity getUser(@PathVariable final Long id) {
-        UserDto user = userService.getOne(id);
+        UserDto user = userService.findOne(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
 
     }

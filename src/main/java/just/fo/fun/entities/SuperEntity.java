@@ -1,13 +1,9 @@
 package just.fo.fun.entities;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import just.fo.fun.utils.serializers.ConstantsDeserializer;
 import lombok.Data;
 import lombok.ToString;
-
 import javax.persistence.*;
 
-import static just.fo.fun.constants.Constants.FALSE;
 
 @Data
 @ToString
@@ -18,8 +14,7 @@ public class SuperEntity {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    @Column(name = "is_deleted", columnDefinition = "numeric(1, 0) default '0'")
-    @JsonDeserialize(using = ConstantsDeserializer.class)
-    public Byte deleted = FALSE;
+    @Column(name = "is_deleted")
+    private Boolean deleted = false;
 
 }

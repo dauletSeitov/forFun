@@ -5,8 +5,9 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.JWTVerifyException;
 import just.fo.fun.auth.model.AuthToken;
 import just.fo.fun.auth.model.UserType;
-import just.fo.fun.user.model.UserDto;
+import just.fo.fun.entities.User;
 import just.fo.fun.user.service.UserService;
+import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -27,6 +28,9 @@ public class AuthService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RequestUtils requestUtils;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -52,7 +56,8 @@ public class AuthService {
             return;
         }
 
-        UserDto user = userService.getOne(authToken.getPrincipal());
+        User user = userService.findOneEntity(authToken.getPrincipal());
+        requestUtils.setUser(user);
 
         if (user == null) { //TODO add is blocked is deleted
             authToken.setAuthenticated(false);
@@ -73,7 +78,7 @@ public class AuthService {
             Map<String, Object> claims = verifier.verify(token);
 
             return new AuthToken(
-                    claims.get("userId") == null ? null : Long.parseLong((String) claims.get("userId")),
+                    claims.get("userId") == null ? null : (long) (Integer) claims.get("userId"),
                     claims.get("login") == null ? null : (String) claims.get("login"),
                     claims.get("type") == null ? null : UserType.valueOf((String) claims.get("type")));
 

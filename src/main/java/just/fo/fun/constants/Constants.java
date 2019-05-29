@@ -5,4 +5,5 @@ public interface Constants {
     Byte TRUE  = 1;
     String KEY = "key";
     String VALUE = "value";
+    String MESSAGE = "message";
 }

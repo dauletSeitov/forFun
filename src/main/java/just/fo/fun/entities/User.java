@@ -1,7 +1,6 @@
 package just.fo.fun.entities;
 
 import lombok.Data;
-import lombok.ToString;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -9,7 +8,6 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@ToString
 @Data
 @Table(name = "\"user\"")
 public class User extends SuperEntity{
@@ -20,6 +18,8 @@ public class User extends SuperEntity{
     private String password;
     @Column(nullable = false)
     private String name;
+
+
 
     @Column
     @UpdateTimestamp

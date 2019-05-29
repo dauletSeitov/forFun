@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import static just.fo.fun.constants.Constants.FALSE;
 
+@Deprecated
 @Repository
 public class DSLPostRepository {
 
@@ -18,7 +19,7 @@ public class DSLPostRepository {
 
         private static final QPost post = QPost.post;
 
-        public Long changeRatingById(Long postId, Boolean isUpVote){
+        public Long changeRatingById(Long postId, Boolean isUpVote) {
 
                 DBPost dbPost = queryFactory.select(post)
                         .from(post)
