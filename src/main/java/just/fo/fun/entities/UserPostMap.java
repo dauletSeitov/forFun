@@ -16,6 +16,7 @@ public class UserPostMap extends SuperEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
-    private Boolean isUpVote = false;
+    private Boolean isUpVoted = false;
+    private Boolean isDownVoted = false;
 
 }
