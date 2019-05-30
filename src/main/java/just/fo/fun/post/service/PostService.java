@@ -3,7 +3,7 @@ package just.fo.fun.post.service;
 import just.fo.fun.UserPostMapRepository;
 import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
-import just.fo.fun.entities.UserPostMap;
+import just.fo.fun.entities.UserPostVoteHistory;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.repository.PostRepository;
@@ -62,7 +62,7 @@ public class PostService {
         Objects.requireNonNull(postId, "isUpVote can not be null!");
 
         User user = requestUtils.getUser();
-        UserPostMap userPostMap = userPostMapRepository.findByUserAndPost(user.getId(), postId);
+        UserPostVoteHistory userPostMap = userPostMapRepository.findByUserAndPost(user.getId(), postId);
 
         Post post = postRepository.findOne(postId);
         Objects.requireNonNull(post, "there is no post with id " + postId);
@@ -118,7 +118,7 @@ public class PostService {
 
 
         if (userPostMap == null){
-            userPostMap = new UserPostMap();
+            userPostMap = new UserPostVoteHistory();
             userPostMap.setPost(post);
             userPostMap.setUser(user);
         }

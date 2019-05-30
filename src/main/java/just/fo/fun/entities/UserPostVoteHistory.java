@@ -8,7 +8,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Data
-public class UserPostMap extends SuperEntity {
+public class UserPostVoteHistory extends SuperEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
