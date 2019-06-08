@@ -1,6 +1,7 @@
 package just.fo.fun.dss;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import ru.stachek66.nlp.mystem.holding.Factory;
@@ -13,7 +14,9 @@ import scala.collection.JavaConversions;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -24,21 +27,13 @@ import java.util.Set;
 @Slf4j
 public class DssService {
 
-    private static final HashSet<String> positiveSet = new HashSet<>();
-    private static final HashSet<String> negativeSet = new HashSet<>();
+    @Autowired
+    private DssPositiveWordRepository dssPositiveWordRepository;
+
+    @Autowired
+    private DssNegativeWordRepository dssNegativeWordRepository;
 
     private static final MyStem mystemAnalyzer = new Factory("-igd --eng-gr --format json --weight").newMyStem("3.0", Option.<File>empty()).get();
-
-    static {
-        initFromFile(positiveSet, "source/positive.txt");
-        initFromFile(negativeSet, "source/negative.txt");
-    }
-
-//    public static void main(String[] args) throws MyStemApplicationException {
-//        System.out.println(calculate("ехала сегодня в электричке, на остановке в вагон зашла толпа цыганок, они к каждому подсаживались, людей было не слишком много, краем глаза увидела как одна девушка начала с цыганкой разговаривать, протягивает ей деньги, я начинаю поднимать шум, прошу помощь у мужчины, а в это время цыганка уводит за собой эту девушку в тамбур, мы идем за ними и застаем девушку в полностью неадекватном состоянии, глаза стеклянные, короче загипнотизировали ее, при этом она отдает свой кошелек цыганке, я снова поднимаю шум, прошу помощь у мужчин в вагоне, мы пытаемся объяснить девушке, что она только что чуть не отдала все свои деньги, она совсем потеряна\n" +
-//                "цыганки сначала говорят нам, что это их знакомая и всё в порядке, а потом переходят на активную агрессию, проклинают и угрожают, на безлюдной остановке выпрыгивают вместе с этой девушкой и окружают ее толпой, человек 5-6\n" +
-//                "я позвонила в милицию, рассказала всё, вроде выехали, так вот, ненавижу блять этих ебанных цыган, пиздец, девушку жалко"));
-//    }
 
     public DssModel calculate(String source) throws MyStemApplicationException {
 
@@ -55,24 +50,24 @@ public class DssService {
         //String source = "на пляж в сан-франциско находить насылать мертвый серый кит центр морской млекопитающее проводить анализ и устанавливать причина гибель столкновение с судно судный ученый предупреждать что человек не следовать приближаться к мертвый кит так это этот опасный опасно для здоровье к то тот тома том же запрещать закон это этот уже узкий узко уж девятый девятая по счет туша туш тушить кит находить с март марта в область залив сан-франциско в центр морской млекопитающее говорить говорят что кит погибать от недоедание и столкновение с судно судный эксперт также отмечать что в это этот год серый кит мигрировать из иза мексика в аляска находиться в плохой состояние они не находить нахаживать достаточно достаточный еда из-за потепление океан";
         //String source = "омаха бич рассвет и дань даня уважение сотня человек как военный так и гражданский со все всего весь мир мира миро встречать рассвет на пляж омаха бич в нормандия отдавать дань даня уважение то тот тем тема кто погибать погиб погиба здесь июнь год на первый взгляд спокойный синий вода воды вод ла-манш год лет лета назад в этот день девать быть быль окрашивать в красный свет света более много человек погибать вдвое больше большой много больший быть быль ранить раненый во время высадка высадок союзник на омаха бич и в последующий сражение с нацистский войско войска во франция франций июнь проходить серия торжественный мероприятие посвящать один из иза главный главное событие второй втора мировой мировая мирова война почти почесть почтить во весь все принимать участие немногие немногий оставаться в живой ветеран";
 
-        String normilizedSource = normalize(source);
-        String[] words = normilizedSource.toLowerCase().split("\\s+");
+        String normalizedSource = normalize(source);
+        String[] words = normalizedSource.toLowerCase().split("\\s+");
 
         LinkedList<String> positiveSelectedWords = new LinkedList<>();
         LinkedList<String> negativeSelectedWords = new LinkedList<>();
 
         for (int i = 0; i < words.length; i++) {
 
-            if (positiveSet.contains(words[i])) {
+            if (dssPositiveWordRepository.contains(words[i])) {
                 positiveSelectedWords.add(words[i]);
             }
 
-            if (negativeSet.contains(words[i])) {
+            if (dssNegativeWordRepository.contains(words[i])) {
                 negativeSelectedWords.add(words[i]);
 
                 if ("не".equals(words[i]) || "без".equals(words[i]) || "бы".equals(words[i])) {
 
-                    if (words.length > i + 1 && positiveSet.contains(words[i + 1])) {
+                    if (words.length > i + 1 && dssPositiveWordRepository.contains(words[i + 1])) {
                         positiveSelectedWords.removeLast();
                     }
                 }
@@ -110,24 +105,21 @@ public class DssService {
         return stringBuilder.toString();
     }
 
-    private static void initFromFile(Set<String> set, String filePath) {
 
-        ClassPathResource res = new ClassPathResource(filePath);
-
-        try (BufferedReader br = Files.newBufferedReader(Paths.get(res.getPath()))) {
-
-            String line;
-            while ((line = br.readLine()) != null) {
-                if (line.length() > 3) {
-                    set.add(line);
-                } else if ("не".equals(line) || "без".equals(line) || "бы".equals(line)) {
-                    set.add(line);
-                }
-            }
-
-        } catch (IOException e) {
-            log.error("IOException: %s%n", e);
-        }
+    public Long deletePositiveWord(String word) {
+        return dssPositiveWordRepository.delete(word);
     }
 
+    public Long deleteNegativeWord(String word) {
+        return dssNegativeWordRepository.delete(word);
+    }
+
+
+    public DssPositiveWord insertPositiveWord(String word) {
+        return dssPositiveWordRepository.save(new DssPositiveWord(word));
+    }
+
+    public DssNegativeWord insertNegativeWord(String word) {
+        return dssNegativeWordRepository.save(new DssNegativeWord(word));
+    }
 }

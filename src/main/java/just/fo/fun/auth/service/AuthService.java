@@ -83,7 +83,7 @@ public class AuthService {
                     claims.get("type") == null ? null : UserType.valueOf((String) claims.get("type")));
 
             
-        } catch (JWTVerifyException | NoSuchAlgorithmException | IOException | InvalidKeyException | SignatureException e) {
+        } catch (JWTVerifyException | NoSuchAlgorithmException | IOException | InvalidKeyException | SignatureException  | IllegalStateException e ) {
             e.printStackTrace();
             throw new AuthenticationServiceException("Unable to auth", e);
         }
