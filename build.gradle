@@ -75,7 +75,10 @@ dependencies {
 
     compile group: 'org.springframework.security', name: 'spring-security-core', version: "${springSecurityVersion}"
     compile group: 'org.springframework.security', name: 'spring-security-web', version: "${springSecurityVersion}"
-    
+    // https://mvnrepository.com/artifact/ru.stachek66.nlp/mystem-scala
+    compile group: 'ru.stachek66.nlp', name: 'mystem-scala', version: '0.1.5'
+
+
     compile("org.hibernate:hibernate-core:${hibernateVersion}")
 
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
