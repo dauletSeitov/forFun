@@ -2,8 +2,8 @@ package just.fo.fun.dss;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.stachek66.nlp.mystem.holding.Factory;
 import ru.stachek66.nlp.mystem.holding.MyStem;
 import ru.stachek66.nlp.mystem.holding.MyStemApplicationException;
@@ -12,17 +12,9 @@ import ru.stachek66.nlp.mystem.model.Info;
 import scala.Option;
 import scala.collection.JavaConversions;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
-
+@Transactional
 @Service
 @Slf4j
 public class DssService {
@@ -106,12 +98,12 @@ public class DssService {
     }
 
 
-    public Long deletePositiveWord(String word) {
-        return dssPositiveWordRepository.delete(word);
+    public Integer deletePositiveWord(String word) {
+        return dssPositiveWordRepository.setIsDeletedTrue(word);
     }
 
-    public Long deleteNegativeWord(String word) {
-        return dssNegativeWordRepository.delete(word);
+    public Integer deleteNegativeWord(String word) {
+        return dssNegativeWordRepository.setIsDeletedTrue(word);
     }
 
 

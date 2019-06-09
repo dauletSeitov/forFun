@@ -62,14 +62,14 @@ public class DssController {
         return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
-    @DeleteMapping("/positive{word}")
-    public ResponseEntity deletePositiveWord(@PathVariable final String word) {
+    @DeleteMapping("/positive")
+    public ResponseEntity deletePositiveWord(@RequestBody final String word) {
 
         if (StringUtils.isEmpty(word)){
             return new ResponseEntity<>("incorrect param", HttpStatus.CONFLICT);
         }
 
-        Long count = dssService.deletePositiveWord(word);
+        Integer count = dssService.deletePositiveWord(word);
 
         if(count != null && count > 0) {
             return new ResponseEntity<>(count, HttpStatus.OK);
@@ -78,20 +78,19 @@ public class DssController {
 
     }
 
-    @DeleteMapping("/negative{word}")
-    public ResponseEntity deleteNegativeWord(@PathVariable final String word) {
+    @DeleteMapping("/negative")
+    public ResponseEntity deleteNegativeWord(@RequestBody final String word) {
 
         if (StringUtils.isEmpty(word)){
             return new ResponseEntity<>("incorrect param", HttpStatus.CONFLICT);
         }
 
-        Long count = dssService.deleteNegativeWord(word);
+        Integer count = dssService.deleteNegativeWord(word);
 
         if(count != null && count > 0) {
             return new ResponseEntity<>(count, HttpStatus.OK);
         }
         return new ResponseEntity<>(count, HttpStatus.CONFLICT);
-
 
     }
 }
