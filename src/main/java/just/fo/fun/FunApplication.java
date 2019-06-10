@@ -44,19 +44,29 @@ class InitDB{
     }
 
     public void fillDb() {
+
         fillUser(100);
+        log.info("user initialization is finished !");
+
         fillCategory(20);
+        log.info("category initialization is finished !");
+
         fillPost(1000);
-        //fillCommentary(1000);
+        log.info("post initialization is finished !");
+
+        fillCommentary(1000);
+        log.info("commentary initialization is finished !");
 
         fillDssWords();
-        log.info("initialization is finished !");
+
     }
 
     private void fillDssWords() {
 
         initFromFilePositive();
+        log.info("positive words initialization is finished !");
         initFromFileNegative( );
+        log.info("negative words initialization is finished !");
 
     }
     private void initFromFilePositive() {

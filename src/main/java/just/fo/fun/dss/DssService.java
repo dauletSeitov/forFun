@@ -72,6 +72,13 @@ public class DssService {
         double negativePercent = negativeSelectedWords.size() / (double) (negativeSelectedWords.size() + positiveSelectedWords.size());
         double positivePercent = positiveSelectedWords.size() / (double) (negativeSelectedWords.size() + positiveSelectedWords.size());
 
+        if (Double.isNaN(negativePercent)){
+            negativePercent = 0;
+        }
+        if (Double.isNaN(positivePercent)){
+            positivePercent = 0;
+        }
+
         return new DssModel(negativeSelectedWords, positiveSelectedWords, negativeSelectedWords.size(), positiveSelectedWords.size(), negativePercent, positivePercent);
 
     }
