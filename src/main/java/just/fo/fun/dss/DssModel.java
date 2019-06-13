@@ -17,7 +17,7 @@ public class DssModel {
     private double positivePercent;
     private List<String> normalizedWords;
     private int neuralWordCount;
-    private String[] originalWords;
+    private List<String> originalWords;
 
 
 }

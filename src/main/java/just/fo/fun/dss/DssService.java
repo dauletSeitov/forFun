@@ -6,6 +6,7 @@ import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.util.Version;
+import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +20,9 @@ import scala.Option;
 import scala.collection.JavaConversions;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Transactional
 @Service
@@ -60,7 +61,7 @@ public class DssService {
         List<String> originalWords = null;
 
 
-        String[] sliperator = separator(source);
+        List<String> sliperator = separator(source);
         if(isEnglishSource) {
             originalWords = normalizeEnglish(sliperator);
         } else {
@@ -119,7 +120,7 @@ public class DssService {
     }
 
 
-    private static List<String> normalizeRussian(final String[] text) throws MyStemApplicationException {
+    private static List<String> normalizeRussian(final List<String> text) throws MyStemApplicationException {
 
         List<String> res = new ArrayList<>();
 
@@ -143,12 +144,14 @@ public class DssService {
         return res;
     }
 
-    private static String[] separator(final String text){
-        return text.replaceAll("[^a-zA-Zа-яА-Я]", " ").toLowerCase().split("\\s+");
+    private static List<String> separator(final String text){
+        String[] split = text.replaceAll("\"", " ").replaceAll("[^a-zA-Zа-яА-Я]", " ").toLowerCase().split("\\s+");
+        List<String> splttedWords = Stream.of(split).filter(st -> st.length() > 0).collect(Collectors.toList());
+        return  splttedWords;
     }
 
 
-    private static List<String> normalizeEnglish(final String[] text) {
+    private static List<String> normalizeEnglish(List<String> text) {
 
         List<String> res = new ArrayList<>();
 
