@@ -1,24 +1,35 @@
 package just.fo.fun.dss;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import java.util.LinkedList;
+import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class DssModel {
 
-    private List<String> negativeSelectedWords;
-    private List<String> positiveSelectedWords;
-    private int negativeWordCount;
-    private int positiveWordCount;
-    private double negativePercent;
-    private double positivePercent;
-    private List<String> normalizedWords;
-    private int neutralWordCount;
-    private List<String> originalWords;
-    private double neutralPercent;
+    protected List<String> negativeSelectedWords;
+    protected List<String> positiveSelectedWords;
+    protected int negativeWordCount;
+    protected int positiveWordCount;
+    protected double negativePercent;
+    protected double positivePercent;
+    protected List<String> normalizedWords;
+    protected int neutralWordCount;
+    protected List<String> originalWords;
+    protected double neutralPercent;
 
 
+    public DssModel(List<String> negativeSelectedWords, List<String> positiveSelectedWords, int negativeWordCount, int positiveWordCount, double negativePercent, double positivePercent, List<String> normalizedWords, int neutralWordCount, List<String> originalWords, double neutralPercent) {
+        this.negativeSelectedWords = negativeSelectedWords;
+        this.positiveSelectedWords = positiveSelectedWords;
+        this.negativeWordCount = negativeWordCount;
+        this.positiveWordCount = positiveWordCount;
+        this.negativePercent = negativePercent;
+        this.positivePercent = positivePercent;
+        this.normalizedWords = normalizedWords;
+        this.neutralWordCount = neutralWordCount;
+        this.originalWords = originalWords;
+        this.neutralPercent = neutralPercent;
+    }
 }
