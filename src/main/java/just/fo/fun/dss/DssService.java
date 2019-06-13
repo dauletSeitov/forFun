@@ -93,9 +93,13 @@ public class DssService {
 
         }
 
+        Integer neutralWordsCount = originalWords.size() - negativeSelectedWords.size() - positiveSelectedWords.size();
 
-        double negativePercent = negativeSelectedWords.size() / (double) (negativeSelectedWords.size() + positiveSelectedWords.size());
-        double positivePercent = positiveSelectedWords.size() / (double) (negativeSelectedWords.size() + positiveSelectedWords.size());
+
+
+        double negativePercent = negativeSelectedWords.size() / (double) (negativeSelectedWords.size() + positiveSelectedWords.size()+neutralWordsCount);
+        double positivePercent = positiveSelectedWords.size() / (double) (negativeSelectedWords.size() + positiveSelectedWords.size()+neutralWordsCount);
+        double neutralPercent = neutralWordsCount / (double) (negativeSelectedWords.size() + positiveSelectedWords.size()+neutralWordsCount);
 
         if (Double.isNaN(negativePercent)){
             negativePercent = 0;
@@ -103,6 +107,8 @@ public class DssService {
         if (Double.isNaN(positivePercent)){
             positivePercent = 0;
         }
+
+
 
         return new DssModel(
                 negativeSelectedWords,
@@ -113,7 +119,8 @@ public class DssService {
                 positivePercent,
                 originalWords,
                 originalWords.size() - negativeSelectedWords.size() - positiveSelectedWords.size(),
-                sliperator
+                sliperator,
+                neutralPercent
 
         );
 

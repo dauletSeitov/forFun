@@ -18,6 +18,7 @@ public class DssModel {
     private List<String> normalizedWords;
     private int neutralWordCount;
     private List<String> originalWords;
+    private double neutralPercent;
 
 
 }
