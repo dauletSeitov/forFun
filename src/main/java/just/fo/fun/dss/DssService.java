@@ -41,17 +41,17 @@ public class DssService {
 
 
 
-    public DssModel calculate(String source) {
+    public DssModel calculate(String source, boolean isRussianWord) {
 
         boolean isEnglishSource = false;
         List<String> originalWords = null;
 
 
         List<String> sliperator = separator(source);
-        if(isEnglishSource) {
-            originalWords = normalizeEnglish(sliperator);
-        } else {
+        if(isRussianWord) {
             originalWords =  normalizeRussian(sliperator);
+        } else {
+            originalWords = normalizeEnglish(sliperator);
         }
 
 

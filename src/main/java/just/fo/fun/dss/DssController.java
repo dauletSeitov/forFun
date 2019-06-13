@@ -25,8 +25,8 @@ public class DssController {
             return new ResponseEntity<>("incorrect param", HttpStatus.CONFLICT);
         }
 
-
-        return new ResponseEntity<>(dssService.calculate(source), HttpStatus.OK);
+        boolean russianWord = TwitterService.isRussianWord(source);
+        return new ResponseEntity<>(dssService.calculate(source, russianWord), HttpStatus.OK);
 
 
     }
