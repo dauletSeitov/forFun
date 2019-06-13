@@ -34,12 +34,14 @@ public class DssController {
     @PostMapping("/twitter")
     public ResponseEntity calculateTwitter(@RequestBody final String query) {
 
-        if (StringUtils.isEmpty(query)){
+        String query1 = query.replaceAll("\"","");
+
+        if (StringUtils.isEmpty(query1)){
             return new ResponseEntity<>("incorrect param", HttpStatus.CONFLICT);
         }
 
 
-        return new ResponseEntity<>(twitterService.calculate(query), HttpStatus.OK);
+        return new ResponseEntity<>(twitterService.calculate(query1), HttpStatus.OK);
 
 
     }
