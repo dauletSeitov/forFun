@@ -101,7 +101,7 @@ public class DssService {
         }
 
         return new DssModel(negativeSelectedWords, positiveSelectedWords, negativeSelectedWords.size(),
-                positiveSelectedWords.size(), negativePercent, positivePercent, words);
+                positiveSelectedWords.size(), negativePercent, positivePercent, words, words.size() - negativeSelectedWords.size() - positiveSelectedWords.size());
 
     }
 
