@@ -1,6 +1,11 @@
 package just.fo.fun.dss;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.lucene.analysis.en.EnglishAnalyzer;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.util.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +18,10 @@ import scala.Option;
 import scala.collection.JavaConversions;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+
 @Transactional
 @Service
 @Slf4j
@@ -25,7 +33,12 @@ public class DssService {
     @Autowired
     private DssNegativeWordRepository dssNegativeWordRepository;
 
+    private static final EnglishAnalyzer en_an = new EnglishAnalyzer(Version.LUCENE_31);
+    private static final QueryParser parser = new QueryParser(Version.LUCENE_31, "", en_an);
+
     private static final MyStem mystemAnalyzer = new Factory("-igd --eng-gr --format json --weight").newMyStem("3.0", Option.<File>empty()).get();
+
+
 
     public DssModel calculate(String source) throws MyStemApplicationException {
 
@@ -42,27 +55,35 @@ public class DssService {
         //String source = "на пляж в сан-франциско находить насылать мертвый серый кит центр морской млекопитающее проводить анализ и устанавливать причина гибель столкновение с судно судный ученый предупреждать что человек не следовать приближаться к мертвый кит так это этот опасный опасно для здоровье к то тот тома том же запрещать закон это этот уже узкий узко уж девятый девятая по счет туша туш тушить кит находить с март марта в область залив сан-франциско в центр морской млекопитающее говорить говорят что кит погибать от недоедание и столкновение с судно судный эксперт также отмечать что в это этот год серый кит мигрировать из иза мексика в аляска находиться в плохой состояние они не находить нахаживать достаточно достаточный еда из-за потепление океан";
         //String source = "омаха бич рассвет и дань даня уважение сотня человек как военный так и гражданский со все всего весь мир мира миро встречать рассвет на пляж омаха бич в нормандия отдавать дань даня уважение то тот тем тема кто погибать погиб погиба здесь июнь год на первый взгляд спокойный синий вода воды вод ла-манш год лет лета назад в этот день девать быть быль окрашивать в красный свет света более много человек погибать вдвое больше большой много больший быть быль ранить раненый во время высадка высадок союзник на омаха бич и в последующий сражение с нацистский войско войска во франция франций июнь проходить серия торжественный мероприятие посвящать один из иза главный главное событие второй втора мировой мировая мирова война почти почесть почтить во весь все принимать участие немногие немногий оставаться в живой ветеран";
 
-        String normalizedSource = normalize(source);
-        String[] words = normalizedSource.toLowerCase().split("\\s+");
+        boolean isEnglishSource = true;
+        List<String> words = null;
+
+        if(isEnglishSource) {
+            words = normalizeEnglish(source);
+        } else {
+            words =  normalizeRussian(source);
+        }
+
+        //String[] words = normalizedSource.toLowerCase().split("\\s+");
 
         LinkedList<String> positiveSelectedWords = new LinkedList<>();
         LinkedList<String> negativeSelectedWords = new LinkedList<>();
 
-        for (int i = 0; i < words.length; i++) {
+        for (int i = 0; i < words.size(); i++) {
 
-            if (dssPositiveWordRepository.contains(words[i])) {
-                positiveSelectedWords.add(words[i]);
+            if (dssPositiveWordRepository.contains(words.get(i))) {
+                positiveSelectedWords.add(words.get(i));
             }
 
-            if (dssNegativeWordRepository.contains(words[i])) {
-                negativeSelectedWords.add(words[i]);
-
-                if ("не".equals(words[i]) || "без".equals(words[i]) || "бы".equals(words[i])) {
-
-                    if (words.length > i + 1 && dssPositiveWordRepository.contains(words[i + 1])) {
-                        positiveSelectedWords.removeLast();
-                    }
-                }
+            if (dssNegativeWordRepository.contains(words.get(i))) {
+                negativeSelectedWords.add(words.get(i));
+//
+//                if ("не".equals(words[i]) || "без".equals(words[i]) || "бы".equals(words[i])) {
+//
+//                    if (words.length > i + 1 && dssPositiveWordRepository.contains(words[i + 1])) {
+//                        positiveSelectedWords.removeLast();
+//                    }
+//                }
 
             }
 
@@ -79,12 +100,13 @@ public class DssService {
             positivePercent = 0;
         }
 
-        return new DssModel(negativeSelectedWords, positiveSelectedWords, negativeSelectedWords.size(), positiveSelectedWords.size(), negativePercent, positivePercent);
+        return new DssModel(negativeSelectedWords, positiveSelectedWords, negativeSelectedWords.size(),
+                positiveSelectedWords.size(), negativePercent, positivePercent, words);
 
     }
 
 
-    private static String normalize(final String text) throws MyStemApplicationException {
+    private static List<String> normalizeRussian(final String text) throws MyStemApplicationException {
 
         final Iterable<Info> result = JavaConversions.asJavaIterable(
                 mystemAnalyzer.analyze(Request.apply(text))
@@ -92,16 +114,34 @@ public class DssService {
                         .toIterable()
         );
 
-        StringBuilder stringBuilder = new StringBuilder();
+        List<String> res = new ArrayList<>();
         for (final Info info : result) {
             Option<String> lex = info.lex();
 
             if (lex.nonEmpty()) {
-                stringBuilder.append(" ");
-                stringBuilder.append(lex.get());
+                res.add(lex.get());
             }
         }
-        return stringBuilder.toString();
+
+        return res;
+    }
+
+    private static List<String> normalizeEnglish(final String text) throws MyStemApplicationException {
+
+        List<String> res = new ArrayList<>();
+
+        String[] words = text.toLowerCase().split("\\s+");
+
+        for(String word : words) {
+            try {
+                Query parse = parser.parse(word);
+                res.add(parse.toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return res;
     }
 
 

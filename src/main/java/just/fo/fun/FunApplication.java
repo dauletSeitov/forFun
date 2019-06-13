@@ -63,19 +63,32 @@ class InitDB{
 
     private void fillDssWords() {
 
-        initFromFilePositive();
-        log.info("positive words initialization is finished !");
-        initFromFileNegative( );
-        log.info("negative words initialization is finished !");
+        DssPositiveWordRepository dssPositiveWordRepository = context.getBean(DssPositiveWordRepository.class);
+        DssNegativeWordRepository dssNegativeWordRepository = context.getBean(DssNegativeWordRepository.class);
+
+        if(0 == dssPositiveWordRepository.findAll().size()){
+            initFromFilePositive("/source/positive.txt", dssPositiveWordRepository);
+            log.info("positive russian words initialization is finished !");
+
+            initFromFilePositive("/source/positive_english_words.txt", dssPositiveWordRepository);
+            log.info("positive english words initialization is finished !");
+        }
+
+
+        if(0 == dssNegativeWordRepository.findAll().size()){
+
+            initFromFileNegative("/source/negative.txt", dssNegativeWordRepository);
+            log.info("negative russian words initialization is finished !");
+
+
+            initFromFileNegative("/source/negative_english_words.txt", dssNegativeWordRepository);
+            log.info("negative english words initialization is finished !");
+        }
 
     }
-    private void initFromFilePositive() {
+    private void initFromFilePositive(String path, DssPositiveWordRepository dssPositiveWordRepository) {
 
-        DssPositiveWordRepository dssPositiveWordRepository = context.getBean(DssPositiveWordRepository.class);
-
-        if(0 < dssPositiveWordRepository.findAll().size()) return;
-
-        URL resource = DssService.class.getResource("/source/positive.txt");
+        URL resource = DssService.class.getResource(path);
 
         try (BufferedReader br = new BufferedReader(new FileReader(resource.getPath()))) {
 
@@ -89,13 +102,10 @@ class InitDB{
         }
     }
 
-    private void initFromFileNegative() {
+    private void initFromFileNegative(String path, DssNegativeWordRepository dssNegativeWordRepository) {
 
-        DssNegativeWordRepository dssNegativeWordRepository = context.getBean(DssNegativeWordRepository.class);
 
-        if(0 < dssNegativeWordRepository.findAll().size()) return;
-
-        URL resource = DssService.class.getResource("/source/negative.txt");
+        URL resource = DssService.class.getResource(path);
 
         try (BufferedReader br = new BufferedReader(new FileReader(resource.getPath()))) {
 
