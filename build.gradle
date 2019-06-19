@@ -19,6 +19,7 @@ buildscript {
     apply from: 'common.gradle'
     dependencies {
         classpath group: 'com.querydsl', name: 'querydsl-core', version: "${querydslVersion}"
+        
         classpath group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
         classpath group: 'com.querydsl', name: 'querydsl-sql-codegen', version: "${querydslVersion}"
 
@@ -57,6 +58,12 @@ configurations {
 dependencies {
     jdbcdriver "org.postgresql:postgresql:42.1.1"
     compileOnly 'org.projectlombok:lombok:1.18.2'
+
+    // https://mvnrepository.com/artifact/org.flywaydb/flyway-core
+    compile group: 'org.flywaydb', name: 'flyway-core', version: '5.0.3'
+
+    // https://mvnrepository.com/artifact/org.flywaydb/flyway-gradle-plugin
+    runtime group: 'org.flywaydb', name: 'flyway-gradle-plugin', version: '3.0'
 
     apt "org.projectlombok:lombok:1.18.2"
     compile group: 'org.springframework', name: 'spring-web', version: "${springVersion}"
