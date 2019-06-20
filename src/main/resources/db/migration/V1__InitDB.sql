@@ -1,14 +1,14 @@
 create table category
 (
     id         int8         not null,
-    is_deleted numeric,
+    is_deleted boolean,
     name       varchar(255) not null,
     primary key (id)
 );
 create table commentary
 (
     id         int8         not null,
-    is_deleted numeric,
+    is_deleted boolean,
     image_url  varchar(512),
     rating     bigint default '0',
     text       varchar(255) not null,
@@ -27,7 +27,7 @@ create table hibernate_sequences
 create table post
 (
     id          int8 not null,
-    is_deleted  numeric,
+    is_deleted  boolean,
     image_url   varchar(512),
     rating      bigint default '0',
     title       varchar(255),
@@ -39,7 +39,7 @@ create table post
 create table translations
 (
     id         int8         not null,
-    is_deleted numeric,
+    is_deleted boolean,
     chanel     varchar(1),
     en         varchar(255),
     key        varchar(255) not null,
@@ -50,7 +50,7 @@ create table translations
 create table "user"
 (
     id         int8         not null,
-    is_deleted numeric,
+    is_deleted boolean,
     login      varchar(255) not null,
     name       varchar(255) not null,
     password   varchar(255) not null,

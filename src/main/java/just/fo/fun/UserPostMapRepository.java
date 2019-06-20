@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface UserPostMapRepository extends JpaRepository<UserPostVoteHistory, Long> {
 
 
-    @Query("select UP from UserPostVoteHistory UP where UP.deleted = false and UP.post.id = :postId and UP.user.id = :userId")
+    @Query("select UP from UserPostVoteHistory UP where UP.isDeleted = false and UP.post.id = :postId and UP.user.id = :userId")
     UserPostVoteHistory findByUserAndPost(@Param("userId") Long userId, @Param("postId") Long postId);
 }
