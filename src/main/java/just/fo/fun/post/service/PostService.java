@@ -135,7 +135,7 @@ public class PostService {
         final Post post = new Post();
         post.setTitle(postDto.getTitle());
         post.setImageUrl(postDto.getImageUrl());
-        post.setCategory(postDto.getCategory());
+        //post.setCategory(postDto.getCategory());
 
         final User user = userRepository.findOne(postDto.getUser().getId());
         post.setUser(user);

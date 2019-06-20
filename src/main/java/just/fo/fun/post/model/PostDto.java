@@ -1,6 +1,5 @@
 package just.fo.fun.post.model;
 
-import just.fo.fun.entities.Category;
 import just.fo.fun.entities.Post;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.utils.serializers.Serialize;
@@ -23,7 +22,7 @@ public class PostDto {
 
     @Serialize
     private LocalDateTime updated;
-    private Category category;
+    private String category;
     private Long rating;
 
     public PostDto(Post post) {
@@ -31,7 +30,7 @@ public class PostDto {
         this.title = post.getTitle();
         this.imageUrl = post.getImageUrl();
         this.updated = post.getUpdated();
-        this.category = post.getCategory();
+        this.category = post.getCategory().getName();
         this.rating = post.getRating();
         this.user = new UserDto(post.getUser());
     }

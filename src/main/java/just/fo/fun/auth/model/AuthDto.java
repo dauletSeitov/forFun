@@ -13,7 +13,7 @@ public class AuthDto {
 
     private Long id;
     private String login;
-    private String pas;
+    private String password;
 
 
 }

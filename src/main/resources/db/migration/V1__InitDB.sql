@@ -57,6 +57,23 @@ create table "user"
     updated    timestamp,
     primary key (id)
 );
+
+create table user_post_vote_history
+(
+    id            bigint not null
+        constraint user_post_vote_history_pkey
+            primary key,
+    is_deleted    boolean,
+    is_down_voted boolean,
+    is_up_voted   boolean,
+    post_id       bigint
+        constraint fk2nx5kjegmoalmy1xn4ab58k0u
+            references post,
+    user_id       bigint
+        constraint fkrst3nnbkigbh0n6qdb5lrxfa6
+            references "user"
+);
+
 alter table translations
     add constraint UK_sj8hdux3oddcc3g4ridhmu9jc unique (key);
 alter table "user"
@@ -71,3 +88,5 @@ alter table post
     add constraint FKg6l1ydp1pwkmyj166teiuov1b foreign key (category_id) references category;
 alter table post
     add constraint FK51aeb5le008k8klgnyfaalmn foreign key (user_id) references "user";
+alter table user_post_vote_history
+    owner to postgres;

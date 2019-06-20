@@ -3,7 +3,7 @@ package just.fo.fun.auth.controller;
 import just.fo.fun.auth.model.AuthDto;
 import just.fo.fun.auth.model.UserType;
 import just.fo.fun.auth.service.AuthService;
-import just.fo.fun.user.model.UserDto;
+import just.fo.fun.entities.User;
 import just.fo.fun.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +31,14 @@ public class AuthController {
     @PostMapping
     public ResponseEntity auth(@RequestBody AuthDto authDto){
 
-        if(StringUtils.isEmpty(authDto.getLogin()) || StringUtils.isEmpty(authDto.getPas())) {
+        if(StringUtils.isEmpty(authDto.getLogin()) || StringUtils.isEmpty(authDto.getPassword())) {
             log.debug("login or password can not be empty!" + authDto);
             return new ResponseEntity<>(Collections.singletonMap(MESSAGE, "incorrect login or password!"), HttpStatus.NOT_FOUND);
         }
 
-        UserDto user = userService.findOne(authDto.getLogin());
+        User user = userService.findOneEntityByLogin(authDto.getLogin());
 
-        if(user == null) {
+        if(user == null || user.getPassword().equals(authDto.getPassword())) {
             log.debug("user not found for login: " + authDto.getLogin());
             return new ResponseEntity<>(Collections.singletonMap(MESSAGE, "incorrect login or password!"), HttpStatus.NOT_FOUND);
         }

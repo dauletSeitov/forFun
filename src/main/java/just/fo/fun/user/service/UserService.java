@@ -29,11 +29,8 @@ public class UserService {
         return UserRepository.findOne(id);
     }
 
-
-    public UserDto findOne(String login){
-        Objects.requireNonNull(login, "login can not be null");
-        final User user = UserRepository.findOneByLogin(login);
-        return Objects.isNull(user) ? null : new UserDto(user);
+    public User findOneEntityByLogin(String login){
+        return UserRepository.findOneByLogin(login);
     }
 
     public Page<UserDto> findAll(Pageable pageable){

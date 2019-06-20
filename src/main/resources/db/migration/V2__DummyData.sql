@@ -1,6 +1,6 @@
 
 
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (1, false, 'login3e2161f', 'name95209a3', 'pas9c3bb3d', '2019-06-19 14:29:53.301000');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (1, false, 'dominator', 'dominator', 'dominator', '2019-06-19 14:29:53.301000');
 INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (2, false, 'loginf661af5', 'name3f13c4b', 'pas232f1ab', '2019-06-19 14:29:53.309000');
 INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (3, false, 'logine50f910', 'nameeacb2d8', 'pas682a1d4', '2019-06-19 14:29:53.311000');
 INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (4, false, 'loginb85fd94', 'name223e33e', 'pas05967be', '2019-06-19 14:29:53.313000');
