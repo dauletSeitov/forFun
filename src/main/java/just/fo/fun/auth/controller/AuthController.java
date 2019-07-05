@@ -38,7 +38,7 @@ public class AuthController {
 
         User user = userService.findOneEntityByLogin(authDto.getLogin());
 
-        if(user == null || user.getPassword().equals(authDto.getPassword())) {
+        if(user == null || !user.getPassword().equals(authDto.getPassword())) {
             log.debug("user not found for login: " + authDto.getLogin());
             return new ResponseEntity<>(Collections.singletonMap(MESSAGE, "incorrect login or password!"), HttpStatus.NOT_FOUND);
         }
