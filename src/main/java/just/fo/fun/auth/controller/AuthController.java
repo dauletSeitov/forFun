@@ -19,7 +19,7 @@ import static just.fo.fun.constants.Constants.VALUE;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/login")
 public class AuthController {
 
     @Autowired

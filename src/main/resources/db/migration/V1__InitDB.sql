@@ -1,45 +1,46 @@
 create table category
 (
-    id         int8         not null,
-    is_deleted boolean,
+    id         bigint         not null,
+    is_deleted boolean        default false,
     name       varchar(255) not null,
     primary key (id)
 );
 create table commentary
 (
-    id         int8         not null,
-    is_deleted boolean,
+    id         bigint    not null,
+    is_deleted boolean        default false,
     image_url  varchar(512),
     rating     bigint default '0',
     text       varchar(255) not null,
     updated    timestamp,
-    parent_id  int8,
-    post_id    int8,
-    "user_id"  int8,
+    parent_id  bigint,
+    post_id    bigint,
+    "user_id"  bigint,
     primary key (id)
 );
 create table hibernate_sequences
 (
     sequence_name          varchar(255) not null,
-    sequence_next_hi_value int8,
+    sequence_next_hi_value bigint,
     primary key (sequence_name)
 );
 create table post
 (
-    id          int8 not null,
-    is_deleted  boolean,
+    id          bigint    not null,
+    is_deleted  boolean        default false,
     image_url   varchar(512),
     rating      bigint default '0',
     title       varchar(255),
     updated     timestamp,
-    category_id int8,
-    user_id     int8,
+    created     timestamp,
+    category_id bigint,
+    user_id     bigint,
     primary key (id)
 );
 create table translations
 (
-    id         int8         not null,
-    is_deleted boolean,
+    id         bigint         not null,
+    is_deleted boolean        default false,
     chanel     varchar(1),
     en         varchar(255),
     key        varchar(255) not null,
@@ -49,8 +50,8 @@ create table translations
 );
 create table "user"
 (
-    id         int8         not null,
-    is_deleted boolean,
+    id         bigint         not null,
+    is_deleted boolean        default false,
     login      varchar(255) not null,
     name       varchar(255) not null,
     password   varchar(255) not null,
@@ -63,7 +64,7 @@ create table user_post_vote_history
     id            bigint not null
         constraint user_post_vote_history_pkey
             primary key,
-    is_deleted    boolean,
+    is_deleted    boolean        default false,
     is_down_voted boolean,
     is_up_voted   boolean,
     post_id       bigint
@@ -73,6 +74,22 @@ create table user_post_vote_history
         constraint fkrst3nnbkigbh0n6qdb5lrxfa6
             references "user"
 );
+
+create table property(
+
+     id bigint not null,
+     is_deleted boolean        default false,
+     code varchar(30),
+     name varchar(255),
+     value varchar(255)
+);
+
+
+CREATE UNIQUE INDEX property_not_deleted
+    ON property( (CASE WHEN IS_DELETED = false
+                       THEN code
+                   ELSE NULL
+        END) );
 
 alter table translations
     add constraint UK_sj8hdux3oddcc3g4ridhmu9jc unique (key);

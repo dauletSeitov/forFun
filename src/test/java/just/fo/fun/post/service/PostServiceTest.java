@@ -21,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
@@ -77,7 +76,7 @@ public class PostServiceTest {
 
         Mockito.doReturn(page).when(postRepository).findAll(pageable);
 
-        Page<PostDto> all = postService.findAll(pageable);
+        Page<PostDto> all = postService.findByPageType(pageable);
 
         assertNotNull(all);
         assertNotNull(all.getContent());

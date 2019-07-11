@@ -28,6 +28,9 @@ public class Post extends SuperEntity{
     @UpdateTimestamp
     private LocalDateTime updated;
 
+    @UpdateTimestamp
+    private LocalDateTime created;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 

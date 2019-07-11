@@ -2140,7 +2140,7 @@ INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent
 INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent_id, post_id, user_id) VALUES (1000, false, 'imagec76757f', -8231, 'text53d8678', '2019-06-19 14:30:06.998000', 519, 1, 15);
 
 
-
+INSERT INTO property (id, is_deleted, code, name, value) VALUES (1, false, 'HOT_PAGE_LEVEL', 'hot page level', '23');
 
 
 

@@ -15,7 +15,7 @@ public class CategoryServiceTest {
 //    }
 //
 //    @Test
-//    public void findAll() {
+//    public void findByPageType() {
 //    }
 //
 //    @Test

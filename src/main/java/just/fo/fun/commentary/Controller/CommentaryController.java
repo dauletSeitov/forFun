@@ -14,7 +14,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/commentary")
+@RequestMapping("/commentary")
 public class CommentaryController {
 
     @Autowired

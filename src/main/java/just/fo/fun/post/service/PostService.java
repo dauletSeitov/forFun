@@ -2,16 +2,21 @@ package just.fo.fun.post.service;
 
 import just.fo.fun.UserPostMapRepository;
 import just.fo.fun.entities.Post;
+import just.fo.fun.entities.Property;
 import just.fo.fun.entities.User;
 import just.fo.fun.entities.UserPostVoteHistory;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
+import just.fo.fun.post.model.enums.PageType;
 import just.fo.fun.post.repository.PostRepository;
+import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +38,30 @@ public class PostService {
     @Autowired
     private UserPostMapRepository userPostMapRepository;
 
-    public Page<PostDto> findAll(Pageable pageable) {
-        Page<Post> page = postRepository.findAll(pageable);
+    @Autowired
+    private PropertyService propertyService;
+
+    public Page<PostDto> findByPageType(PageType pageType, Pageable pageable) {
+
+
+        PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "created");
+
+        Page<Post> page = null;
+
+        switch (pageType){
+            case TRENDING:
+                page = postRepository.findAll(pageRequest); //TODO add algorithm to trending
+                break;
+            case FRESH:
+                page = postRepository.findAll(pageRequest);
+                break;
+            default: {
+
+                String s = propertyService.getPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_LEVEL);
+               // propertyByCode.getValue()
+            };
+        }
+
         return page.map(PostDto::new);
     }
 
