@@ -1,13 +1,13 @@
 create table category
 (
-    id         bigint         not null,
+    id         bigint         not null          unique,
     is_deleted boolean        default false,
     name       varchar(255) not null,
     primary key (id)
 );
 create table commentary
 (
-    id         bigint    not null,
+    id         bigint    not null               unique,
     is_deleted boolean        default false,
     image_url  varchar(512),
     rating     bigint default '0',
@@ -26,7 +26,7 @@ create table hibernate_sequences
 );
 create table post
 (
-    id          bigint    not null,
+    id          bigint    not null          unique,
     is_deleted  boolean        default false,
     image_url   varchar(512),
     rating      bigint default '0',
@@ -39,7 +39,7 @@ create table post
 );
 create table translations
 (
-    id         bigint         not null,
+    id         bigint         not null          unique,
     is_deleted boolean        default false,
     chanel     varchar(1),
     en         varchar(255),
@@ -50,7 +50,7 @@ create table translations
 );
 create table "user"
 (
-    id         bigint         not null,
+    id         bigint         not null          unique,
     is_deleted boolean        default false,
     login      varchar(255) not null,
     name       varchar(255) not null,
@@ -77,11 +77,11 @@ create table user_post_vote_history
 
 create table property(
 
-     id bigint not null,
-     is_deleted boolean        default false,
-     code varchar(30),
-     name varchar(255),
-     value varchar(255)
+     id             bigint          not null unique,
+     is_deleted     boolean         default false,
+     code           varchar(30),
+     name           varchar(255),
+     value          varchar(255)
 );
 
 

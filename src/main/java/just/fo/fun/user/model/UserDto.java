@@ -25,7 +25,6 @@ public class UserDto {
     public UserDto(User user) {
         this.id = user.getId();
         this.name = user.getName();
-        this.updated = user.getUpdated();
         this.login = user.getLogin();
     }
 }

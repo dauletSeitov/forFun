@@ -20,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.Objects;
 
 @Transactional
@@ -43,23 +45,23 @@ public class PostService {
 
     public Page<PostDto> findByPageType(PageType pageType, Pageable pageable) {
 
-
-        PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "created");
-
-        Page<Post> page = null;
+        Page<Post> page;
 
         switch (pageType){
             case TRENDING:
-                page = postRepository.findAll(pageRequest); //TODO add algorithm to trending
+                page = postRepository.findAll(pageable); //TODO add algorithm to trending
                 break;
             case FRESH:
+                PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), Sort.Direction.DESC, "created");
                 page = postRepository.findAll(pageRequest);
                 break;
-            default: {
+            default:
 
-                String s = propertyService.getPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_LEVEL);
-               // propertyByCode.getValue()
-            };
+                Long hotPageLevel = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_LEVEL);
+                Long hotPageDays = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_DAYS);
+
+                page = postRepository.findHot(hotPageLevel, LocalDateTime.now().minusDays(hotPageDays), pageable);
+
         }
 
         return page.map(PostDto::new);

@@ -45,6 +45,7 @@ public class FunApplication {
 
       ConfigurableApplicationContext context = SpringApplication.run(FunApplication.class, args);
 
+        //new InitDB(context).fillDb();
       showLogo(context);
 
     }
@@ -82,7 +83,7 @@ public class FunApplication {
 
 
 
-
+@Deprecated
 class InitDB{
 
     private ConfigurableApplicationContext context;
