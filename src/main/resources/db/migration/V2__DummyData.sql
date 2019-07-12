@@ -130,7 +130,7 @@ INSERT INTO category (id, is_deleted, name) VALUES (20, false, 'CNa9b4a5a');
 
 INSERT INTO public.post (id, is_deleted, image_url, rating, title, updated, created, category_id, user_id) VALUES (1, false, 'https://picsum.photos/id/0/400/300', 2639, 'title7a01105', '2019-07-12 17:27:13.365000', '2019-07-12 17:27:13.365000', 8, 52);
 INSERT INTO public.post (id, is_deleted, image_url, rating, title, updated, created, category_id, user_id) VALUES (2, false, 'https://picsum.photos/id/1/400/300', 845, 'title5186786', '2019-07-12 17:27:13.376000', '2019-07-12 17:27:13.376000', 3, 59);
-INSERT INTO public.post (id, is_deleted, image_url, rating, title, updated, created, category_id, user_id) VALUES (3, false, 'https://picsum.photos/id/2/400/300', 6986, 'titlec7e5921', '2019-07-12 17:27:13.379000', '2019-07-12 17:27:13.378000', 7, 2);
+INSERT INTO public.post (id, is_deleted, image_url, rating, title, updated, created, category_id, user_id) VALUES (3, false, 'https://picsum.photos/id/2/400/300', 6986, 'titlec7e5921', '2019-07-12 17:27:13.379000', '2019-07-12 17:27:13.378000', 7, 1);
 INSERT INTO public.post (id, is_deleted, image_url, rating, title, updated, created, category_id, user_id) VALUES (4, false, 'https://picsum.photos/id/3/400/300', 1122, 'titlec4a95a1', '2019-07-12 17:27:13.382000', '2019-07-12 17:27:13.382000', 13, 41);
 INSERT INTO public.post (id, is_deleted, image_url, rating, title, updated, created, category_id, user_id) VALUES (5, false, 'https://picsum.photos/id/4/400/300', -1730, 'titlebdb4354', '2019-07-12 17:27:13.384000', '2019-07-12 17:27:13.384000', 6, 75);
 INSERT INTO public.post (id, is_deleted, image_url, rating, title, updated, created, category_id, user_id) VALUES (6, false, 'https://picsum.photos/id/5/400/300', 2097, 'title5b523cc', '2019-07-12 17:27:13.387000', '2019-07-12 17:27:13.387000', 11, 91);
@@ -143,8 +143,8 @@ INSERT INTO public.post (id, is_deleted, image_url, rating, title, updated, crea
 
 
 
-INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent_id, post_id, user_id) VALUES (1, false, 'image01000de', -4360, 'text5a58756', '2019-06-19 14:29:55.313000', null, 1, 35);
-INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent_id, post_id, user_id) VALUES (2, false, 'image39ccf5a', -692, 'text463713e', '2019-06-19 14:29:55.317000', null, 1, 16);
+INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent_id, post_id, user_id) VALUES (1, false, 'image01000de', -4360, 'text5a58756', '2019-06-19 14:29:55.313000', null, 1, 1);
+INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent_id, post_id, user_id) VALUES (2, false, 'image39ccf5a', -692, 'text463713e', '2019-06-19 14:29:55.317000', null, 1, 1);
 INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent_id, post_id, user_id) VALUES (3, false, 'image4d5b4e2', -8722, 'textae8c470', '2019-06-19 14:29:55.320000', null, 1, 68);
 INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent_id, post_id, user_id) VALUES (4, false, 'image8bf5b43', -9448, 'text5737b54', '2019-06-19 14:29:55.329000', 2, 1, 55);
 INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent_id, post_id, user_id) VALUES (5, false, 'imagecea0bf2', 5182, 'textddc77ae', '2019-06-19 14:29:55.335000', 3, 1, 75);

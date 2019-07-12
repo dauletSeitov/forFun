@@ -49,23 +49,6 @@ public class AuthController {
         return new ResponseEntity<>(Collections.singletonMap(VALUE, token), HttpStatus.OK);
     }
 
-//    @PostMapping
-//    public ResponseEntity insertDictionary(@RequestBody final Post post) {
-//
-//        Post res = authService.create(post);
-//
-//        return res == null
-//                ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
-//                : new ResponseEntity<>(HttpStatus.CREATED);
-//
-//    }
-//
-//    @GetMapping
-//    public ResponseEntity<List<Post>> getAll() {
-//        List<Post> result = authService.getAll();
-//        return result == null
-//                ? new ResponseEntity<>(HttpStatus.NOT_FOUND)
-//                : new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+
 
 }

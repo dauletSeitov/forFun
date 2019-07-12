@@ -56,6 +56,7 @@ create table "user"
     name       varchar(255) not null,
     password   varchar(255) not null,
     updated    timestamp,
+    photo_url  varchar(255),
     primary key (id)
 );
 

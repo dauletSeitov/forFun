@@ -1,12 +1,16 @@
 package just.fo.fun.user.Controller;
 
+import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
+import just.fo.fun.user.model.CurrentUserDto;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.service.UserService;
+import just.fo.fun.utils.RequestUtils;
 import just.fo.fun.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.tuple.entity.EntityMetamodel;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,6 +29,19 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RequestUtils requestUtils;
+
+    @GetMapping("/current-user-data")
+    public ResponseEntity getCurrentUserData() {
+
+        CurrentUserDto currentUserData = userService.getCurrentUserData();
+        return currentUserData == null
+                ? new ResponseEntity<>(HttpStatus.CONFLICT)
+                : new ResponseEntity<>(currentUserData, HttpStatus.OK);
+
+    }
 
     @PostMapping
     public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
