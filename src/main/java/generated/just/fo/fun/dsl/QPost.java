@@ -32,7 +32,7 @@ public class QPost extends com.querydsl.sql.RelationalPathBase<DBPost> {
 
     public final NumberPath<Byte> isDeleted = createNumber("isDeleted", Byte.class);
 
-    public final NumberPath<Long> rating = createNumber("rating", Long.class);
+    public final NumberPath<Long> rating = createNumber("first", Long.class);
 
     public final StringPath title = createString("title");
 
@@ -78,7 +78,7 @@ public class QPost extends com.querydsl.sql.RelationalPathBase<DBPost> {
         addMetadata(id, ColumnMetadata.named("id").withIndex(1).ofType(Types.BIGINT).withSize(19).notNull());
         addMetadata(imageUrl, ColumnMetadata.named("image_url").withIndex(3).ofType(Types.VARCHAR).withSize(512));
         addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(2).ofType(Types.NUMERIC).withSize(1));
-        addMetadata(rating, ColumnMetadata.named("rating").withIndex(4).ofType(Types.BIGINT).withSize(19));
+        addMetadata(rating, ColumnMetadata.named("first").withIndex(4).ofType(Types.BIGINT).withSize(19));
         addMetadata(title, ColumnMetadata.named("title").withIndex(5).ofType(Types.VARCHAR).withSize(255));
         addMetadata(updated, ColumnMetadata.named("updated").withIndex(6).ofType(Types.TIMESTAMP).withSize(29).withDigits(6));
         addMetadata(userId, ColumnMetadata.named("user_id").withIndex(8).ofType(Types.BIGINT).withSize(19));

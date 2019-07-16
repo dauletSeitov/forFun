@@ -8,9 +8,15 @@ public class CurrentUserDto {
     private Long id;
     private String name;
     private String login;
-    private Long PostRating;
-    private Long PostCount;
-    private Long CommentRating;
-    private Long CommentCount;
+    private Long myPostRating;
+    private Long myPostCount;
+    private Long myCommentRating;
+    private Long myCommentCount;
+
+    private Long myUpVotes;
+    private Long myDownVotes;
+    private Long alienCommentRating;
+    private Long alienCommentCount;
+
     private String photoUrl;
 }

@@ -34,7 +34,7 @@ public class QCommentary extends com.querydsl.sql.RelationalPathBase<DBCommentar
 
     public final NumberPath<Long> postId = createNumber("postId", Long.class);
 
-    public final NumberPath<Long> rating = createNumber("rating", Long.class);
+    public final NumberPath<Long> rating = createNumber("first", Long.class);
 
     public final StringPath text = createString("text");
 
@@ -83,7 +83,7 @@ public class QCommentary extends com.querydsl.sql.RelationalPathBase<DBCommentar
         addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(2).ofType(Types.NUMERIC).withSize(1));
         addMetadata(parentId, ColumnMetadata.named("parent_id").withIndex(7).ofType(Types.BIGINT).withSize(19));
         addMetadata(postId, ColumnMetadata.named("post_id").withIndex(8).ofType(Types.BIGINT).withSize(19));
-        addMetadata(rating, ColumnMetadata.named("rating").withIndex(4).ofType(Types.BIGINT).withSize(19));
+        addMetadata(rating, ColumnMetadata.named("first").withIndex(4).ofType(Types.BIGINT).withSize(19));
         addMetadata(text, ColumnMetadata.named("text").withIndex(5).ofType(Types.VARCHAR).withSize(255).notNull());
         addMetadata(updated, ColumnMetadata.named("updated").withIndex(6).ofType(Types.TIMESTAMP).withSize(29).withDigits(6));
         addMetadata(userId, ColumnMetadata.named("user_id").withIndex(9).ofType(Types.BIGINT).withSize(19));

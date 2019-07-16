@@ -1,8 +1,7 @@
 package just.fo.fun.post.service;
 
-import just.fo.fun.UserPostMapRepository;
+import just.fo.fun.UserPostVoteHistoryRepository;
 import just.fo.fun.entities.Post;
-import just.fo.fun.entities.Property;
 import just.fo.fun.entities.User;
 import just.fo.fun.entities.UserPostVoteHistory;
 import just.fo.fun.exception.MessageException;
@@ -21,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalUnit;
 import java.util.Objects;
 
 @Transactional
@@ -38,7 +36,7 @@ public class PostService {
     private RequestUtils requestUtils;
 
     @Autowired
-    private UserPostMapRepository userPostMapRepository;
+    private UserPostVoteHistoryRepository userPostMapRepository;
 
     @Autowired
     private PropertyService propertyService;

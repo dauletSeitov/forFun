@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class ResultHolderTwoLong {
 
-    private Long rating;
-    private Long count;
+    private Long first;
+    private Long second;
 }

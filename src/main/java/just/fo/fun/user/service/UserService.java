@@ -1,5 +1,6 @@
 package just.fo.fun.user.service;
 
+import just.fo.fun.UserPostVoteHistoryRepository;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.entities.User;
 import just.fo.fun.post.model.ResultHolderTwoLong;
@@ -26,6 +27,9 @@ public class UserService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    private UserPostVoteHistoryRepository userPostMapRepository;
 
     @Autowired
     private CommentaryRepository commentaryRepository;
@@ -64,15 +68,20 @@ public class UserService {
         ResultHolderTwoLong aggregatedPostDataByUser = postRepository.getAggregatedDataByUser(user.getId());
         ResultHolderTwoLong aggregatedCommentaryDataByUser = commentaryRepository.getAggregatedDataByUser(user.getId());
 
+        ResultHolderTwoLong aggregatedDataByUser = userPostMapRepository.getAggregatedDataByUser(user.getId());
+
         CurrentUserDto currentUserDto = new CurrentUserDto();
         currentUserDto.setId(user.getId());
         currentUserDto.setLogin(user.getLogin());
         currentUserDto.setName(user.getName());
         currentUserDto.setPhotoUrl(user.getPhotoUrl());
-        currentUserDto.setCommentRating(aggregatedCommentaryDataByUser.getRating());
-        currentUserDto.setCommentCount(aggregatedCommentaryDataByUser.getCount());
-        currentUserDto.setPostRating(aggregatedPostDataByUser.getRating());
-        currentUserDto.setPostCount(aggregatedPostDataByUser.getCount());
+        currentUserDto.setMyCommentRating(aggregatedCommentaryDataByUser.getFirst());
+        currentUserDto.setMyCommentCount(aggregatedCommentaryDataByUser.getSecond());
+        currentUserDto.setMyPostRating(aggregatedPostDataByUser.getFirst());
+        currentUserDto.setMyPostCount(aggregatedPostDataByUser.getSecond());
+
+        currentUserDto.setMyUpVotes(aggregatedDataByUser.getFirst());
+        currentUserDto.setMyDownVotes(aggregatedDataByUser.getSecond());
         return currentUserDto;
     }
 }
