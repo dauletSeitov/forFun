@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Slf4j
@@ -96,6 +97,13 @@ public class CommentaryController {
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
                 : new ResponseEntity<>(result, HttpStatus.OK);
 
+    }
+
+    @PostMapping("/change-rating")
+    public ResponseEntity changeRatingPost(@NotNull final Long commentId, @NotNull final Boolean isUpVote) {
+
+        commentaryService.changeRating(commentId, isUpVote);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

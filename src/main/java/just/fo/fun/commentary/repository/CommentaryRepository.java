@@ -15,6 +15,9 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
     List<Commentary> getAllByParentIsNullAndPostIdOrderByRatingDesc(Long id);
     List<Commentary> getAllByParentIdOrderByRatingDesc(Long id);
 
+    @Query("select C from Commentary C where C.isDeleted = false and C.id = :commentId")
+    Commentary findOneById(@Param("commentId") Long commentId);
+
     @Query("update  Commentary set isDeleted = true where id = :commentaryId")
     void delete(@Param("commentaryId") Long commentaryId);
 

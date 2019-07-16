@@ -13,10 +13,10 @@ public class CurrentUserDto {
     private Long myCommentRating;
     private Long myCommentCount;
 
-    private Long myUpVotes;
-    private Long myDownVotes;
-    private Long alienCommentRating;
-    private Long alienCommentCount;
+    private Long myPostUpVotes;
+    private Long myPostDownVotes;
+    private Long myCommentUpVotes;
+    private Long myCommentDownVotes;
 
     private String photoUrl;
 }

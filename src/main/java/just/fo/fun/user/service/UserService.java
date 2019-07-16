@@ -1,6 +1,7 @@
 package just.fo.fun.user.service;
 
-import just.fo.fun.UserPostVoteHistoryRepository;
+import just.fo.fun.commentary.userCommentaryVoteHistory.UserCommentaryVoteHistoryRepository;
+import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.entities.User;
 import just.fo.fun.post.model.ResultHolderTwoLong;
@@ -30,6 +31,9 @@ public class UserService {
 
     @Autowired
     private UserPostVoteHistoryRepository userPostMapRepository;
+
+    @Autowired
+    private UserCommentaryVoteHistoryRepository userCommentaryVoteHistoryRepository;
 
     @Autowired
     private CommentaryRepository commentaryRepository;
@@ -68,7 +72,8 @@ public class UserService {
         ResultHolderTwoLong aggregatedPostDataByUser = postRepository.getAggregatedDataByUser(user.getId());
         ResultHolderTwoLong aggregatedCommentaryDataByUser = commentaryRepository.getAggregatedDataByUser(user.getId());
 
-        ResultHolderTwoLong aggregatedDataByUser = userPostMapRepository.getAggregatedDataByUser(user.getId());
+        ResultHolderTwoLong aggregatedPostVotesDataByUser = userPostMapRepository.getAggregatedDataByUser(user.getId());
+        ResultHolderTwoLong aggregatedCommentVotesDataByUser = userCommentaryVoteHistoryRepository.getAggregatedDataByUser(user.getId());
 
         CurrentUserDto currentUserDto = new CurrentUserDto();
         currentUserDto.setId(user.getId());
@@ -80,8 +85,12 @@ public class UserService {
         currentUserDto.setMyPostRating(aggregatedPostDataByUser.getFirst());
         currentUserDto.setMyPostCount(aggregatedPostDataByUser.getSecond());
 
-        currentUserDto.setMyUpVotes(aggregatedDataByUser.getFirst());
-        currentUserDto.setMyDownVotes(aggregatedDataByUser.getSecond());
+        currentUserDto.setMyPostUpVotes(aggregatedPostVotesDataByUser.getFirst());
+        currentUserDto.setMyPostDownVotes(aggregatedPostVotesDataByUser.getSecond());
+
+        currentUserDto.setMyCommentUpVotes(aggregatedCommentVotesDataByUser.getFirst());
+        currentUserDto.setMyCommentDownVotes(aggregatedCommentVotesDataByUser.getSecond());
+
         return currentUserDto;
     }
 }

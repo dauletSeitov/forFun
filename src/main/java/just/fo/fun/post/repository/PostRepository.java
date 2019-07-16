@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
+    @Query("select P from Post P where P.isDeleted = false and P.id = :postId")
+    Post findOneById(@Param("postId") Long postId);
+
     @Query("update Post set isDeleted = true where id = :postId")
     void delete(@Param("postId") Long postId);
 

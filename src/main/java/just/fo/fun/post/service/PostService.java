@@ -1,6 +1,7 @@
 package just.fo.fun.post.service;
 
-import just.fo.fun.UserPostVoteHistoryRepository;
+import just.fo.fun.common.VoteService;
+import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
 import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
 import just.fo.fun.entities.UserPostVoteHistory;
@@ -36,7 +37,7 @@ public class PostService {
     private RequestUtils requestUtils;
 
     @Autowired
-    private UserPostVoteHistoryRepository userPostMapRepository;
+    private VoteService voteService;
 
     @Autowired
     private PropertyService propertyService;
@@ -85,76 +86,7 @@ public class PostService {
 
     public void changeRating(Long postId, Boolean isUpVote) {
 
-        Objects.requireNonNull(postId, "id can not be null!");
-        Objects.requireNonNull(postId, "isUpVote can not be null!");
-
-        User user = requestUtils.getUser();
-        UserPostVoteHistory userPostMap = userPostMapRepository.findByUserAndPost(user.getId(), postId);
-
-        Post post = postRepository.findOne(postId);
-        Objects.requireNonNull(post, "there is no post with id " + postId);
-
-        Long rating = post.getRating();
-        boolean isUpVoted;
-        boolean isUpDownVoted;
-
-        if (userPostMap == null) { //if user not voted at all
-
-            if (isUpVote) { //if user up votes not voted post
-                rating++;
-                isUpVoted = true;
-                isUpDownVoted = false;
-            } else {    //if user down votes not voted post
-                rating--;
-                isUpVoted = false;
-                isUpDownVoted = true;
-            }
-
-        } else {
-            isUpVoted = userPostMap.getIsUpVoted();
-            isUpDownVoted = userPostMap.getIsDownVoted();
-
-            if (isUpVote && userPostMap.getIsUpVoted()) {   //if user up votes up voted post
-                rating--;
-                isUpVoted = false;
-                isUpDownVoted = false;
-            } else if (isUpVote && userPostMap.getIsDownVoted()) {  //if user up votes down voted post
-                rating += 2;
-                isUpVoted = true;
-                isUpDownVoted = false;
-            } else if (!isUpVote && userPostMap.getIsUpVoted()) {   //if user down votes up voted post
-                rating -= 2;
-                isUpVoted = false;
-                isUpDownVoted = true;
-            } else if (!isUpVote && userPostMap.getIsDownVoted()) { //if user down votes down voted post
-                rating++;
-                isUpVoted = false;
-                isUpDownVoted = false;
-            } else if (isUpVote && !userPostMap.getIsUpVoted() && !userPostMap.getIsDownVoted()) {  //if user up votes not voted post
-                rating++;
-                isUpVoted = true;
-                isUpDownVoted = false;
-            } else if (!isUpVote && !userPostMap.getIsUpVoted() && !userPostMap.getIsDownVoted()) { //if user down votes not voted post
-                rating--;
-                isUpVoted = false;
-                isUpDownVoted = true;
-            }
-        }
-
-        post.setRating(rating);
-
-
-        if (userPostMap == null){
-            userPostMap = new UserPostVoteHistory();
-            userPostMap.setPost(post);
-            userPostMap.setUser(user);
-        }
-
-        userPostMap.setIsUpVoted(isUpVoted);
-        userPostMap.setIsDownVoted(isUpDownVoted);
-
-        userPostMapRepository.save(userPostMap);
-
+        voteService.postChangeRating(isUpVote, requestUtils.getUser(), postId);
     }
 
     //-------------------CONVERTER----------------------------

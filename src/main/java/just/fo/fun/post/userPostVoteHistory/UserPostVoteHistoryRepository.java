@@ -1,4 +1,4 @@
-package just.fo.fun;
+package just.fo.fun.post.userPostVoteHistory;
 
 import just.fo.fun.entities.UserPostVoteHistory;
 import just.fo.fun.post.model.ResultHolderTwoLong;
