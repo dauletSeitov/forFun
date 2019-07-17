@@ -16,7 +16,7 @@ public class UserPostVoteHistory extends SuperEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
-    private Boolean isUpVoted = false;
-    private Boolean isDownVoted = false;
+    private Boolean isUpVoted;
+    private Boolean isDownVoted;
 
 }

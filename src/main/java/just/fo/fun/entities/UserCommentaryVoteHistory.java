@@ -16,7 +16,7 @@ public class UserCommentaryVoteHistory extends SuperEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Commentary commentary;
 
-    private Boolean isUpVoted = false;
-    private Boolean isDownVoted = false;
+    private Boolean isUpVoted;
+    private Boolean isDownVoted;
 
 }

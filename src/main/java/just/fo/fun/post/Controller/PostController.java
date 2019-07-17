@@ -41,6 +41,12 @@ public class PostController {
         return new ResponseEntity<>(myPosts, HttpStatus.OK);
     }
 
+    @GetMapping("/my-assessments/{isUpVote}")
+    public ResponseEntity myPosts(@PathVariable Boolean isUpVote, Pageable request) {
+        Page<PostDto> myPosts = postService.findMyAssessments(isUpVote, request);
+        return new ResponseEntity<>(myPosts, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity insertPost(@Valid @RequestBody final PostDto postDto) {
 

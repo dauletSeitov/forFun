@@ -97,6 +97,11 @@ public class PostService {
         return postRepository.findPostFromCommentaryByUserId(requestUtils.getUser().getId(), request).map(PostDto::new);
     }
 
+    public Page<PostDto> findMyAssessments(Boolean isUpVote, Pageable request) {
+        Objects.requireNonNull(isUpVote, "required param isUpVote");
+        return postRepository.findMyAssessments(isUpVote,requestUtils.getUser().getId(), request).map(PostDto::new);
+    }
+
 
     //-------------------CONVERTER----------------------------
     public Post postDtoToPost(PostDto postDto) {
@@ -109,6 +114,7 @@ public class PostService {
         post.setUser(user);
         return post;
     }
+
 
 
 

@@ -26,8 +26,15 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select P from Post P where P.isDeleted = false and P.user.id = :userId")
     Page<Post> findPostByUserId(@Param("userId") Long userId, Pageable pageable);
 
-    @Query("select C.post from Commentary C where C.isDeleted = false and C.user.id = :userId")
+    @Query("select C.post from Commentary C where C.isDeleted = false and C.post.isDeleted = false and C.user.id = :userId")
     Page<Post> findPostFromCommentaryByUserId(@Param("userId") Long userId, Pageable pageable);
+
+    @Query("select U.post from UserPostVoteHistory U " +
+            "where U.isDeleted = false " +
+            "and U.post.isDeleted = false " +
+            "and U.user.id = :userId " +
+            "and (:isUpVote = true and U.isUpVoted = true or :isUpVote = false and U.isDownVoted = true)")
+    Page<Post> findMyAssessments(@Param("isUpVote") Boolean isUpVote, @Param("userId") Long userId, Pageable request);
 
     @Query("update Post set isDeleted = true where id = :postId")
     void delete(@Param("postId") Long postId);
