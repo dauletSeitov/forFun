@@ -34,48 +34,36 @@ public class VoteService {
         boolean isUpVoted;
         boolean isUpDownVoted;
 
-        if (voteData == null) { //if user not voted at all
 
-            if (voteData.getUserActionIsUpVote()) { //if user up votes not voted post
-                rating++;
-                isUpVoted = true;
-                isUpDownVoted = false;
-            } else {    //if user down votes not voted post
-                rating--;
-                isUpVoted = false;
-                isUpDownVoted = true;
-            }
+        isUpVoted = voteData.getDbIsUpVoted();
+        isUpDownVoted = voteData.getDbIsDownVoted();
 
-        } else {
-            isUpVoted = voteData.getDbIsUpVoted();
-            isUpDownVoted = voteData.getDbIsDownVoted();
-
-            if (voteData.getUserActionIsUpVote() && voteData.getDbIsUpVoted()) {   //if user up votes up voted post
-                rating--;
-                isUpVoted = false;
-                isUpDownVoted = false;
-            } else if (voteData.getUserActionIsUpVote() && voteData.getDbIsDownVoted()) {  //if user up votes down voted post
-                rating += 2;
-                isUpVoted = true;
-                isUpDownVoted = false;
-            } else if (!voteData.getUserActionIsUpVote() && voteData.getDbIsUpVoted()) {   //if user down votes up voted post
-                rating -= 2;
-                isUpVoted = false;
-                isUpDownVoted = true;
-            } else if (!voteData.getUserActionIsUpVote() && voteData.getDbIsDownVoted()) { //if user down votes down voted post
-                rating++;
-                isUpVoted = false;
-                isUpDownVoted = false;
-            } else if (voteData.getUserActionIsUpVote() && !voteData.getDbIsUpVoted() && !voteData.getDbIsDownVoted()) {  //if user up votes not voted post
-                rating++;
-                isUpVoted = true;
-                isUpDownVoted = false;
-            } else if (!voteData.getUserActionIsUpVote() && !voteData.getDbIsUpVoted() && !voteData.getDbIsDownVoted()) { //if user down votes not voted post
-                rating--;
-                isUpVoted = false;
-                isUpDownVoted = true;
-            }
+        if (voteData.getUserActionIsUpVote() && voteData.getDbIsUpVoted()) {   //if user up votes up voted post
+            rating--;
+            isUpVoted = false;
+            isUpDownVoted = false;
+        } else if (voteData.getUserActionIsUpVote() && voteData.getDbIsDownVoted()) {  //if user up votes down voted post
+            rating += 2;
+            isUpVoted = true;
+            isUpDownVoted = false;
+        } else if (!voteData.getUserActionIsUpVote() && voteData.getDbIsUpVoted()) {   //if user down votes up voted post
+            rating -= 2;
+            isUpVoted = false;
+            isUpDownVoted = true;
+        } else if (!voteData.getUserActionIsUpVote() && voteData.getDbIsDownVoted()) { //if user down votes down voted post
+            rating++;
+            isUpVoted = false;
+            isUpDownVoted = false;
+        } else if (voteData.getUserActionIsUpVote() && !voteData.getDbIsUpVoted() && !voteData.getDbIsDownVoted()) {  //if user up votes not voted post
+            rating++;
+            isUpVoted = true;
+            isUpDownVoted = false;
+        } else if (!voteData.getUserActionIsUpVote() && !voteData.getDbIsUpVoted() && !voteData.getDbIsDownVoted()) { //if user down votes not voted post
+            rating--;
+            isUpVoted = false;
+            isUpDownVoted = true;
         }
+
 
         voteData.setDbIsUpVoted(isUpVoted);
         voteData.setDbIsDownVoted(isUpDownVoted);
@@ -91,8 +79,9 @@ public class VoteService {
         UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findByUserAndPost(user.getId(), postId);
 
         VoteData voteData;
+
         if (Objects.isNull(userPostVoteHistory)){
-            voteData = new VoteData(isUpVote, null, null);
+            voteData = new VoteData(isUpVote, false, false);
         } else {
             voteData = new VoteData(isUpVote, userPostVoteHistory.getIsUpVoted(), userPostVoteHistory.getIsDownVoted());
         }
@@ -128,7 +117,7 @@ public class VoteService {
 
         VoteData voteData;
         if (Objects.isNull(userCommentaryVoteHistory)){
-            voteData = new VoteData(isUpVote, null, null);
+            voteData = new VoteData(isUpVote, false, false);
         } else {
             voteData = new VoteData(isUpVote, userCommentaryVoteHistory.getIsUpVoted(), userCommentaryVoteHistory.getIsDownVoted());
         }

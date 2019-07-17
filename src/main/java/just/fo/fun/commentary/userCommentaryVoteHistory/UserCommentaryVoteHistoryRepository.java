@@ -11,8 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface UserCommentaryVoteHistoryRepository extends JpaRepository<UserCommentaryVoteHistory, Long> {
 
 
-    @Query("select UP from UserCommentaryVoteHistory UP where UP.isDeleted = false and UP.post.id = :postId and UP.user.id = :userId")
-    UserCommentaryVoteHistory findByUserAndPost(@Param("userId") Long userId, @Param("postId") Long postId);
+    @Query("select UP from UserCommentaryVoteHistory UP where UP.isDeleted = false and UP.commentary.id = :commentaryId and UP.user.id = :userId")
+    UserCommentaryVoteHistory findByUserAndPost(@Param("userId") Long userId, @Param("commentaryId") Long commentaryId);
 
     @Query("select new just.fo.fun.post.model.ResultHolderTwoLong(count(CASE WHEN UP.isUpVoted = true THEN 1 END), count(CASE WHEN UP.isDownVoted = true THEN 1 END)) " +
             "from UserCommentaryVoteHistory UP " +

@@ -29,7 +29,7 @@ create table post
             primary key,
     is_deleted  boolean default false,
     image_url   varchar(512),
-    rating      bigint  default '0'::bigint,
+    rating      bigint  default '0' not null,
     title       varchar(255),
     updated     timestamp,
     created     timestamp,
@@ -48,7 +48,7 @@ create table commentary
             primary key,
     is_deleted boolean default false,
     image_url  varchar(512),
-    rating     bigint  default '0'::bigint,
+    rating     bigint  default '0' not null,
     text       varchar(255) not null,
     updated    timestamp,
     parent_id  bigint
@@ -118,7 +118,7 @@ create table user_post_vote_history
             references "user"
 );
 
-create table user_comment_vote_history
+create table user_commentary_vote_history
 (
     id            bigint not null
         constraint user_comment_vote_history_pkey
