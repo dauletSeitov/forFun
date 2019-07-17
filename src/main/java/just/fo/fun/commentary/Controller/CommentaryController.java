@@ -3,23 +3,32 @@ package just.fo.fun.commentary.Controller;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.service.CommentaryService;
 import just.fo.fun.entities.Commentary;
+import just.fo.fun.entities.Post;
 import just.fo.fun.exception.MessageException;
+import just.fo.fun.post.model.PostDto;
+import just.fo.fun.post.repository.PostRepository;
+import just.fo.fun.post.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/commentary")
+@RequestMapping("/commentary")
 public class CommentaryController {
 
     @Autowired
     private CommentaryService commentaryService;
 
+    @Autowired
+    private PostService postService;
 
     @PostMapping
     public ResponseEntity insertCommentary(@Valid @RequestBody final CommentaryDto userDto) {
@@ -35,7 +44,16 @@ public class CommentaryController {
                 : new ResponseEntity<>(HttpStatus.OK);
 
     }
-/*
+
+
+    @GetMapping("/my-commentaries")
+    public ResponseEntity myPosts(Pageable request) {
+        Page<PostDto> commentaries = postService.findPostFromCommentaryByUserId(request);
+        return new ResponseEntity<>(commentaries, HttpStatus.OK);
+    }
+
+
+    /*
     @PutMapping
     public ResponseEntity updateUser(@Valid @RequestBody final UserLoginDto userDto) {
 
@@ -96,6 +114,13 @@ public class CommentaryController {
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
                 : new ResponseEntity<>(result, HttpStatus.OK);
 
+    }
+
+    @PostMapping("/change-rating")
+    public ResponseEntity changeRatingPost(@NotNull final Long commentId, @NotNull final Boolean isUpVote) {
+
+        commentaryService.changeRating(commentId, isUpVote);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

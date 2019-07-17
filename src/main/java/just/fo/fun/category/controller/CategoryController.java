@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/category")
 public class CategoryController {
 
     @Autowired

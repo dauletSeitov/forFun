@@ -44,7 +44,7 @@ public class ExceptionTranslator {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> processException(final Exception ex) {
-        log.error("There is something wrong: " + ex);
+        log.error("There is something wrong: ", ex);
         return new ResponseEntity<>(null, HttpStatus.CONFLICT);
     }
 

@@ -115,7 +115,7 @@ public class DBCommentary {
 
     @Override
     public String toString() {
-         return "id = " + id + ", imageUrl = " + imageUrl + ", isDeleted = " + isDeleted + ", parentId = " + parentId + ", postId = " + postId + ", rating = " + rating + ", text = " + text + ", updated = " + updated + ", userId = " + userId;
+         return "id = " + id + ", imageUrl = " + imageUrl + ", isDeleted = " + isDeleted + ", parentId = " + parentId + ", postId = " + postId + ", first = " + rating + ", text = " + text + ", updated = " + updated + ", userId = " + userId;
     }
 
 }

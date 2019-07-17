@@ -16,14 +16,13 @@ import java.time.LocalDateTime;
 @Table(name = "\"user\"")
 public class User extends SuperEntity{
 
-    @Column(unique = true, nullable = false)
     private String login;
-    @Column(nullable = false)
+
     private String password;
-    @Column(nullable = false)
+
     private String name;
 
-
+    private String photoUrl;
 
     @Column
     @UpdateTimestamp

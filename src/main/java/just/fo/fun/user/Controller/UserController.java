@@ -2,6 +2,7 @@ package just.fo.fun.user.Controller;
 
 import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
+import just.fo.fun.user.model.CurrentUserDto;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.service.UserService;
@@ -20,11 +21,21 @@ import javax.validation.Valid;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/current/user-data")
+    public ResponseEntity getCurrentUserData() {
+
+        CurrentUserDto currentUserData = userService.getCurrentUserData();
+        return currentUserData == null
+                ? new ResponseEntity<>(HttpStatus.CONFLICT)
+                : new ResponseEntity<>(currentUserData, HttpStatus.OK);
+
+    }
 
     @PostMapping
     public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userLoginDto) {

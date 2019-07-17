@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -27,6 +29,9 @@ public class Post extends SuperEntity{
     @Column
     @UpdateTimestamp
     private LocalDateTime updated;
+
+    @UpdateTimestamp
+    private LocalDateTime created;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;

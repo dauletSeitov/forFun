@@ -1,29 +1,29 @@
 package just.fo.fun.commentary.service;
 
 import com.querydsl.sql.SQLQueryFactory;
-import generated.just.fo.fun.dsl.DBCommentary;
-import generated.just.fo.fun.dsl.QCommentary;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.repository.CommentaryRepository;
+import just.fo.fun.common.VoteService;
 import just.fo.fun.entities.Commentary;
 import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
 import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.user.repository.UserRepository;
+import just.fo.fun.utils.RequestUtils;
 import just.fo.fun.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-
-import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
 @Transactional
 @Service
 public class CommentaryService {
 
-    @Inject
+    @Autowired
     private SQLQueryFactory queryFactory;
 
     @Autowired
@@ -34,6 +34,12 @@ public class CommentaryService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RequestUtils requestUtils;
+
+    @Autowired
+    private VoteService voteService;
 
     public Commentary save(CommentaryDto commentaryDto){
         return commentaryRepository.save(commentaryDtoToCommentary(commentaryDto));
@@ -55,8 +61,8 @@ public class CommentaryService {
 
     public List<CommentaryDto> getAll(Long id){
 
-        QCommentary commentary = QCommentary.commentary;
-        List<DBCommentary> fetch = queryFactory.select(commentary).from(commentary).fetch();
+        //QCommentary commentary = QCommentary.commentary;
+        //List<DBCommentary> fetch = queryFactory.select(commentary).from(commentary).fetch();
 
         List<CommentaryDto> parentles = commentaryRepository.getAllByParentIsNullAndPostIdOrderByRatingDesc(id)
                 .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());
@@ -100,4 +106,11 @@ public class CommentaryService {
         return commentary;
     }
     //converter
+
+
+    public void changeRating(Long commentId, Boolean isUpVote) {
+
+        voteService.commentChangeRating(isUpVote, requestUtils.getUser(), commentId);
+    }
+
 }

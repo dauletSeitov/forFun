@@ -104,7 +104,7 @@ public class DBPost {
 
     @Override
     public String toString() {
-         return "categoryId = " + categoryId + ", id = " + id + ", imageUrl = " + imageUrl + ", isDeleted = " + isDeleted + ", rating = " + rating + ", title = " + title + ", updated = " + updated + ", userId = " + userId;
+         return "categoryId = " + categoryId + ", id = " + id + ", imageUrl = " + imageUrl + ", isDeleted = " + isDeleted + ", first = " + rating + ", title = " + title + ", updated = " + updated + ", userId = " + userId;
     }
 
 }
