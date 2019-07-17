@@ -85,9 +85,18 @@ public class PostService {
     }
 
     public void changeRating(Long postId, Boolean isUpVote) {
-
         voteService.postChangeRating(isUpVote, requestUtils.getUser(), postId);
     }
+
+
+    public Page<PostDto> findMyPosts(Pageable request) {
+        return postRepository.findPostByUserId(requestUtils.getUser().getId(), request).map(PostDto::new);
+    }
+
+    public Page<PostDto> findPostFromCommentaryByUserId(Pageable request) {
+        return postRepository.findPostFromCommentaryByUserId(requestUtils.getUser().getId(), request).map(PostDto::new);
+    }
+
 
     //-------------------CONVERTER----------------------------
     public Post postDtoToPost(PostDto postDto) {
@@ -100,6 +109,7 @@ public class PostService {
         post.setUser(user);
         return post;
     }
+
 
 
     //-------------------CONVERTER----------------------------

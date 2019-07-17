@@ -1,7 +1,11 @@
 package just.fo.fun.commentary.repository;
 
 import just.fo.fun.entities.Commentary;
+import just.fo.fun.entities.Post;
+import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.model.ResultHolderTwoLong;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

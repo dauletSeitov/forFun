@@ -1,6 +1,6 @@
 
 
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (1, false, 'dominator', 'dominator', 'dominator', '2019-06-19 14:29:53.301000');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url) VALUES (1, false, 'dominator', 'dominator', 'dominator', '2019-06-19 14:29:53.301000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg');
 INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (2, false, 'daulet', 'daulet', 'daulet', '2019-06-19 14:29:53.309000');
 INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (3, false, 'john', 'john', 'john', '2019-06-19 14:29:53.311000');
 INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (4, false, 'r2d2', 'r2d2', 'r2d2', '2019-06-19 14:29:53.313000');
@@ -63,7 +63,9 @@ INSERT INTO user_post_vote_history (id, is_deleted, is_down_voted, is_up_voted, 
 INSERT INTO user_post_vote_history (id, is_deleted, is_down_voted, is_up_voted, post_id, user_id) VALUES (2, false, false, true, 2, 1);
 INSERT INTO user_post_vote_history (id, is_deleted, is_down_voted, is_up_voted, post_id, user_id) VALUES (3, false, true, false, 3, 1);
 
-
+INSERT INTO user_commentary_vote_history (id, is_deleted, is_down_voted, is_up_voted, commentary_id, user_id) VALUES (1, false, false, true, 1, 1);
+INSERT INTO user_commentary_vote_history (id, is_deleted, is_down_voted, is_up_voted, commentary_id, user_id) VALUES (2, false, true, false, 5, 1);
+INSERT INTO user_commentary_vote_history (id, is_deleted, is_down_voted, is_up_voted, commentary_id, user_id) VALUES (3, false, true, false, 3, 1);
 
 
 

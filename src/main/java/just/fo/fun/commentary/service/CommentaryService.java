@@ -1,8 +1,6 @@
 package just.fo.fun.commentary.service;
 
 import com.querydsl.sql.SQLQueryFactory;
-import generated.just.fo.fun.dsl.DBCommentary;
-import generated.just.fo.fun.dsl.QCommentary;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.common.VoteService;
@@ -14,6 +12,8 @@ import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
 import just.fo.fun.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+
 @Slf4j
 @RestController
 @RequestMapping("/post")
@@ -34,6 +35,12 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
+    @GetMapping("/my-posts")
+    public ResponseEntity myPosts(Pageable request) {
+        Page<PostDto> myPosts = postService.findMyPosts(request);
+        return new ResponseEntity<>(myPosts, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity insertPost(@Valid @RequestBody final PostDto postDto) {
 
@@ -43,7 +50,7 @@ public class PostController {
         try {
             postService.save(postDto);
         }catch (Exception e){
-            log.error("erron while post", e);
+            log.error("error while post", e);
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(HttpStatus.OK);
