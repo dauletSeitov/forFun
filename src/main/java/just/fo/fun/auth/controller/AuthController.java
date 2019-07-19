@@ -19,7 +19,7 @@ import static just.fo.fun.constants.Constants.VALUE;
 
 @Slf4j
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
@@ -28,7 +28,7 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
+    @PostMapping("/login")
     public ResponseEntity auth(@RequestBody AuthDto authDto){
 
         if(StringUtils.isEmpty(authDto.getLogin()) || StringUtils.isEmpty(authDto.getPassword())) {

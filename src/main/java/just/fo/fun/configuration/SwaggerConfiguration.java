@@ -1,5 +1,4 @@
-package just.fo.fun.config;
-
+package just.fo.fun.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

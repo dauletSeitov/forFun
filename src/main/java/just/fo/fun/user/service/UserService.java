@@ -8,6 +8,7 @@ import just.fo.fun.post.model.ResultHolderTwoLong;
 import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.user.model.CurrentUserDto;
 import just.fo.fun.user.model.UserDto;
+import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,5 +93,19 @@ public class UserService {
         currentUserDto.setMyCommentDownVotes(aggregatedCommentVotesDataByUser.getSecond());
 
         return currentUserDto;
+    }
+
+    public User save(UserLoginDto userLoginDto) {
+        return userRepository.save(convertUserLoginDtoToUser(userLoginDto));
+    }
+
+    public static User convertUserLoginDtoToUser(UserLoginDto userLoginDto){
+        User user = new User();
+        user.setLogin(userLoginDto.getLogin());
+        user.setName(userLoginDto.getName());
+        user.setPassword(userLoginDto.getPassword());
+        user.setPhotoUrl(userLoginDto.getPhotoUrl());
+        return user;
+
     }
 }

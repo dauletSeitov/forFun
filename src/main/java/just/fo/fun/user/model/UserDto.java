@@ -1,7 +1,6 @@
 package just.fo.fun.user.model;
 
 import just.fo.fun.entities.User;
-import just.fo.fun.utils.serializers.Serialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,6 @@ public class UserDto {
     private String name;
     private String login;
 
-    @Serialize
     private LocalDateTime updated;
 
     public UserDto(User user) {

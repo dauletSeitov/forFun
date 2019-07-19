@@ -56,6 +56,9 @@ INSERT INTO commentary (id, is_deleted, image_url, rating, text, updated, parent
 
 INSERT INTO property (id, is_deleted, code, name, value) VALUES (1, false, 'HOT_PAGE_LEVEL', 'hot page level', '23');
 INSERT INTO property (id, is_deleted, code, name, value) VALUES (2, false, 'HOT_PAGE_DAYS', 'hot page days', '5');
+INSERT INTO property (id, is_deleted, code, name, value) VALUES (3, false, 'ACCEPTABLE_AGE', 'acceptable age to registration', '14');
+INSERT INTO property (id, is_deleted, code, name, value) VALUES (4, false, 'LOGIN_REGEX', 'regex for validation login', '[0-9a-zA-Z]*');
+INSERT INTO property (id, is_deleted, code, name, value) VALUES (5, false, 'PASSWORD_REGEX', 'regex for validation password', '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
 
 
 

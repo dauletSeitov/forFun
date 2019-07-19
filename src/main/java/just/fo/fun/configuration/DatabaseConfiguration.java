@@ -1,4 +1,4 @@
-package just.fo.fun.config;
+package just.fo.fun.configuration;
 
 import com.querydsl.sql.*;
 import com.querydsl.sql.spring.SpringConnectionProvider;

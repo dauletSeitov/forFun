@@ -20,4 +20,6 @@ public class UserLoginDto {
 
     private LocalDate birthDay;
 
+    private String photoUrl;
+
 }

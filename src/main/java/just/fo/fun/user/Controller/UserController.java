@@ -7,7 +7,6 @@ import just.fo.fun.user.model.CurrentUserDto;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.service.UserService;
-import just.fo.fun.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,22 +41,19 @@ public class UserController {
 
     }
 
-    @PostMapping
-    public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
+    @PostMapping("/sign-up")
+    public ResponseEntity createUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
         userValidationService.validateCreate(userLoginDto);
 
-        User user = new User();
-        Utils.copyProperties(userLoginDto, user);
-        User resultUser = null;
         try {
-            resultUser = userService.save(user);
+            userService.save(userLoginDto);
         }catch (Exception e){
-            throw new MessageException("ffffffff" + e.getMessage());
+            log.error(e.getMessage(), e);
+            throw new MessageException("could not save the user!");
         }
-        return resultUser == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(Utils.copyProperties(resultUser, new UserLoginDto()), HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 

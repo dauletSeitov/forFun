@@ -2,7 +2,6 @@ package just.fo.fun.post.model;
 
 import just.fo.fun.entities.Post;
 import just.fo.fun.user.model.UserDto;
-import just.fo.fun.utils.serializers.Serialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +19,6 @@ public class PostDto {
     private String title;
     private String imageUrl;
 
-    @Serialize
     private LocalDateTime updated;
     private String category;
     private Long rating;

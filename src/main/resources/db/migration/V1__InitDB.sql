@@ -9,7 +9,9 @@ create table "user"
     name       varchar(255) not null,
     password   varchar(255) not null,
     updated    timestamp,
-    photo_url  varchar(255)
+    photo_url  varchar(255),
+    email  varchar(64),
+    phone  varchar(15)
 );
 
 create table category
