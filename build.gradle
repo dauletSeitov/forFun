@@ -58,11 +58,9 @@ configurations {
 dependencies {
     jdbcdriver "org.postgresql:postgresql:42.1.1"
     compileOnly 'org.projectlombok:lombok:1.18.2'
-
-    // https://mvnrepository.com/artifact/org.flywaydb/flyway-core
+    
     compile group: 'org.flywaydb', name: 'flyway-core', version: '5.0.3'
-
-    // https://mvnrepository.com/artifact/org.flywaydb/flyway-gradle-plugin
+    
     runtime group: 'org.flywaydb', name: 'flyway-gradle-plugin', version: '3.0'
 
     apt "org.projectlombok:lombok:1.18.2"
@@ -73,6 +71,12 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: "${hibernateVersion}"
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: "${springBootVersion}"
     compile group: 'org.springframework.security', name: 'spring-security-config', version: "${springSecurityVersion}"
+
+
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'    
+    
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
 
     compileOnly group: 'com.querydsl', name: 'querydsl-core', version: "${querydslVersion}"
     compileOnly group: 'com.querydsl', name: 'querydsl-sql', version: "${querydslVersion}"
@@ -86,7 +90,7 @@ dependencies {
     compile("org.hibernate:hibernate-core:${hibernateVersion}")
 
     runtime group: 'org.postgresql', name: 'postgresql', version: '42.1.1'
-    //compile('org.springframework.boot:spring-boot-starter-web')
+
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 

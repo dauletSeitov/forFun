@@ -1,5 +1,6 @@
 package just.fo.fun.post.Controller;
 
+import io.swagger.annotations.ApiOperation;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.model.enums.PageType;
@@ -41,6 +42,7 @@ public class PostController {
         return new ResponseEntity<>(myPosts, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "To get my assessments.", notes = "isUpVote is true or false.")
     @GetMapping("/my-assessments/{isUpVote}")
     public ResponseEntity myPosts(@PathVariable Boolean isUpVote, Pageable request) {
         Page<PostDto> myPosts = postService.findMyAssessments(isUpVote, request);
