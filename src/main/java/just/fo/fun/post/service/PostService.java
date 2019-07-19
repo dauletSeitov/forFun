@@ -1,10 +1,8 @@
 package just.fo.fun.post.service;
 
-import just.fo.fun.common.VoteService;
-import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
+import just.fo.fun.common.vote.VoteService;
 import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
-import just.fo.fun.entities.UserPostVoteHistory;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.model.enums.PageType;

@@ -1,5 +1,6 @@
 package just.fo.fun.user.Controller;
 
+import just.fo.fun.user.service.UserValidationService;
 import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.user.model.CurrentUserDto;
@@ -27,6 +28,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserValidationService userValidationService;
+
+
     @GetMapping("/current/user-data")
     public ResponseEntity getCurrentUserData() {
 
@@ -40,8 +45,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
-        if (userLoginDto.getId() != null)
-            throw new MessageException("id must be empty !");
+        userValidationService.validateCreate(userLoginDto);
 
         User user = new User();
         Utils.copyProperties(userLoginDto, user);

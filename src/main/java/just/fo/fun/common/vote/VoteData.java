@@ -1,4 +1,4 @@
-package just.fo.fun.common;
+package just.fo.fun.common.vote;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

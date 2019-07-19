@@ -1,4 +1,4 @@
-package just.fo.fun.common;
+package just.fo.fun.common.vote;
 
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.commentary.userCommentaryVoteHistory.UserCommentaryVoteHistoryRepository;
