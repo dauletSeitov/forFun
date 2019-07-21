@@ -99,8 +99,41 @@ public class UserService {
         return userRepository.save(convertUserLoginDtoToUser(userLoginDto));
     }
 
+    public User update(UserLoginDto userLoginDto) {
+
+        User userToUpdate = userRepository.findOneNotDeleted(userLoginDto.getId());
+
+        Objects.requireNonNull(userToUpdate, "user not found!");
+
+        User inputUser = convertUserLoginDtoToUser(userLoginDto);
+
+        if (inputUser.getLogin() != null){
+            userToUpdate.setLogin(inputUser.getLogin());
+        }
+
+        if (inputUser.getName() != null){
+            userToUpdate.setLogin(inputUser.getName());
+        }
+
+        if (inputUser.getPhotoUrl() != null){
+            userToUpdate.setLogin(inputUser.getPhotoUrl());
+        }
+
+        if (inputUser.getEmail() != null){
+            userToUpdate.setLogin(inputUser.getEmail());
+        }
+
+        if (inputUser.getPhone() != null){
+            userToUpdate.setLogin(inputUser.getPhone());
+        }
+
+
+        return userRepository.save(userToUpdate);
+    }
+
     public static User convertUserLoginDtoToUser(UserLoginDto userLoginDto){
         User user = new User();
+        user.setId(userLoginDto.getId());
         user.setLogin(userLoginDto.getLogin());
         user.setName(userLoginDto.getName());
         user.setPassword(userLoginDto.getPassword());

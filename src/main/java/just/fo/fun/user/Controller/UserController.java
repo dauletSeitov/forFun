@@ -2,14 +2,12 @@ package just.fo.fun.user.Controller;
 
 import io.swagger.annotations.ApiOperation;
 import just.fo.fun.user.service.UserValidationService;
-import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.user.model.CurrentUserDto;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,7 +64,7 @@ public class UserController {
         userValidationService.validateUpdate(userLoginDto);
 
         try {
-            userService.save(userLoginDto);
+            userService.update(userLoginDto);
         }catch (Exception e){
             log.error(e.getMessage(), e);
             throw new MessageException("could not save the user!");

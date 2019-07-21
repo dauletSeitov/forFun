@@ -31,9 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/user/sign-up").permitAll()
-                .antMatchers("/api/**").authenticated();
+                .antMatchers(HttpMethod.POST,"/auth/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/sign-up").permitAll()
+                .antMatchers("/**").authenticated();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

@@ -29,7 +29,7 @@ public class UserValidationServiceImpl implements UserValidationService {
 
         acceptableAge = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.ACCEPTABLE_AGE);
         loginRegex = propertyService.getStringPropertyByCode(PropertyService.PropertyCode.LOGIN_REGEX);
-         passwordRegex = propertyService.getStringPropertyByCode(PropertyService.PropertyCode.PASSWORD_REGEX);
+        passwordRegex = propertyService.getStringPropertyByCode(PropertyService.PropertyCode.PASSWORD_REGEX);
 
     }
 
@@ -102,13 +102,13 @@ public class UserValidationServiceImpl implements UserValidationService {
         } else if(StringUtils.isEmpty(userLoginDto.getName())){
             throw new MessageException("empty user name!");
 
-        } else if(StringUtils.isEmpty(userLoginDto.getPassword())){
+        } else /*if(StringUtils.isEmpty(userLoginDto.getPassword())){
             throw new MessageException("empty password !");
 
         } else if(!userLoginDto.getPassword().matches(passwordRegex)){
             throw new MessageException("incorrect password!");
 
-        } else if(userLoginDto.getBirthDay() == null){
+        } else*/ if(userLoginDto.getBirthDay() == null){
             throw new MessageException("empty birthday!");
 
         } else if(LocalDate.now().minusYears(acceptableAge).isBefore(userLoginDto.getBirthDay())){
