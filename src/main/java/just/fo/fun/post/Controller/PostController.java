@@ -42,7 +42,7 @@ public class PostController {
         return new ResponseEntity<>(myPosts, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "To get my assessments.", notes = "isUpVote is true or false.")
+    @ApiOperation(value = "To get my assessments.")
     @GetMapping("/my-assessments/{isUpVote}")
     public ResponseEntity myPosts(@PathVariable Boolean isUpVote, Pageable request) {
         Page<PostDto> myPosts = postService.findMyAssessments(isUpVote, request);

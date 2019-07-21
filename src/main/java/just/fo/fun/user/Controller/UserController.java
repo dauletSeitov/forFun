@@ -1,5 +1,6 @@
 package just.fo.fun.user.Controller;
 
+import io.swagger.annotations.ApiOperation;
 import just.fo.fun.user.service.UserValidationService;
 import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
@@ -32,6 +33,7 @@ public class UserController {
 
 
     @GetMapping("/current/user-data")
+    @ApiOperation(value = "to get current current user data.")
     public ResponseEntity getCurrentUserData() {
 
         CurrentUserDto currentUserData = userService.getCurrentUserData();
@@ -42,6 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
+    @ApiOperation(value = "sign up new user.")
     public ResponseEntity createUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
         userValidationService.validateCreate(userLoginDto);
@@ -60,14 +63,17 @@ public class UserController {
     @PutMapping
     public ResponseEntity updateUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
-        if (userLoginDto.getId() == null)
-            throw new MessageException("id must not be empty !");
-        User user = new User();
-        BeanUtils.copyProperties(userLoginDto, user);
-        User resultUser = userService.save(user);
-        return resultUser == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(resultUser, HttpStatus.OK);
+        userValidationService.validateUpdate(userLoginDto);
+
+        try {
+            userService.save(userLoginDto);
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+            throw new MessageException("could not save the user!");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
 
     }
 

@@ -105,6 +105,8 @@ public class UserService {
         user.setName(userLoginDto.getName());
         user.setPassword(userLoginDto.getPassword());
         user.setPhotoUrl(userLoginDto.getPhotoUrl());
+        user.setEmail(userLoginDto.getEmail());
+        user.setPhone(userLoginDto.getPhone());
         return user;
 
     }

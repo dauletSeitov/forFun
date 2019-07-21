@@ -22,4 +22,8 @@ public class UserLoginDto {
 
     private String photoUrl;
 
+    private String email;
+
+    private String phone;
+
 }

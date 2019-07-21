@@ -5,4 +5,6 @@ import just.fo.fun.user.model.UserLoginDto;
 public interface UserValidationService {
 
     void validateCreate(UserLoginDto userLoginDto);
+
+    void validateUpdate(UserLoginDto userLoginDto);
 }

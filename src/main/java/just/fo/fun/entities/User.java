@@ -24,6 +24,10 @@ public class User extends SuperEntity{
 
     private String photoUrl;
 
+    private String email;
+
+    private String phone;
+
     @Column
     @UpdateTimestamp
     private LocalDateTime updated;
