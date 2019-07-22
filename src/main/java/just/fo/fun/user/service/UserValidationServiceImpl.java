@@ -143,6 +143,12 @@ public class UserValidationServiceImpl implements UserValidationService {
             throw new MessageException("new password can not be empty!");
         } else if (StringUtils.isEmpty(userChangePasswordDto.getOldPassword())){
             throw new MessageException("old password can not be empty!");
+        } else if (userChangePasswordDto.getOldPassword().equals(userChangePasswordDto.getNewPassword())){
+            throw new MessageException("old and new password are the same!");
+
+        } else if(!userChangePasswordDto.getNewPassword().matches(passwordRegex)){
+            throw new MessageException("incorrect password format!");
+
         }
 
 

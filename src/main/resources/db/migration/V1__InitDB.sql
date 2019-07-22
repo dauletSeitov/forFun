@@ -4,14 +4,16 @@ create table "user"
     id         bigint       not null
         constraint user_pkey
             primary key,
-    is_deleted boolean default false,
+    is_deleted boolean      default  false,
     login      varchar(255) not null unique,
     name       varchar(255) not null,
     password   varchar(255) not null,
     updated    timestamp,
     photo_url  varchar(255),
-    email  varchar(64),
-    phone  varchar(15)
+    email      varchar(64),
+    phone      varchar(15),
+    incorrect_attempt       integer  default 0,
+    locked_time             timestamp
 );
 
 create table category

@@ -36,8 +36,8 @@ public class AuthValidationServiceImpl implements AuthValidationService {
         LocalDateTime localDateTime = LocalDateTime.now().minusMinutes(30L); //TODO put 30 to property
 
         if(user.getLockedTime() != null && localDateTime.isBefore(user.getLockedTime())){
-            log.debug("user {} still locked to {}", user.getName(), user.getLockedTime().getMinute() - localDateTime.getMinute());
-            throw new MessageException("user still locked to"  +  (user.getLockedTime().getMinute() - localDateTime.getMinute()));
+            log.debug("user {} still locked to {}", user.getName(), user.getLockedTime().getMinute() + 30);
+            throw new MessageException("user still locked to "  +  (user.getLockedTime().getMinute() + 30));
         } else {
             user.setLockedTime(null);
             userService.save(user);
@@ -50,7 +50,7 @@ public class AuthValidationServiceImpl implements AuthValidationService {
 
             log.debug("3 times incorrect attempt user is locked");
 
-            throw new MessageException("user is locked!");
+            throw new MessageException("user is locked!"); //TODO return time
         }
 
         if(user.getPassword().equals(authDto.getPassword())) {

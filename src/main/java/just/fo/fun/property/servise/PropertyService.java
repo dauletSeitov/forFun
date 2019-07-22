@@ -43,7 +43,9 @@ public class PropertyService {
         HOT_PAGE_DAYS,
         LOGIN_REGEX,
         PASSWORD_REGEX,
-        ACCEPTABLE_AGE
+        ACCEPTABLE_AGE,
+        USER_LOCK_TIME,
+        USER_INCORRECT_ATTEMPT
     }
 
 }
