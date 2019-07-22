@@ -59,7 +59,8 @@ INSERT INTO property (id, is_deleted, code, name, value) VALUES (2, false, 'HOT_
 INSERT INTO property (id, is_deleted, code, name, value) VALUES (3, false, 'ACCEPTABLE_AGE', 'acceptable age to registration', '14');
 INSERT INTO property (id, is_deleted, code, name, value) VALUES (4, false, 'LOGIN_REGEX', 'regex for validation login', '[0-9a-zA-Z]*');
 INSERT INTO property (id, is_deleted, code, name, value) VALUES (5, false, 'PASSWORD_REGEX', 'regex for validation password', '^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$');
-
+INSERT INTO property (id, is_deleted, code, name, value) VALUES (6, false, 'USER_LOCK_TIME', 'user lock time', '5');
+INSERT INTO property (id, is_deleted, code, name, value) VALUES (7, false, 'USER_INCORRECT_ATTEMPT', 'user incorrect attempt count', '3');
 
 
 INSERT INTO user_post_vote_history (id, is_deleted, is_down_voted, is_up_voted, post_id, user_id) VALUES (1, false, false, true, 1, 1);

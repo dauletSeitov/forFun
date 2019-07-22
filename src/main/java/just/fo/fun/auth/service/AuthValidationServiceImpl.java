@@ -78,7 +78,7 @@ public class AuthValidationServiceImpl implements AuthValidationService {
             user.setIncorrectAttempt(user.getIncorrectAttempt() + 1);
             userService.save(user);
 
-            log.debug("user not found for login: " + authDto.getLogin());
+            log.debug("incorrect login or password!");
             throw new MessageException("incorrect login or password!");
 
         }
