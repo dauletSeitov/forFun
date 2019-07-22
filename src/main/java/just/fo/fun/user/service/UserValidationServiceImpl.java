@@ -4,6 +4,7 @@ import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.model.UserLoginDto;
+import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,6 +20,9 @@ public class UserValidationServiceImpl implements UserValidationService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RequestUtils requestUtils;
 
     private Long acceptableAge;
     private String loginRegex;
@@ -92,6 +96,9 @@ public class UserValidationServiceImpl implements UserValidationService {
 
         } else if(userLoginDto.getId() == null){
             throw new MessageException("incorrect identifier!");
+
+        } else if(!userLoginDto.getId().equals(requestUtils.getUser().getId())){
+            throw new MessageException("you can not change other users parameters!");
 
         } else if(StringUtils.isEmpty(userLoginDto.getLogin())){
             throw new MessageException("empty login!");

@@ -59,6 +59,7 @@ public class UserController {
     }
 
     @PutMapping
+    @ApiOperation(value = "updates user info.")
     public ResponseEntity updateUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
         userValidationService.validateUpdate(userLoginDto);

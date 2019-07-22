@@ -112,19 +112,19 @@ public class UserService {
         }
 
         if (inputUser.getName() != null){
-            userToUpdate.setLogin(inputUser.getName());
+            userToUpdate.setName(inputUser.getName());
         }
 
         if (inputUser.getPhotoUrl() != null){
-            userToUpdate.setLogin(inputUser.getPhotoUrl());
+            userToUpdate.setPhotoUrl(inputUser.getPhotoUrl());
         }
 
         if (inputUser.getEmail() != null){
-            userToUpdate.setLogin(inputUser.getEmail());
+            userToUpdate.setEmail(inputUser.getEmail());
         }
 
         if (inputUser.getPhone() != null){
-            userToUpdate.setLogin(inputUser.getPhone());
+            userToUpdate.setPhone(inputUser.getPhone());
         }
 
 
