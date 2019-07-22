@@ -1,6 +1,7 @@
 package just.fo.fun.user.Controller;
 
 import io.swagger.annotations.ApiOperation;
+import just.fo.fun.user.model.UserChangePasswordDto;
 import just.fo.fun.user.service.UserValidationService;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.user.model.CurrentUserDto;
@@ -73,6 +74,18 @@ public class UserController {
 
         return new ResponseEntity<>(HttpStatus.OK);
 
+
+    }
+
+    @PostMapping("current/user-change-password")
+    @ApiOperation(value = "to change password.")
+    public ResponseEntity changeUserPassword(@Valid @RequestBody final UserChangePasswordDto userChangePasswordDto) {
+
+        userValidationService.validateChangePassword(userChangePasswordDto);
+
+        userService.changePassword(userChangePasswordDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 

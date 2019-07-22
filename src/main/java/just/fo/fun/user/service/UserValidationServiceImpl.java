@@ -3,6 +3,7 @@ package just.fo.fun.user.service;
 import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.property.servise.PropertyService;
+import just.fo.fun.user.model.UserChangePasswordDto;
 import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +133,18 @@ public class UserValidationServiceImpl implements UserValidationService {
         } if(StringUtils.isEmpty(userLoginDto.getEmail()) && StringUtils.isEmpty(userLoginDto.getPhone())){
             throw new MessageException("phone or email cannot be empty!");
         }
+
+    }
+
+    @Override
+    public void validateChangePassword(UserChangePasswordDto userChangePasswordDto) {
+
+        if (StringUtils.isEmpty(userChangePasswordDto.getNewPassword())){
+            throw new MessageException("new password can not be empty!");
+        } else if (StringUtils.isEmpty(userChangePasswordDto.getOldPassword())){
+            throw new MessageException("old password can not be empty!");
+        }
+
 
     }
 

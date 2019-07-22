@@ -28,6 +28,10 @@ public class User extends SuperEntity{
 
     private String phone;
 
+    private Integer incorrectAttempt;
+
+    private LocalDateTime lockedTime;
+
     @Column
     @UpdateTimestamp
     private LocalDateTime updated;

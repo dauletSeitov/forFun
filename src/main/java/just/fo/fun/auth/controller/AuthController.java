@@ -3,6 +3,7 @@ package just.fo.fun.auth.controller;
 import just.fo.fun.auth.model.AuthDto;
 import just.fo.fun.auth.model.UserType;
 import just.fo.fun.auth.service.AuthService;
+import just.fo.fun.auth.service.AuthValidationService;
 import just.fo.fun.entities.User;
 import just.fo.fun.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,21 +29,15 @@ public class AuthController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AuthValidationService authValidationService;
+
     @PostMapping("/login")
     public ResponseEntity auth(@RequestBody AuthDto authDto){
 
-        if(StringUtils.isEmpty(authDto.getLogin()) || StringUtils.isEmpty(authDto.getPassword())) {
-            log.debug("login or password can not be empty!" + authDto);
-            return new ResponseEntity<>(Collections.singletonMap(MESSAGE, "incorrect login or password!"), HttpStatus.NOT_FOUND);
-        }
+        authValidationService.validateAuth(authDto);
 
         User user = userService.findOneEntityByLogin(authDto.getLogin());
-
-        if(user == null || !user.getPassword().equals(authDto.getPassword())) {
-            log.debug("user not found for login: " + authDto.getLogin());
-            return new ResponseEntity<>(Collections.singletonMap(MESSAGE, "incorrect login or password!"), HttpStatus.NOT_FOUND);
-        }
-
 
         String token = authService.generateToken(user.getId(), UserType.User, user.getLogin());
 

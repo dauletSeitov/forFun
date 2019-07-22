@@ -1,12 +1,14 @@
 package just.fo.fun.user.service;
 
 import just.fo.fun.commentary.userCommentaryVoteHistory.UserCommentaryVoteHistoryRepository;
+import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.entities.User;
 import just.fo.fun.post.model.ResultHolderTwoLong;
 import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.user.model.CurrentUserDto;
+import just.fo.fun.user.model.UserChangePasswordDto;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.repository.UserRepository;
@@ -141,6 +143,19 @@ public class UserService {
         user.setEmail(userLoginDto.getEmail());
         user.setPhone(userLoginDto.getPhone());
         return user;
+
+    }
+
+    public void changePassword(UserChangePasswordDto userChangePasswordDto) {
+
+        User user = requestUtils.getUser();
+
+        if (user.getPassword().equals(userChangePasswordDto.getOldPassword())){
+            user.setPassword(userChangePasswordDto.getNewPassword());
+            userRepository.save(user);
+        } else {
+            throw new MessageException("incorrect password!");
+        }
 
     }
 }
