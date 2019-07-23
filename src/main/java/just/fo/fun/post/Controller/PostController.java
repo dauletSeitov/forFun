@@ -25,10 +25,12 @@ public class PostController {
     private PostService postService;
 
     @GetMapping
-    public ResponseEntity getPostByCategory(@RequestParam PageType pageType,  Pageable request) {
+    public ResponseEntity getPostByPageType(@RequestParam PageType pageType,  Pageable request) {//TODO add search
         Page<PostDto> posts = postService.findByPageType(pageType, request);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
+
+    //TODO add getPostByCategory
 
     @GetMapping("/{id}")
     public ResponseEntity getOnePost(@PathVariable final Long id) {
@@ -36,21 +38,21 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping("/my-posts")
+    @GetMapping("/my-posts")//TODO add search
     public ResponseEntity myPosts(Pageable request) {
         Page<PostDto> myPosts = postService.findMyPosts(request);
         return new ResponseEntity<>(myPosts, HttpStatus.OK);
     }
 
     @ApiOperation(value = "To get my assessments.")
-    @GetMapping("/my-assessments/{isUpVote}")
+    @GetMapping("/my-assessments/{isUpVote}")//TODO add search
     public ResponseEntity myPosts(@PathVariable Boolean isUpVote, Pageable request) {
         Page<PostDto> myPosts = postService.findMyAssessments(isUpVote, request);
         return new ResponseEntity<>(myPosts, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity insertPost(@Valid @RequestBody final PostDto postDto) {
+    public ResponseEntity createPost(@Valid @RequestBody final PostDto postDto) {
 
         if (postDto.getId() != null)
             throw new MessageException("id must be empty !");
