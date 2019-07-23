@@ -1,10 +1,10 @@
 package just.fo.fun.post.Controller;
 
 import io.swagger.annotations.ApiOperation;
-import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.model.enums.PageType;
 import just.fo.fun.post.service.PostService;
+import just.fo.fun.post.service.PostValidationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,12 +23,17 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private PostValidationService postValidationService;
+
+    @ApiOperation(value = "returns post by parameter pageType where pageType is [HOT, FRESH, TRENDING].")
     @GetMapping
     public ResponseEntity getPostByPageType(@RequestParam PageType pageType, Pageable request) {
         Page<PostDto> posts = postService.findByPageType(pageType, request);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "searches posts byt param searchText in title.")
     @GetMapping("/search/{searchText}")
     public ResponseEntity findPost(@PathVariable String searchText, Pageable request) {
         Page<PostDto> posts = postService.findPostBySearchText(searchText, request);
@@ -37,37 +42,35 @@ public class PostController {
 
     //TODO add getPostByCategory
 
+    @ApiOperation(value = "returns one post.")
     @GetMapping("/{id}")
     public ResponseEntity getOnePost(@PathVariable final Long id) {
         final PostDto post = postService.findOne(id);
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "searches my posts byt param searchText in title.")
     @GetMapping("/my-posts/{searchText}")
     public ResponseEntity myPosts(Pageable request, @PathVariable String searchText) {
         Page<PostDto> myPosts = postService.findMyPosts(searchText, request);
         return new ResponseEntity<>(myPosts, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "To get my assessments.")
+    @ApiOperation(value = "returns my assessments.")
     @GetMapping("/my-assessments/{isUpVote}")
     public ResponseEntity myPosts(@PathVariable Boolean isUpVote, Pageable request) {
         Page<PostDto> myPosts = postService.findMyAssessments(isUpVote, request);
         return new ResponseEntity<>(myPosts, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "creates new post.")
     @PostMapping
     public ResponseEntity createPost(@RequestBody final PostDto postDto) {
 
-        if (postDto.getId() != null)
-            throw new MessageException("id must be empty !");
+        postValidationService.validateCreate(postDto);
 
-        try {
-            postService.save(postDto);
-        }catch (Exception e){
-            log.error("error while post", e);
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        postService.save(postDto);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 //not supported
@@ -85,6 +88,7 @@ public class PostController {
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 
+    @ApiOperation(value = "deletes post by id.")
     @DeleteMapping("/{id}")
     public ResponseEntity delete (@PathVariable final Long id) {
         postService.delete(id);
@@ -92,6 +96,7 @@ public class PostController {
 
     }
 
+    @ApiOperation(value = "changes status by postId.")
     @PostMapping("/change-rating")
     public ResponseEntity changeRatingPost(@NotNull final Long postId, @NotNull final Boolean isUpVote) {
 

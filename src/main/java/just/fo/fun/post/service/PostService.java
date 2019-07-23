@@ -1,9 +1,10 @@
 package just.fo.fun.post.service;
 
+import just.fo.fun.category.repository.CategoryRepository;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.common.vote.VoteService;
+import just.fo.fun.entities.Category;
 import just.fo.fun.entities.Post;
-import just.fo.fun.entities.User;
 import just.fo.fun.entities.UserPostVoteHistory;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
@@ -34,9 +35,6 @@ public class PostService {
     private PostRepository postRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private RequestUtils requestUtils;
 
     @Autowired
@@ -50,6 +48,9 @@ public class PostService {
 
     @Autowired
     private UserPostVoteHistoryRepository userPostVoteHistoryRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     private Long hotPageLevel;
 
@@ -89,6 +90,7 @@ public class PostService {
     }
 
     public Post save(PostDto postDto){
+        postDto.setRating(0L);
         return postRepository.save(postDtoToPost(postDto));
     }
 
@@ -134,19 +136,22 @@ public class PostService {
 
     //-------------------CONVERTER----------------------------
     public Post postDtoToPost(PostDto postDto) {
+
         final Post post = new Post();
         post.setTitle(postDto.getTitle());
         post.setImageUrl(postDto.getImageUrl());
-        //post.setCategory(postDto.getCategory());
+        post.setRating(postDto.getRating());
 
-        final User user = userRepository.findOne(postDto.getUser().getId());
-        post.setUser(user);
+        Category category = categoryRepository.findOneNotDeletedByName(postDto.getCategory());
+        post.setCategory(category);
+
+        post.setUser(requestUtils.getUser());
+
         return post;
     }
 
 
     public PostDto postDtoToPost(Post post) {
-
 
         Long commentaryCount = commentaryRepository.getCommentaryCountByPostId(post.getId());
         UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findByUserAndPost(requestUtils.getUser().getId(), post.getId());

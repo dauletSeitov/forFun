@@ -10,6 +10,9 @@ create category, delete category
 delete post
 delete comment
 delete account
+add unique to category, user login
+add condition in repositories
+add validation service to post, commentary
 
 
 pwd encrypt
