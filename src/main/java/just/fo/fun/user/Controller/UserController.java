@@ -1,14 +1,14 @@
 package just.fo.fun.user.Controller;
 
-import just.fo.fun.entities.User;
+import io.swagger.annotations.ApiOperation;
+import just.fo.fun.user.model.UserChangePasswordDto;
+import just.fo.fun.user.service.UserValidationService;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.user.model.CurrentUserDto;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.service.UserService;
-import just.fo.fun.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +27,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserValidationService userValidationService;
+
+
     @GetMapping("/current/user-data")
+    @ApiOperation(value = "to get current current user data.")
     public ResponseEntity getCurrentUserData() {
 
         CurrentUserDto currentUserData = userService.getCurrentUserData();
@@ -37,37 +42,50 @@ public class UserController {
 
     }
 
-    @PostMapping
-    public ResponseEntity insertUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
+    @PostMapping("/sign-up")
+    @ApiOperation(value = "sign up new user.")
+    public ResponseEntity createUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
-        if (userLoginDto.getId() != null)
-            throw new MessageException("id must be empty !");
+        userValidationService.validateCreate(userLoginDto);
 
-        User user = new User();
-        Utils.copyProperties(userLoginDto, user);
-        User resultUser = null;
         try {
-            resultUser = userService.save(user);
+            userService.save(userLoginDto);
         }catch (Exception e){
-            throw new MessageException("ffffffff" + e.getMessage());
+            log.error(e.getMessage(), e);
+            throw new MessageException("could not create the user!");
         }
-        return resultUser == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(Utils.copyProperties(resultUser, new UserLoginDto()), HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
     @PutMapping
+    @ApiOperation(value = "updates user info.")
     public ResponseEntity updateUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
-        if (userLoginDto.getId() == null)
-            throw new MessageException("id must not be empty !");
-        User user = new User();
-        BeanUtils.copyProperties(userLoginDto, user);
-        User resultUser = userService.save(user);
-        return resultUser == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(resultUser, HttpStatus.OK);
+        userValidationService.validateUpdate(userLoginDto);
+
+        try {
+            userService.update(userLoginDto);
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+            throw new MessageException("could not create the user!");
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+
+
+    }
+
+    @PostMapping("current/user-change-password")
+    @ApiOperation(value = "to change password.")
+    public ResponseEntity changeUserPassword(@Valid @RequestBody final UserChangePasswordDto userChangePasswordDto) {
+
+        userValidationService.validateChangePassword(userChangePasswordDto);
+
+        userService.changePassword(userChangePasswordDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
 
     }
 

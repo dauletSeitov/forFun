@@ -17,10 +17,10 @@ import java.util.List;
 public class CategoryController {
 
     @Autowired
-    private CategoryService categoryService; /// servics koi mynai degengit
+    private CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity insertCategory(@Valid @RequestBody final Category category) {
+    public ResponseEntity createCategory(@Valid @RequestBody final Category category) {
 
         if (category.getId() != null)
             throw new MessageException("id must be empty !");
@@ -29,7 +29,7 @@ public class CategoryController {
         try {
             result = categoryService.save(category);
         }catch (Exception e){
-            throw new MessageException("can not save category" + e.getMessage());
+            throw new MessageException("can not create category" + e.getMessage());
         }
         return result == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
