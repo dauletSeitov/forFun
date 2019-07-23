@@ -1,15 +1,15 @@
 
 
-INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url) VALUES (1, false, 'dominator', 'dominator', 'dominator', '2019-06-19 14:29:53.301000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (2, false, 'daulet', 'daulet', 'daulet', '2019-06-19 14:29:53.309000');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (3, false, 'john', 'john', 'john', '2019-06-19 14:29:53.311000');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (4, false, 'r2d2', 'r2d2', 'r2d2', '2019-06-19 14:29:53.313000');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (5, false, 'vader', 'vader', 'vader', '2019-06-19 14:29:53.315000');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (6, false, 'jar jar binks', 'jar jar binks', 'jar jar binks', '2019-06-19 14:29:53.317000');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (7, false, 'Zuckuss', 'Zuckuss', 'Zuckuss', '2019-06-19 14:29:53.319000');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (8, false, 'Skywalker', 'Skywalker', 'Skywalker', '2019-06-19 14:29:53.321000');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (9, false, 'Chewbacca', 'Chewbacca', 'Chewbacca', '2019-06-19 14:29:53.323000');
-INSERT INTO "user" (id, is_deleted, login, name, password, updated) VALUES (10, false, 'Bane', 'Bane', 'Bane', '2019-06-19 14:29:53.325000');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (1, false, 'dominator', 'dominator', 'dominator', '2019-06-19 14:29:53.301000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (2, false, 'daulet', 'daulet', 'daulet', '2019-06-19 14:29:53.309000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (3, false, 'john', 'john', 'john', '2019-06-19 14:29:53.311000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (4, false, 'r2d2', 'r2d2', 'r2d2', '2019-06-19 14:29:53.313000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (5, false, 'vader', 'vader', 'vader', '2019-06-19 14:29:53.315000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (6, false, 'jar jar binks', 'jar jar binks', 'jar jar binks', '2019-06-19 14:29:53.317000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (7, false, 'Zuckuss', 'Zuckuss', 'Zuckuss', '2019-06-19 14:29:53.319000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (8, false, 'Skywalker', 'Skywalker', 'Skywalker', '2019-06-19 14:29:53.321000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (9, false, 'Chewbacca', 'Chewbacca', 'Chewbacca', '2019-06-19 14:29:53.323000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
+INSERT INTO "user" (id, is_deleted, login, name, password, updated, photo_url, state) VALUES (10, false, 'Bane', 'Bane', 'Bane', '2019-06-19 14:29:53.325000', 'https://gaming-fans.com/wp-content/uploads/2019/02/grievous_800-777x437.jpg', 'ACTIVE');
 
 
 

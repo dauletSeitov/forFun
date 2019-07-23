@@ -1,5 +1,6 @@
 package just.fo.fun.entities;
 
+import just.fo.fun.user.model.UserState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,9 @@ public class User extends SuperEntity{
     private String email;
 
     private String phone;
+
+    @Enumerated(EnumType.STRING)
+    private UserState state;
 
     private Integer incorrectAttempt;
 

@@ -1,5 +1,6 @@
 package just.fo.fun.entities;
 
+import just.fo.fun.property.servise.PropertyService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Property extends SuperEntity{
 
-    private String code;
+    @Enumerated(EnumType.STRING)
+    private PropertyService.PropertyCode code;
     private String name;
     private String value;
 

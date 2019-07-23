@@ -5,6 +5,7 @@ import just.fo.fun.exception.MessageException;
 import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.model.UserChangePasswordDto;
 import just.fo.fun.user.model.UserLoginDto;
+import just.fo.fun.user.model.UserState;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,47 +45,56 @@ public class UserValidationServiceImpl implements UserValidationService {
 
         if(userLoginDto == null){
             throw new MessageException("model not found!");
+        }
 
-        } else if(userLoginDto.getId() != null){
+        if(userLoginDto.getId() != null){
             throw new MessageException("this person already exists!");
+        }
 
-        } else if(StringUtils.isEmpty(userLoginDto.getLogin())){
+        if(StringUtils.isEmpty(userLoginDto.getLogin())){
             throw new MessageException("empty login!");
+        }
 
-        } else if(!userLoginDto.getLogin().matches(loginRegex)){
+        if(!userLoginDto.getLogin().matches(loginRegex)){
             throw new MessageException("incorrect login!");
+        }
 
-        } else if(StringUtils.isEmpty(userLoginDto.getName())){
+        if(StringUtils.isEmpty(userLoginDto.getName())){
             throw new MessageException("empty user name!");
+        }
 
-        } else if(StringUtils.isEmpty(userLoginDto.getPassword())){
+        if(StringUtils.isEmpty(userLoginDto.getPassword())){
             throw new MessageException("empty password !");
+        }
 
-        } else if(!userLoginDto.getPassword().matches(passwordRegex)){
+        if(!userLoginDto.getPassword().matches(passwordRegex)){
             throw new MessageException("incorrect password!");
+        }
 
-        } else if(userLoginDto.getBirthDay() == null){
+        if(userLoginDto.getBirthDay() == null){
             throw new MessageException("empty birthday!");
+        }
 
-        } else if(LocalDate.now().minusYears(acceptableAge).isBefore(userLoginDto.getBirthDay())){
+        if(LocalDate.now().minusYears(acceptableAge).isBefore(userLoginDto.getBirthDay())){
             throw new MessageException("you are to young to this site!");
+        }
 
-        } else if(StringUtils.isEmpty(userLoginDto.getEmail()) && !StringUtils.isEmpty(userLoginDto.getPhone())){
+        if(StringUtils.isEmpty(userLoginDto.getEmail()) && !StringUtils.isEmpty(userLoginDto.getPhone())){
             if (!userLoginDto.getPhone().matches("[0-9]*") || userLoginDto.getPhone().length() != 10){
                 throw new MessageException("incorrect phone!");
             }
-        } if(!StringUtils.isEmpty(userLoginDto.getEmail()) && StringUtils.isEmpty(userLoginDto.getPhone())){
+        } else if(!StringUtils.isEmpty(userLoginDto.getEmail()) && StringUtils.isEmpty(userLoginDto.getPhone())){
             if (!isValidEmail(userLoginDto.getEmail())){
                 throw new MessageException("incorrect email!");
             }
-        } if(StringUtils.isEmpty(userLoginDto.getEmail()) && StringUtils.isEmpty(userLoginDto.getPhone())){
+        } else if(StringUtils.isEmpty(userLoginDto.getEmail()) && StringUtils.isEmpty(userLoginDto.getPhone())){
             throw new MessageException("phone or email cannot be empty!");
         }
 
         User user = userService.findOneEntityByLogin(userLoginDto.getLogin());
 
-        if (user != null){
-            throw new MessageException("you already registered!");
+        if (user != null && UserState.ACTIVE.equals(user.getState())){
+            throw new MessageException("you already have active account!");
         }
 
     }

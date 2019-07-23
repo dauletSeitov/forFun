@@ -17,7 +17,7 @@ public class PropertyService {
 
     public Long getLongPropertyByCode(PropertyCode code) {
 
-        String value = propertyRepository.getPropertyByCode(code.name()).getValue();
+        String value = propertyRepository.getPropertyByCode(code).getValue();
 
         try {
             return Long.valueOf(value);
@@ -30,11 +30,11 @@ public class PropertyService {
 
 
     public String getStringPropertyByCode(PropertyCode code) {
-        return  propertyRepository.getPropertyByCode(code.name()).getValue();
+        return  propertyRepository.getPropertyByCode(code).getValue();
     }
 
     public Property getPropertyByCode(PropertyCode code) {
-        return propertyRepository.getPropertyByCode(code.name());
+        return propertyRepository.getPropertyByCode(code);
     }
 
     public enum PropertyCode{

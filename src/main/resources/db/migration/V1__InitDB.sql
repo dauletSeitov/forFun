@@ -12,6 +12,7 @@ create table "user"
     photo_url  varchar(255),
     email      varchar(64),
     phone      varchar(15),
+    state      varchar(30)  not null,
     incorrect_attempt       integer  default 0,
     locked_time             timestamp
 );

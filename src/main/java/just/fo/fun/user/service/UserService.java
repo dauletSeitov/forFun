@@ -8,10 +8,7 @@ import just.fo.fun.entities.User;
 import just.fo.fun.post.model.ResultHolderTwoLong;
 import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.property.servise.PropertyService;
-import just.fo.fun.user.model.CurrentUserDto;
-import just.fo.fun.user.model.UserChangePasswordDto;
-import just.fo.fun.user.model.UserDto;
-import just.fo.fun.user.model.UserLoginDto;
+import just.fo.fun.user.model.*;
 import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -115,6 +112,7 @@ public class UserService {
     }
 
     public User save(UserLoginDto userLoginDto) {
+        userLoginDto.setStatus(UserState.EXPECTED_CONFIRMATION);
         return userRepository.save(convertUserLoginDtoToUser(userLoginDto));
     }
 
