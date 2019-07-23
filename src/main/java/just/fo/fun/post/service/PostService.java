@@ -1,13 +1,17 @@
 package just.fo.fun.post.service;
 
+import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.common.vote.VoteService;
 import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
+import just.fo.fun.entities.UserPostVoteHistory;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.model.enums.PageType;
 import just.fo.fun.post.repository.PostRepository;
+import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
 import just.fo.fun.property.servise.PropertyService;
+import just.fo.fun.user.model.UserDto;
 import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +45,12 @@ public class PostService {
     @Autowired
     private PropertyService propertyService;
 
+    @Autowired
+    private CommentaryRepository commentaryRepository;
+
+    @Autowired
+    private UserPostVoteHistoryRepository userPostVoteHistoryRepository;
+
     private Long hotPageLevel;
 
     private Long hotPageDays;
@@ -71,11 +81,11 @@ public class PostService {
 
         }
 
-        return page.map(PostDto::new);
+        return page.map(this::postDtoToPost);
     }
 
     public PostDto findOne(Long id){
-        return new PostDto(postRepository.findOne(id));
+        return postDtoToPost(postRepository.findOne(id));
     }
 
     public Post save(PostDto postDto){
@@ -105,20 +115,20 @@ public class PostService {
 
 
     public Page<PostDto> findMyPosts(String searchText, Pageable request) {
-        return postRepository.findPostByUserId(requestUtils.getUser().getId(), searchText, request).map(PostDto::new);
+        return postRepository.findPostByUserId(requestUtils.getUser().getId(), searchText, request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findPostFromCommentaryByUserId(Pageable request) {
-        return postRepository.findPostFromCommentaryByUserId(requestUtils.getUser().getId(), request).map(PostDto::new);
+        return postRepository.findPostFromCommentaryByUserId(requestUtils.getUser().getId(), request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findMyAssessments(Boolean isUpVote, Pageable request) {
         Objects.requireNonNull(isUpVote, "required param isUpVote");
-        return postRepository.findMyAssessments(isUpVote,requestUtils.getUser().getId(), request).map(PostDto::new);
+        return postRepository.findMyAssessments(isUpVote,requestUtils.getUser().getId(), request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findPostBySearchText(String searchText, Pageable request) {
-        return postRepository.findPostBySearchText(searchText, request).map(PostDto::new);
+        return postRepository.findPostBySearchText(searchText, request).map(this::postDtoToPost);
     }
 
 
@@ -135,6 +145,24 @@ public class PostService {
     }
 
 
+    public PostDto postDtoToPost(Post post) {
 
+
+        Long commentaryCount = commentaryRepository.getCommentaryCountByPostId(post.getId());
+        UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findByUserAndPost(requestUtils.getUser().getId(), post.getId());
+
+        PostDto postDto = new PostDto();
+
+        postDto.setId(post.getId());
+        postDto.setTitle(post.getTitle());
+        postDto.setImageUrl(post.getImageUrl());
+        postDto.setUpdated(post.getUpdated());
+        postDto.setCategory(post.getCategory().getName());
+        postDto.setRating(post.getRating());
+        postDto.setUser(new UserDto(post.getUser()));
+        postDto.setIsUpVoted(userPostVoteHistory != null && userPostVoteHistory.getIsUpVoted() != null && userPostVoteHistory.getIsUpVoted());
+        postDto.setCommentCount(commentaryCount);
+        return postDto;
+    }
     //-------------------CONVERTER----------------------------
 }

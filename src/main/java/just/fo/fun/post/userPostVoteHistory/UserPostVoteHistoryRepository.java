@@ -11,12 +11,20 @@ import org.springframework.stereotype.Repository;
 public interface UserPostVoteHistoryRepository extends JpaRepository<UserPostVoteHistory, Long> {
 
 
-    @Query("select UP from UserPostVoteHistory UP where UP.isDeleted = false and UP.post.id = :postId and UP.user.id = :userId")
+    @Query("select UP from UserPostVoteHistory UP " +
+            "where UP.isDeleted = false " +
+            "and UP.post.isDeleted = false " +
+            "and UP.user.isDeleted = false " +
+            "and UP.post.id = :postId " +
+            "and UP.user.id = :userId")
     UserPostVoteHistory findByUserAndPost(@Param("userId") Long userId, @Param("postId") Long postId);
 
     @Query("select new just.fo.fun.post.model.ResultHolderTwoLong(count(CASE WHEN UP.isUpVoted = true THEN 1 END), count(CASE WHEN UP.isDownVoted = true THEN 1 END)) " +
             "from UserPostVoteHistory UP " +
             "where UP.isDeleted = false " +
+            "and UP.post.isDeleted = false " +
+            "and UP.user.isDeleted = false " +
             "and UP.user.id = :id ")
     ResultHolderTwoLong getAggregatedDataByUser(@Param("id") Long userId);
+
 }

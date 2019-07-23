@@ -1,15 +1,18 @@
 1) swagger url: http://localhost:8080/api/swagger-ui.html
 
+-- change pwd
+-- add localhost:8080/api/post/1    comment count, and sign is up vote
 
-1) confirm registration
---2) change pwd
-3) create post
-4) create comment
-5) email, phone service, push
-6) create category, delete category
-7) logout
-8) delete post
-9) delete comment
-10) delete account
-11) pwd encrypt
-12) getPostByCategory
+getPostByCategory
+create post
+create comment
+create category, delete category
+delete post
+delete comment
+delete account
+
+
+pwd encrypt
+logout
+email, phone service, push
+confirm registration

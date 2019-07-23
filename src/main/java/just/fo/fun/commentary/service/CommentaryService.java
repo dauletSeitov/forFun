@@ -43,8 +43,6 @@ public class CommentaryService {
         return commentaryRepository.save(commentaryDtoToCommentary(commentaryDto));
     }
 
-
-
     public Commentary findOne(Long id){
         return commentaryRepository.findOne(id);
     }
@@ -111,4 +109,7 @@ public class CommentaryService {
         voteService.commentChangeRating(isUpVote, requestUtils.getUser(), commentId);
     }
 
+    public Long getCommentaryCountByPostId(Long postId) {
+        return commentaryRepository.getCommentaryCountByPostId(postId);
+    }
 }

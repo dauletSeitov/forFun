@@ -1,6 +1,5 @@
 package just.fo.fun.post.model;
 
-import just.fo.fun.entities.Post;
 import just.fo.fun.user.model.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,14 +21,7 @@ public class PostDto {
     private LocalDateTime updated;
     private String category;
     private Long rating;
+    private Long commentCount;
+    private Boolean isUpVoted; // true - up voted. false - down voted. null did not do anything
 
-    public PostDto(Post post) {
-        this.id = post.getId();
-        this.title = post.getTitle();
-        this.imageUrl = post.getImageUrl();
-        this.updated = post.getUpdated();
-        this.category = post.getCategory().getName();
-        this.rating = post.getRating();
-        this.user = new UserDto(post.getUser());
-    }
 }

@@ -1,6 +1,5 @@
 package just.fo.fun.user.model;
 
-import just.fo.fun.property.servise.PropertyService;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
