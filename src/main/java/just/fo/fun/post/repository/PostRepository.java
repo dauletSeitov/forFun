@@ -36,6 +36,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "and (:isUpVote = true and U.isUpVoted = true or :isUpVote = false and U.isDownVoted = true)")
     Page<Post> findMyAssessments(@Param("isUpVote") Boolean isUpVote, @Param("userId") Long userId, Pageable request);
 
+    @Query("select P from Post P where P.isDeleted = false and P.title ilike '%' + :searchText + '%'")
+    Page<Post> findPostBySearchText(@Param("searchText") String searchText, Pageable request);
+
     @Query("update Post set isDeleted = true where id = :postId")
     void delete(@Param("postId") Long postId);
 }

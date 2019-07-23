@@ -25,8 +25,14 @@ public class PostController {
     private PostService postService;
 
     @GetMapping
-    public ResponseEntity getPostByPageType(@RequestParam PageType pageType,  Pageable request) {//TODO add search
+    public ResponseEntity getPostByPageType(@RequestParam PageType pageType, Pageable request) {
         Page<PostDto> posts = postService.findByPageType(pageType, request);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{searchText}")
+    public ResponseEntity findPost(@PathVariable String searchText, Pageable request) {
+        Page<PostDto> posts = postService.findPostBySearchText(searchText, request);
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
@@ -45,7 +51,7 @@ public class PostController {
     }
 
     @ApiOperation(value = "To get my assessments.")
-    @GetMapping("/my-assessments/{isUpVote}")//TODO add search
+    @GetMapping("/my-assessments/{isUpVote}")
     public ResponseEntity myPosts(@PathVariable Boolean isUpVote, Pageable request) {
         Page<PostDto> myPosts = postService.findMyAssessments(isUpVote, request);
         return new ResponseEntity<>(myPosts, HttpStatus.OK);

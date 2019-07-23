@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -40,6 +41,18 @@ public class PostService {
     @Autowired
     private PropertyService propertyService;
 
+    private Long hotPageLevel;
+
+    private Long hotPageDays;
+
+    @PostConstruct
+    private void init(){
+
+        hotPageLevel = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_LEVEL);
+        hotPageDays = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_DAYS);
+
+    }
+
     public Page<PostDto> findByPageType(PageType pageType, Pageable pageable) {
 
         Page<Post> page;
@@ -53,9 +66,6 @@ public class PostService {
                 page = postRepository.findAll(pageRequest);
                 break;
             default:
-
-                Long hotPageLevel = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_LEVEL);
-                Long hotPageDays = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_DAYS);
 
                 page = postRepository.findHot(hotPageLevel, LocalDateTime.now().minusDays(hotPageDays), pageable);
 
@@ -100,6 +110,10 @@ public class PostService {
         return postRepository.findMyAssessments(isUpVote,requestUtils.getUser().getId(), request).map(PostDto::new);
     }
 
+    public Page<PostDto> findPostBySearchText(String searchText, Pageable request) {
+        return postRepository.findPostBySearchText(searchText, request).map(PostDto::new);
+    }
+
 
     //-------------------CONVERTER----------------------------
     public Post postDtoToPost(PostDto postDto) {
@@ -112,7 +126,6 @@ public class PostService {
         post.setUser(user);
         return post;
     }
-
 
 
 
