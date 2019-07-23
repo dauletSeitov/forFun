@@ -52,7 +52,7 @@ public class UserController {
             userService.save(userLoginDto);
         }catch (Exception e){
             log.error(e.getMessage(), e);
-            throw new MessageException("could not save the user!");
+            throw new MessageException("could not create the user!");
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -69,7 +69,7 @@ public class UserController {
             userService.update(userLoginDto);
         }catch (Exception e){
             log.error(e.getMessage(), e);
-            throw new MessageException("could not save the user!");
+            throw new MessageException("could not create the user!");
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

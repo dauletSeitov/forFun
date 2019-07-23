@@ -1,6 +1,5 @@
 package just.fo.fun.commentary.service;
 
-import com.querydsl.sql.SQLQueryFactory;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.repository.CommentaryRepository;
 import just.fo.fun.common.vote.VoteService;
@@ -8,7 +7,6 @@ import just.fo.fun.entities.Commentary;
 import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
 import just.fo.fun.post.repository.PostRepository;
-import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
 import just.fo.fun.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +20,10 @@ import java.util.stream.Collectors;
 public class CommentaryService {
 
     @Autowired
-    private SQLQueryFactory queryFactory;
-
-    @Autowired
     private CommentaryRepository commentaryRepository;
 
     @Autowired
     private PostRepository postRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private RequestUtils requestUtils;
@@ -39,7 +31,8 @@ public class CommentaryService {
     @Autowired
     private VoteService voteService;
 
-    public Commentary save(CommentaryDto commentaryDto){
+    public Commentary create(CommentaryDto commentaryDto){
+        commentaryDto.setRating(0L);
         return commentaryRepository.save(commentaryDtoToCommentary(commentaryDto));
     }
 
@@ -55,12 +48,9 @@ public class CommentaryService {
         commentaryRepository.delete(id);
     }
 
-    public List<CommentaryDto> getAll(Long id){
+    public List<CommentaryDto> findAllByPostId(Long postId){
 
-        //QCommentary commentary = QCommentary.commentary;
-        //List<DBCommentary> fetch = queryFactory.select(commentary).from(commentary).fetch();
-
-        List<CommentaryDto> parentles = commentaryRepository.getAllByParentIsNullAndPostIdOrderByRatingDesc(id)
+        List<CommentaryDto> parentles = commentaryRepository.getAllByParentIsNullAndPostIdOrderByRatingDesc(postId)
                 .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());
 
         for (CommentaryDto commentaryDto : parentles) {
@@ -84,25 +74,6 @@ public class CommentaryService {
         }
 
     }
-    //converter
-    private Commentary commentaryDtoToCommentary(CommentaryDto commentaryDto) {
-
-        Commentary parentCommentary = commentaryRepository.findOne(commentaryDto.getParentId());
-        Post post = postRepository.findOne(commentaryDto.getPostId());
-        User user = userRepository.findOne(commentaryDto.getUserId());
-
-        Commentary commentary = new Commentary();
-        commentary.setImageUrl(commentaryDto.getImageUrl());
-        commentary.setParent(parentCommentary);
-        commentary.setPost(post);
-        commentary.setRating(0L);
-        commentary.setText(commentaryDto.getText());
-        commentary.setUser(user);
-
-        return commentary;
-    }
-    //converter
-
 
     public void changeRating(Long commentId, Boolean isUpVote) {
 
@@ -112,4 +83,29 @@ public class CommentaryService {
     public Long getCommentaryCountByPostId(Long postId) {
         return commentaryRepository.getCommentaryCountByPostId(postId);
     }
+
+    //converter
+    private Commentary commentaryDtoToCommentary(CommentaryDto commentaryDto) {
+
+        Commentary parentCommentary = null;
+
+        if(commentaryDto.getParentId() != null){
+            parentCommentary = commentaryRepository.findOne(commentaryDto.getParentId());
+        }
+
+        Post post = postRepository.findOne(commentaryDto.getPostId());
+        User user = requestUtils.getUser();
+
+        Commentary commentary = new Commentary();
+        commentary.setImageUrl(commentaryDto.getImageUrl());
+        commentary.setParent(parentCommentary);
+        commentary.setPost(post);
+        commentary.setRating(commentaryDto.getRating());
+        commentary.setText(commentaryDto.getText());
+        commentary.setUser(user);
+
+        return commentary;
+    }
+    //converter
+
 }

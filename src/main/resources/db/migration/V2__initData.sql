@@ -74,3 +74,4 @@ INSERT INTO user_commentary_vote_history (id, is_deleted, is_down_voted, is_up_v
 
 
 INSERT INTO hibernate_sequences (sequence_name, sequence_next_hi_value) VALUES ('post', 100);
+INSERT INTO hibernate_sequences (sequence_name, sequence_next_hi_value) VALUES ('commentary', 100);

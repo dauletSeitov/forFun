@@ -81,7 +81,7 @@ public class PostController {
 //            throw new MessageException("id must not be empty !");
 //
 //        try {
-//            postService.save(postDto);
+//            postService.create(postDto);
 //        }catch (Exception e){
 //            return new ResponseEntity<>(HttpStatus.CONFLICT);
 //        }
@@ -96,7 +96,7 @@ public class PostController {
 
     }
 
-    @ApiOperation(value = "changes status by postId.")
+    @ApiOperation(value = "changes rating by postId.")
     @PostMapping("/change-rating")
     public ResponseEntity changeRatingPost(@NotNull final Long postId, @NotNull final Boolean isUpVote) {
 

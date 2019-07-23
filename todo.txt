@@ -2,12 +2,11 @@
 
 -- change pwd
 -- add localhost:8080/api/post/1    comment count, and sign is up vote
+-- create post
 
 getPostByCategory
-create post
 create comment
 create category, delete category
-delete post
 delete comment
 delete account
 add unique to category, user login
@@ -15,7 +14,18 @@ add condition in repositories
 add validation service to post, commentary
 
 
+
+delete post
 pwd encrypt
 logout
 email, phone service, push
 confirm registration
+
+
+    @Autowired
+    private SQLQueryFactory queryFactory;
+
+
+            //QCommentary commentary = QCommentary.commentary;
+            //List<DBCommentary> fetch = queryFactory.select(commentary).from(commentary).fetch();
+

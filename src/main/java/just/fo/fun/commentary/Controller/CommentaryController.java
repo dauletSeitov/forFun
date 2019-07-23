@@ -1,12 +1,10 @@
 package just.fo.fun.commentary.Controller;
 
+import io.swagger.annotations.ApiOperation;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.service.CommentaryService;
-import just.fo.fun.entities.Commentary;
-import just.fo.fun.entities.Post;
-import just.fo.fun.exception.MessageException;
+import just.fo.fun.commentary.service.CommentaryValidationService;
 import just.fo.fun.post.model.PostDto;
-import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.post.service.PostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -30,22 +27,21 @@ public class CommentaryController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private CommentaryValidationService commentaryValidationService;
+
+    @ApiOperation(value = "create commentary.")
     @PostMapping
-    public ResponseEntity insertCommentary(@Valid @RequestBody final CommentaryDto userDto) {
+    public ResponseEntity createCommentary(@RequestBody final CommentaryDto commentaryDto) {
 
-        Commentary commentary;
-        try {
-            commentary = commentaryService.save(userDto);
-        }catch (Exception e){
-            throw new MessageException("ffffffff" + e.getMessage());
-        }
-        return commentary == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(HttpStatus.OK);
+        commentaryValidationService.validateCreate(commentaryDto);
 
+        commentaryService.create(commentaryDto);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
+    @ApiOperation(value = "get all my commentaries.")
     @GetMapping("/my-commentaries")
     public ResponseEntity myPosts(Pageable request) {
         Page<PostDto> commentaries = postService.findPostFromCommentaryByUserId(request);
@@ -61,7 +57,7 @@ public class CommentaryController {
             throw new MessageException("id must not be empty !");
         User user = new User();
         BeanUtils.copyProperties(userDto, user);
-        User resultUser = userService.save(user);
+        User resultUser = userService.create(user);
         return resultUser == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
                 : new ResponseEntity<>(resultUser, HttpStatus.OK);
@@ -105,17 +101,16 @@ public class CommentaryController {
 
     }
 */
-    //by post id
-    @GetMapping("/post-id/{id}")
-    public ResponseEntity getUser(@PathVariable final Long id) {
 
-        List<CommentaryDto> result = commentaryService.getAll(id);
-        return result == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(result, HttpStatus.OK);
+    @ApiOperation(value = "get all commentaries by postId.")
+    @GetMapping("/post-id/{postId}")
+    public ResponseEntity getCommentaryByPostId(@PathVariable final Long postId) {
 
+        List<CommentaryDto> result = commentaryService.findAllByPostId(postId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "change rating by commentId.")
     @PostMapping("/change-rating")
     public ResponseEntity changeRatingPost(@NotNull final Long commentId, @NotNull final Boolean isUpVote) {
 

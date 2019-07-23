@@ -29,7 +29,7 @@ public class CategoryController {
         try {
             result = categoryService.save(category);
         }catch (Exception e){
-            throw new MessageException("can not save category" + e.getMessage());
+            throw new MessageException("can not create category" + e.getMessage());
         }
         return result == null
                 ? new ResponseEntity<>(HttpStatus.CONFLICT)
