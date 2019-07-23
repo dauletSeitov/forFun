@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 
@@ -44,9 +43,9 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.OK);
     }
 
-    @GetMapping("/my-posts")//TODO add search
-    public ResponseEntity myPosts(Pageable request) {
-        Page<PostDto> myPosts = postService.findMyPosts(request);
+    @GetMapping("/my-posts/{searchText}")
+    public ResponseEntity myPosts(Pageable request, @PathVariable String searchText) {
+        Page<PostDto> myPosts = postService.findMyPosts(searchText, request);
         return new ResponseEntity<>(myPosts, HttpStatus.OK);
     }
 
@@ -58,7 +57,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity createPost(@Valid @RequestBody final PostDto postDto) {
+    public ResponseEntity createPost(@RequestBody final PostDto postDto) {
 
         if (postDto.getId() != null)
             throw new MessageException("id must be empty !");
@@ -71,20 +70,20 @@ public class PostController {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    @PutMapping
-    public ResponseEntity updatePost(@Valid @RequestBody final PostDto postDto) {
-
-        if (postDto.getId() == null)
-            throw new MessageException("id must not be empty !");
-
-        try {
-            postService.save(postDto);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//not supported
+//    @PutMapping
+//    public ResponseEntity updatePost(@Valid @RequestBody final PostDto postDto) {
+//
+//        if (postDto.getId() == null)
+//            throw new MessageException("id must not be empty !");
+//
+//        try {
+//            postService.save(postDto);
+//        }catch (Exception e){
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete (@PathVariable final Long id) {

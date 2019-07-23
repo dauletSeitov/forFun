@@ -85,11 +85,18 @@ public class PostService {
     public void delete(Long id){
 
         Objects.requireNonNull(id, "id can not be null");
+
         Post post = postRepository.findOne(id);
 
-        if (post != null && post.getUser().getId().equals(requestUtils.getUser().getId())){
+        Objects.requireNonNull(id, "post not found!");
+
+        if (post.getUser().getId().equals(requestUtils.getUser().getId())){
             postRepository.delete(id);
-        } else throw new MessageException("this is not your post!");
+
+        } else {
+
+            throw new MessageException("this is not your post!");
+        }
     }
 
     public void changeRating(Long postId, Boolean isUpVote) {
@@ -97,8 +104,8 @@ public class PostService {
     }
 
 
-    public Page<PostDto> findMyPosts(Pageable request) {
-        return postRepository.findPostByUserId(requestUtils.getUser().getId(), request).map(PostDto::new);
+    public Page<PostDto> findMyPosts(String searchText, Pageable request) {
+        return postRepository.findPostByUserId(requestUtils.getUser().getId(), searchText, request).map(PostDto::new);
     }
 
     public Page<PostDto> findPostFromCommentaryByUserId(Pageable request) {
