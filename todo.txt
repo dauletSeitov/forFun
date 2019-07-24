@@ -17,11 +17,12 @@
 -- add delete method in repositories
 -- add condition is deleted = false in repositories
 -- add delete all post on delete account
+-- change CommentaryRepository native query
 
 
 add unique to category, user login
-
-change CommentaryRepository native query
+//TODO remove copyProperties
+//TODO page request
 
 
 pwd encrypt

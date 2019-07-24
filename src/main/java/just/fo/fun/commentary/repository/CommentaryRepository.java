@@ -1,11 +1,7 @@
 package just.fo.fun.commentary.repository;
 
 import just.fo.fun.entities.Commentary;
-import just.fo.fun.entities.Post;
-import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.model.ResultHolderTwoLong;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -16,8 +12,24 @@ import java.util.List;
 @Repository
 public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
 
-    List<Commentary> getAllByParentIsNullAndPostIdOrderByRatingDesc(Long id);
-    List<Commentary> getAllByParentIdOrderByRatingDesc(Long id);
+    @Query("select C from Commentary C " +
+            "where C.isDeleted = false " +
+            "and C.user.isDeleted = false " +
+            "and C.post.isDeleted = false " +
+            "and C.post.user.isDeleted = false " +
+            "and C.parent.id is null " +
+            "and C.post.id = :postId " +
+            "order by C.rating desc")
+    List<Commentary> findAllParentlessByPostId(@Param("postId") Long postId);
+
+    @Query("select C from Commentary C " +
+            "where C.isDeleted = false " +
+            "and C.user.isDeleted = false " +
+            "and C.post.isDeleted = false " +
+            "and C.post.user.isDeleted = false " +
+            "and C.parent.id = :parentId " +
+            "order by C.rating desc")
+    List<Commentary> findAllByParentId(@Param("parentId") Long parentId);
 
     @Query("select C from Commentary C where C.isDeleted = false and C.id = :commentId")
     Commentary findOneById(@Param("commentId") Long commentId);

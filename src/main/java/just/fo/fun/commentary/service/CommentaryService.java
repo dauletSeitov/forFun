@@ -59,9 +59,9 @@ public class CommentaryService {
         }
     }
 
-    public List<CommentaryDto> findAllByPostId(Long postId){
+    public List<CommentaryDto> findAllByPostId(Long postId){ //TODO page request
 
-        List<CommentaryDto> parentles = commentaryRepository.getAllByParentIsNullAndPostIdOrderByRatingDesc(postId)
+        List<CommentaryDto> parentles = commentaryRepository.findAllParentlessByPostId(postId)
                 .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList()); //TODO remove copyProperties
 
         for (CommentaryDto commentaryDto : parentles) {
@@ -73,7 +73,7 @@ public class CommentaryService {
 
     private void recursion (CommentaryDto commentaryDto){
 
-        List<CommentaryDto> children = commentaryRepository.getAllByParentIdOrderByRatingDesc(commentaryDto.getId())
+        List<CommentaryDto> children = commentaryRepository.findAllByParentId(commentaryDto.getId())
                 .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());//TODO remove copyProperties
 
         if (CollectionUtils.isEmpty(children))
