@@ -13,7 +13,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public Category save(Category category){
+    public Category create(Category category){
         return categoryRepository.save(category);
     }
 
@@ -29,4 +29,7 @@ public class CategoryService {
         categoryRepository.delete(id);
     }
 
+    public List<Category> findCategoryBySearchTextNotDeleted(String searchText) {
+        return categoryRepository.findCategoryBySearchTextNotDeleted(searchText);
+    }
 }

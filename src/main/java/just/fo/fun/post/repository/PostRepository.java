@@ -40,7 +40,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findPostBySearchText(@Param("searchText") String searchText, Pageable request);
 
     @Query("select P from Post P where P.isDeleted = false and P.category.name = :category")
-    Page<Post> findPostByCategory(@Param("category") String category, Pageable request);
+    Page<Post> findPostByCategoryNotDeleted(@Param("category") String category, Pageable request);
+
+    @Query("select P from Post P where P.isDeleted = false and P.category.id = :categoryId")
+    Page<Post> findPostByCategoryNotDeleted(@Param("categoryId") Integer categoryId, Pageable request);
 
     @Query("update Post set isDeleted = true where id = :postId")
     void delete(@Param("postId") Long postId);

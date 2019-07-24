@@ -11,12 +11,13 @@
 -- delete comment
 -- add validation service to post, commentary
 -- delete post
+-- delete account
+-- category validation
+-- create category, delete category
 
-create category, delete category
-delete account
+add condition is deleted = false in repositories
+add delete method in repositories
 add unique to category, user login
-add condition in repositories
-
 
 
 pwd encrypt

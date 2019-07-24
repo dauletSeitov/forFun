@@ -13,7 +13,6 @@ import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
 import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.model.UserDto;
-import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -132,7 +131,7 @@ public class PostService {
     }
 
     public Page<PostDto> findPostByCategory(String category, Pageable request) {
-        return postRepository.findPostByCategory(category, request).map(this::postDtoToPost);
+        return postRepository.findPostByCategoryNotDeleted(category, request).map(this::postDtoToPost);
     }
 
 
