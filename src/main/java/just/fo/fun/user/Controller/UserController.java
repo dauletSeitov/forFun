@@ -30,55 +30,43 @@ public class UserController {
     @Autowired
     private UserValidationService userValidationService;
 
-
-    @GetMapping("/current/user-data")
     @ApiOperation(value = "to get current current user data.")
+    @GetMapping("/current/user-data")
     public ResponseEntity getCurrentUserData() {
 
         CurrentUserDto currentUserData = userService.getCurrentUserData();
-        return currentUserData == null
-                ? new ResponseEntity<>(HttpStatus.CONFLICT)
-                : new ResponseEntity<>(currentUserData, HttpStatus.OK);
+
+        return new ResponseEntity<>(currentUserData, HttpStatus.OK);
 
     }
 
-    @PostMapping("/sign-up")
     @ApiOperation(value = "sign up new user.")
+    @PostMapping("/sign-up")
     public ResponseEntity createUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
         userValidationService.validateCreate(userLoginDto);
 
-        try {
-            userService.save(userLoginDto);
-        }catch (Exception e){
-            log.error(e.getMessage(), e);
-            throw new MessageException("could not create the user!");
-        }
+        userService.create(userLoginDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
 
-    @PutMapping
     @ApiOperation(value = "updates user info.")
+    @PutMapping
     public ResponseEntity updateUser(@Valid @RequestBody final UserLoginDto userLoginDto) {
 
         userValidationService.validateUpdate(userLoginDto);
 
-        try {
-            userService.update(userLoginDto);
-        }catch (Exception e){
-            log.error(e.getMessage(), e);
-            throw new MessageException("could not create the user!");
-        }
+        userService.update(userLoginDto);
 
         return new ResponseEntity<>(HttpStatus.OK);
 
 
     }
 
-    @PostMapping("current/user-change-password")
     @ApiOperation(value = "to change password.")
+    @PostMapping("current/user-change-password")
     public ResponseEntity changeUserPassword(@Valid @RequestBody final UserChangePasswordDto userChangePasswordDto) {
 
         userValidationService.validateChangePassword(userChangePasswordDto);
@@ -88,24 +76,26 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
+// not supported
+//    @GetMapping("/{id}")
+//    public ResponseEntity getUser(@PathVariable final Long id) {
+//        UserDto user = userService.findOne(id);
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//
+//    }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getUser(@PathVariable final Long id) {
-        UserDto user = userService.findOne(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-
-    }
-
-    @GetMapping
-    public ResponseEntity getUsers(Pageable pageable) {
-
-        final Page<UserDto> page = userService.findAll(pageable);
-        return new ResponseEntity<>(page, HttpStatus.OK);
-
-    }
+// not supported
+//    @GetMapping
+//    public ResponseEntity getUsers(Pageable pageable) {
+//
+//        final Page<UserDto> page = userService.findAll(pageable);
+//        return new ResponseEntity<>(page, HttpStatus.OK);
+//
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete (@PathVariable final Long id) {
+        userValidationService.validateDelete(id);
         userService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
 

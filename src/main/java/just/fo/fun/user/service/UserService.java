@@ -55,7 +55,7 @@ public class UserService {
         userIncorrectAttempt = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.USER_INCORRECT_ATTEMPT);
     }
 
-    public User save(User user){
+    public User create(User user){
         return userRepository.save(user);
     }
 
@@ -77,8 +77,9 @@ public class UserService {
         return page.map(UserDto::new);
     }
 
-    public void delete(Long id){
-        userRepository.delete(id);
+    public void delete(Long userId){
+        //TODO logout
+        userRepository.delete(userId);
     }
 
 
@@ -111,7 +112,15 @@ public class UserService {
         return currentUserDto;
     }
 
-    public User save(UserLoginDto userLoginDto) {
+    public User create(UserLoginDto userLoginDto) {
+
+        User user = userRepository.findOneByLogin(userLoginDto.getLogin());
+
+        if(user != null){
+            user.setIsDeleted(true);
+            userRepository.save(user);
+        }
+
         userLoginDto.setStatus(UserState.EXPECTED_CONFIRMATION);
         return userRepository.save(convertUserLoginDtoToUser(userLoginDto));
     }

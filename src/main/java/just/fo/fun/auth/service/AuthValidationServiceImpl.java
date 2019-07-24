@@ -59,13 +59,13 @@ public class AuthValidationServiceImpl implements AuthValidationService {
             throw new MessageException("user is locked until "  +  user.getLockedTime().plusMinutes(userLockTime));
         } else {
             user.setLockedTime(null);
-            userService.save(user);
+            userService.create(user);
         }
 
         if (user.getIncorrectAttempt() > userIncorrectAttempt - 2){
             user.setLockedTime(LocalDateTime.now());
             user.setIncorrectAttempt(0);
-            userService.save(user);
+            userService.create(user);
 
             log.debug("3 times incorrect attempt user is locked");
 
@@ -74,13 +74,13 @@ public class AuthValidationServiceImpl implements AuthValidationService {
 
         if(user.getPassword().equals(authDto.getPassword())) {
             user.setIncorrectAttempt(0);
-            userService.save(user);
+            userService.create(user);
             log.debug("success!");
 
         } else {
 
             user.setIncorrectAttempt(user.getIncorrectAttempt() + 1);
-            userService.save(user);
+            userService.create(user);
 
             log.debug("incorrect login or password!");
             throw new MessageException("incorrect login or password!");

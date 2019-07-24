@@ -9,16 +9,16 @@
 -- create comment
 -- getPostByCategory
 -- delete comment
+-- add validation service to post, commentary
+-- delete post
 
 create category, delete category
 delete account
 add unique to category, user login
 add condition in repositories
-add validation service to post, commentary
 
 
 
-delete post
 pwd encrypt
 logout
 email, phone service, push

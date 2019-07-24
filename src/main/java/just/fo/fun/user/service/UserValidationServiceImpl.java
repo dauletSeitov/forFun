@@ -164,6 +164,13 @@ public class UserValidationServiceImpl implements UserValidationService {
 
     }
 
+    @Override
+    public void validateDelete(Long id) {
+        if(requestUtils.getUser().getId().equals(id)){
+            throw new MessageException("this not your account!");
+        }
+    }
+
     public static boolean isValidEmail(String email){
 
         if (StringUtils.isEmpty(email)){
