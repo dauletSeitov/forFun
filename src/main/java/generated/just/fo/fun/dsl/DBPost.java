@@ -11,7 +11,7 @@ public class DBPost {
     public DBPost() {
     }
 
-    public DBPost(Integer categoryId, Long id, String imageUrl, java.math.BigInteger isDeleted, Long rating, String title, java.sql.Timestamp updated, Long userId) {
+    public DBPost(Long categoryId, Long id, String imageUrl, Byte isDeleted, Long rating, String title, java.sql.Timestamp updated, Long userId) {
         this.categoryId = categoryId;
         this.id = id;
         this.imageUrl = imageUrl;
@@ -22,13 +22,13 @@ public class DBPost {
         this.userId = userId;
     }
 
-    private Integer categoryId;
+    private Long categoryId;
 
     private Long id;
 
     private String imageUrl;
 
-    private java.math.BigInteger isDeleted;
+    private Byte isDeleted;
 
     private Long rating;
 
@@ -38,11 +38,11 @@ public class DBPost {
 
     private Long userId;
 
-    public Integer getCategoryId() {
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -62,11 +62,11 @@ public class DBPost {
         this.imageUrl = imageUrl;
     }
 
-    public java.math.BigInteger getIsDeleted() {
+    public Byte getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(java.math.BigInteger isDeleted) {
+    public void setIsDeleted(Byte isDeleted) {
         this.isDeleted = isDeleted;
     }
 
@@ -104,7 +104,7 @@ public class DBPost {
 
     @Override
     public String toString() {
-         return "categoryId = " + categoryId + ", id = " + id + ", imageUrl = " + imageUrl + ", isDeleted = " + isDeleted + ", rating = " + rating + ", title = " + title + ", updated = " + updated + ", userId = " + userId;
+         return "categoryId = " + categoryId + ", id = " + id + ", imageUrl = " + imageUrl + ", isDeleted = " + isDeleted + ", first = " + rating + ", title = " + title + ", updated = " + updated + ", userId = " + userId;
     }
 
 }

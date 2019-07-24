@@ -11,31 +11,31 @@ public class DBCategory {
     public DBCategory() {
     }
 
-    public DBCategory(Integer id, java.math.BigInteger isDeleted, String name) {
+    public DBCategory(Long id, Byte isDeleted, String name) {
         this.id = id;
         this.isDeleted = isDeleted;
         this.name = name;
     }
 
-    private Integer id;
+    private Long id;
 
-    private java.math.BigInteger isDeleted;
+    private Byte isDeleted;
 
     private String name;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public java.math.BigInteger getIsDeleted() {
+    public Byte getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(java.math.BigInteger isDeleted) {
+    public void setIsDeleted(Byte isDeleted) {
         this.isDeleted = isDeleted;
     }
 

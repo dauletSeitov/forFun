@@ -1,31 +1,41 @@
 package just.fo.fun.commentary.service;
 
-import com.querydsl.sql.SQLQueryFactory;
-import generated.just.fo.fun.dsl.DBCommentary;
-import generated.just.fo.fun.dsl.QCommentary;
 import just.fo.fun.commentary.model.CommentaryDto;
 import just.fo.fun.commentary.repository.CommentaryRepository;
+import just.fo.fun.common.vote.VoteService;
 import just.fo.fun.entities.Commentary;
+import just.fo.fun.entities.Post;
+import just.fo.fun.entities.User;
+import just.fo.fun.exception.MessageException;
+import just.fo.fun.post.repository.PostRepository;
+import just.fo.fun.utils.RequestUtils;
 import just.fo.fun.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.inject.Inject;
+import org.springframework.util.CollectionUtils;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 @Transactional
 @Service
 public class CommentaryService {
 
-    @Inject
-    private SQLQueryFactory queryFactory;
-
     @Autowired
     private CommentaryRepository commentaryRepository;
 
-    public Commentary save(Commentary commentary){
-        return commentaryRepository.save(commentary);
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private RequestUtils requestUtils;
+
+    @Autowired
+    private VoteService voteService;
+
+    public Commentary create(CommentaryDto commentaryDto){
+        commentaryDto.setRating(0L);
+        return commentaryRepository.save(commentaryDtoToCommentary(commentaryDto));
     }
 
     public Commentary findOne(Long id){
@@ -36,17 +46,23 @@ public class CommentaryService {
         return commentaryRepository.findAll();
     }
 
-    public void delete(Long id){
-        commentaryRepository.delete(id);
+    public void delete(Long commentaryId){
+
+        Commentary commentary = commentaryRepository.findOneByIdNotDeleted(commentaryId);
+
+        Objects.requireNonNull(commentary, "commentary not found");
+
+        if (commentary.getUser().getId().equals(requestUtils.getUser().getId())){
+            commentaryRepository.delete(commentaryId);
+        } else {
+            throw new MessageException("it's not your commentary");
+        }
     }
 
-    public List<CommentaryDto> getAll(Long id){
+    public List<CommentaryDto> findAllByPostId(Long postId){ //TODO page request
 
-        QCommentary commentary = QCommentary.commentary;
-        List<DBCommentary> fetch = queryFactory.select(commentary).from(commentary).fetch();
-
-        List<CommentaryDto> parentles = commentaryRepository.getAllByParentIsNullAndPostIdOrderByRatingDesc(id)
-                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());
+        List<CommentaryDto> parentles = commentaryRepository.findAllParentlessByPostIdNotDeleted(postId)
+                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList()); //TODO remove copyProperties
 
         for (CommentaryDto commentaryDto : parentles) {
             recursion (commentaryDto);
@@ -57,14 +73,50 @@ public class CommentaryService {
 
     private void recursion (CommentaryDto commentaryDto){
 
-        List<CommentaryDto> children = commentaryRepository.getAllByParentIdOrderByRatingDesc(commentaryDto.getId())
-                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());
+        List<CommentaryDto> children = commentaryRepository.findAllByParentIdNotDeleted(commentaryDto.getId())
+                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());//TODO remove copyProperties
 
-        if (children == null || children.isEmpty()) return;
+        if (CollectionUtils.isEmpty(children))
+            return;
+
         commentaryDto.setChildren(children);
         for (CommentaryDto dto : children) {
             recursion(dto);
         }
 
     }
+
+    public void changeRating(Long commentId, Boolean isUpVote) {
+
+        voteService.commentChangeRating(isUpVote, requestUtils.getUser(), commentId);
+    }
+
+    public Long getCommentaryCountByPostId(Long postId) {
+        return commentaryRepository.getCommentaryCountByPostIdNotDeleted(postId);
+    }
+
+    //converter
+    private Commentary commentaryDtoToCommentary(CommentaryDto commentaryDto) {
+
+        Commentary parentCommentary = null;
+
+        if(commentaryDto.getParentId() != null){
+            parentCommentary = commentaryRepository.findOne(commentaryDto.getParentId());
+        }
+
+        Post post = postRepository.findOne(commentaryDto.getPostId());
+        User user = requestUtils.getUser();
+
+        Commentary commentary = new Commentary();
+        commentary.setImageUrl(commentaryDto.getImageUrl());
+        commentary.setParent(parentCommentary);
+        commentary.setPost(post);
+        commentary.setRating(commentaryDto.getRating());
+        commentary.setText(commentaryDto.getText());
+        commentary.setUser(user);
+
+        return commentary;
+    }
+    //converter
+
 }

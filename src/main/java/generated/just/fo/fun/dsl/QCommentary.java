@@ -28,13 +28,13 @@ public class QCommentary extends com.querydsl.sql.RelationalPathBase<DBCommentar
 
     public final StringPath imageUrl = createString("imageUrl");
 
-    public final NumberPath<java.math.BigInteger> isDeleted = createNumber("isDeleted", java.math.BigInteger.class);
+    public final NumberPath<Byte> isDeleted = createNumber("isDeleted", Byte.class);
 
     public final NumberPath<Long> parentId = createNumber("parentId", Long.class);
 
     public final NumberPath<Long> postId = createNumber("postId", Long.class);
 
-    public final NumberPath<Long> rating = createNumber("rating", Long.class);
+    public final NumberPath<Long> rating = createNumber("first", Long.class);
 
     public final StringPath text = createString("text");
 
@@ -44,11 +44,11 @@ public class QCommentary extends com.querydsl.sql.RelationalPathBase<DBCommentar
 
     public final com.querydsl.sql.PrimaryKey<DBCommentary> commentaryPkey = createPrimaryKey(id);
 
-    public final com.querydsl.sql.ForeignKey<DBUser> fknbelkrdwcbruk4rwm2nxvm1g0 = createForeignKey(userId, "id");
-
     public final com.querydsl.sql.ForeignKey<DBPost> fk7u0oo6wyaothqx4xcjh4ex0u6 = createForeignKey(postId, "id");
 
     public final com.querydsl.sql.ForeignKey<DBCommentary> fkfiq3wbxgdhom8ewyh4onq9c41 = createForeignKey(parentId, "id");
+
+    public final com.querydsl.sql.ForeignKey<DBUser> fknbelkrdwcbruk4rwm2nxvm1g0 = createForeignKey(userId, "id");
 
     public final com.querydsl.sql.ForeignKey<DBCommentary> _fkfiq3wbxgdhom8ewyh4onq9c41 = createInvForeignKey(id, "parent_id");
 
@@ -79,14 +79,14 @@ public class QCommentary extends com.querydsl.sql.RelationalPathBase<DBCommentar
 
     public void addMetadata() {
         addMetadata(id, ColumnMetadata.named("id").withIndex(1).ofType(Types.BIGINT).withSize(19).notNull());
-        addMetadata(imageUrl, ColumnMetadata.named("image_url").withIndex(2).ofType(Types.VARCHAR).withSize(512));
-        addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(9).ofType(Types.NUMERIC).withSize(131089));
-        addMetadata(parentId, ColumnMetadata.named("parent_id").withIndex(6).ofType(Types.BIGINT).withSize(19));
-        addMetadata(postId, ColumnMetadata.named("post_id").withIndex(7).ofType(Types.BIGINT).withSize(19));
-        addMetadata(rating, ColumnMetadata.named("rating").withIndex(3).ofType(Types.BIGINT).withSize(19));
-        addMetadata(text, ColumnMetadata.named("text").withIndex(4).ofType(Types.VARCHAR).withSize(255).notNull());
-        addMetadata(updated, ColumnMetadata.named("updated").withIndex(5).ofType(Types.TIMESTAMP).withSize(29).withDigits(6));
-        addMetadata(userId, ColumnMetadata.named("user_id").withIndex(8).ofType(Types.BIGINT).withSize(19));
+        addMetadata(imageUrl, ColumnMetadata.named("image_url").withIndex(3).ofType(Types.VARCHAR).withSize(512));
+        addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(2).ofType(Types.NUMERIC).withSize(1));
+        addMetadata(parentId, ColumnMetadata.named("parent_id").withIndex(7).ofType(Types.BIGINT).withSize(19));
+        addMetadata(postId, ColumnMetadata.named("post_id").withIndex(8).ofType(Types.BIGINT).withSize(19));
+        addMetadata(rating, ColumnMetadata.named("first").withIndex(4).ofType(Types.BIGINT).withSize(19));
+        addMetadata(text, ColumnMetadata.named("text").withIndex(5).ofType(Types.VARCHAR).withSize(255).notNull());
+        addMetadata(updated, ColumnMetadata.named("updated").withIndex(6).ofType(Types.TIMESTAMP).withSize(29).withDigits(6));
+        addMetadata(userId, ColumnMetadata.named("user_id").withIndex(9).ofType(Types.BIGINT).withSize(19));
     }
 
 }

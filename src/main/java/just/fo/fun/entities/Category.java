@@ -1,5 +1,6 @@
 package just.fo.fun.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -15,6 +16,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @ToString
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category extends SuperEntity{
 
     @NotNull

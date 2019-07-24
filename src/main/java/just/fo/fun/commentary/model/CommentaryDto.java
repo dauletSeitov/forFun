@@ -1,6 +1,5 @@
 package just.fo.fun.commentary.model;
 
-import just.fo.fun.entities.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -12,9 +11,13 @@ import java.util.List;
 @NoArgsConstructor
 public class CommentaryDto {
 
+    private Long postId;
+
+    private Long parentId;
+
     private Long id;
 
-    private User user;
+    private Long userId;
 
     private String text;
 

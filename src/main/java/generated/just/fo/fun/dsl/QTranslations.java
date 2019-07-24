@@ -30,7 +30,7 @@ public class QTranslations extends com.querydsl.sql.RelationalPathBase<DBTransla
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final NumberPath<java.math.BigInteger> isDeleted = createNumber("isDeleted", java.math.BigInteger.class);
+    public final NumberPath<Byte> isDeleted = createNumber("isDeleted", Byte.class);
 
     public final StringPath key = createString("key");
 
@@ -66,13 +66,13 @@ public class QTranslations extends com.querydsl.sql.RelationalPathBase<DBTransla
     }
 
     public void addMetadata() {
-        addMetadata(chanel, ColumnMetadata.named("chanel").withIndex(2).ofType(Types.VARCHAR).withSize(1));
-        addMetadata(en, ColumnMetadata.named("en").withIndex(3).ofType(Types.VARCHAR).withSize(255));
+        addMetadata(chanel, ColumnMetadata.named("chanel").withIndex(3).ofType(Types.VARCHAR).withSize(1));
+        addMetadata(en, ColumnMetadata.named("en").withIndex(4).ofType(Types.VARCHAR).withSize(255));
         addMetadata(id, ColumnMetadata.named("id").withIndex(1).ofType(Types.BIGINT).withSize(19).notNull());
-        addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(7).ofType(Types.NUMERIC).withSize(131089));
-        addMetadata(key, ColumnMetadata.named("key").withIndex(4).ofType(Types.VARCHAR).withSize(255).notNull());
-        addMetadata(kk, ColumnMetadata.named("kk").withIndex(5).ofType(Types.VARCHAR).withSize(255));
-        addMetadata(ru, ColumnMetadata.named("ru").withIndex(6).ofType(Types.VARCHAR).withSize(255));
+        addMetadata(isDeleted, ColumnMetadata.named("is_deleted").withIndex(2).ofType(Types.NUMERIC).withSize(1));
+        addMetadata(key, ColumnMetadata.named("key").withIndex(5).ofType(Types.VARCHAR).withSize(255).notNull());
+        addMetadata(kk, ColumnMetadata.named("kk").withIndex(6).ofType(Types.VARCHAR).withSize(255));
+        addMetadata(ru, ColumnMetadata.named("ru").withIndex(7).ofType(Types.VARCHAR).withSize(255));
     }
 
 }

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class CategoryServiceTest {
 //
 //    @Test
-//    public void save() {
+//    public void create() {
 //    }
 //
 //    @Test
@@ -15,7 +15,7 @@ public class CategoryServiceTest {
 //    }
 //
 //    @Test
-//    public void findAll() {
+//    public void findByPageType() {
 //    }
 //
 //    @Test

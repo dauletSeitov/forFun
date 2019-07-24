@@ -1,4 +1,4 @@
-package just.fo.fun;
+package just.fo.fun.auth.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ public class AuthDto {
 
     private Long id;
     private String login;
-    private String pas;
+    private String password;
 
 
 }

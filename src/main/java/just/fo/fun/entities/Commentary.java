@@ -1,9 +1,5 @@
 package just.fo.fun.entities;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import just.fo.fun.utils.serializers.LocalDateTimeDeserializer;
-import just.fo.fun.utils.serializers.LocalDateTimeSerializer;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -19,10 +15,10 @@ import java.time.LocalDateTime;
 @Data
 public class Commentary extends SuperEntity{
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
     @Column(nullable = false)
@@ -31,7 +27,7 @@ public class Commentary extends SuperEntity{
     @Length(max = 512)
     private String imageUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Commentary parent;
 

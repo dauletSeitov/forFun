@@ -11,7 +11,7 @@ public class DBUser {
     public DBUser() {
     }
 
-    public DBUser(Long id, java.math.BigInteger isDeleted, String login, String name, String password, java.sql.Timestamp updated) {
+    public DBUser(Long id, Byte isDeleted, String login, String name, String password, java.sql.Timestamp updated) {
         this.id = id;
         this.isDeleted = isDeleted;
         this.login = login;
@@ -22,7 +22,7 @@ public class DBUser {
 
     private Long id;
 
-    private java.math.BigInteger isDeleted;
+    private Byte isDeleted;
 
     private String login;
 
@@ -40,11 +40,11 @@ public class DBUser {
         this.id = id;
     }
 
-    public java.math.BigInteger getIsDeleted() {
+    public Byte getIsDeleted() {
         return isDeleted;
     }
 
-    public void setIsDeleted(java.math.BigInteger isDeleted) {
+    public void setIsDeleted(Byte isDeleted) {
         this.isDeleted = isDeleted;
     }
 
