@@ -1,11 +1,11 @@
 # forFun
 
-social network to share memes but not user pictures.
+backend for social network to share memes.
 
 
-| Text | Image | 
+| Tools | Version | 
 | ---      |  ------  |
-| 1. Create new migration in /db/src/main/resources/db/{vendor} folder   |    |
-| 2. Update version of project in common.gradle  | ![Change version](db/version.png)   |
-| 3. Execute `publishToMavenLocal` command   | ![Publish via idea](db/publishing.png)   |
-| 4. Refresh project   |    |
+| java   | 1.8   |
+| spring boot  | 1.5   |
+| postgres   | 9.6   |
+
