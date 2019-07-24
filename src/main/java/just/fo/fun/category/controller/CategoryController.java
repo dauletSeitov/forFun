@@ -3,13 +3,12 @@ package just.fo.fun.category.controller;
 import just.fo.fun.category.service.CategoryService;
 import just.fo.fun.category.service.CategoryValidationService;
 import just.fo.fun.entities.Category;
-import just.fo.fun.exception.MessageException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.validation.Valid;
+
 import java.util.List;
 
 @Slf4j
@@ -63,7 +62,7 @@ public class CategoryController {
     @GetMapping("/search/{searchText}")
     public ResponseEntity getCategories(@PathVariable String searchText) { //TODO rating for category how much post created to this category. and return by sorting by rating
 
-        List<Category> categories = categoryService.findCategoryBySearchTextNotDeleted(searchText);
+        List<Category> categories = categoryService.findCategoryBySearchText(searchText);
 
         return new ResponseEntity<>(categories, HttpStatus.OK);
 

@@ -36,7 +36,7 @@ public class CategoryValidationServiceImpl implements CategoryValidationService{
             throw new MessageException("name can not be empty!");
         }
 
-        Category categoryFromDb = categoryRepository.findOneNotDeletedByName(category.getName().trim());
+        Category categoryFromDb = categoryRepository.findOneNotDeletedByNameNotDeleted(category.getName().trim());
 
         if(categoryFromDb != null){
             throw new MessageException("category already exists!");

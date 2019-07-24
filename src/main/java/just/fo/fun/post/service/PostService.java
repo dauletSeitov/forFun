@@ -77,7 +77,7 @@ public class PostService {
                 break;
             default:
 
-                page = postRepository.findHot(hotPageLevel, LocalDateTime.now().minusDays(hotPageDays), pageable);
+                page = postRepository.findHotNotDeleted(hotPageLevel, LocalDateTime.now().minusDays(hotPageDays), pageable);
 
         }
 
@@ -114,20 +114,20 @@ public class PostService {
 
 
     public Page<PostDto> findMyPosts(String searchText, Pageable request) {
-        return postRepository.findPostByUserId(requestUtils.getUser().getId(), searchText, request).map(this::postDtoToPost);
+        return postRepository.findPostByUserIdNotDeleted(requestUtils.getUser().getId(), searchText, request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findPostFromCommentaryByUserId(Pageable request) {
-        return postRepository.findPostFromCommentaryByUserId(requestUtils.getUser().getId(), request).map(this::postDtoToPost);
+        return postRepository.findPostFromCommentaryByUserIdNotDeleted(requestUtils.getUser().getId(), request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findMyAssessments(Boolean isUpVote, Pageable request) {
         Objects.requireNonNull(isUpVote, "required param isUpVote");
-        return postRepository.findMyAssessments(isUpVote,requestUtils.getUser().getId(), request).map(this::postDtoToPost);
+        return postRepository.findMyAssessmentsNotDeleted(isUpVote,requestUtils.getUser().getId(), request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findPostBySearchText(String searchText, Pageable request) {
-        return postRepository.findPostBySearchText(searchText, request).map(this::postDtoToPost);
+        return postRepository.findPostBySearchTextNotDeleted(searchText, request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findPostByCategory(String category, Pageable request) {
@@ -143,7 +143,7 @@ public class PostService {
         post.setImageUrl(postDto.getImageUrl());
         post.setRating(postDto.getRating());
 
-        Category category = categoryRepository.findOneNotDeletedByName(postDto.getCategory());
+        Category category = categoryRepository.findOneNotDeletedByNameNotDeleted(postDto.getCategory());
         post.setCategory(category);
 
         post.setUser(requestUtils.getUser());
@@ -155,7 +155,7 @@ public class PostService {
     public PostDto postDtoToPost(Post post) {
 
         Long commentaryCount = commentaryRepository.getCommentaryCountByPostId(post.getId());
-        UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findByUserAndPost(requestUtils.getUser().getId(), post.getId());
+        UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findByUserAndPostNotDeleted(requestUtils.getUser().getId(), post.getId());
 
         PostDto postDto = new PostDto();
 

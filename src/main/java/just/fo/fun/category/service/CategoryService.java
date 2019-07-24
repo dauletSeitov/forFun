@@ -29,7 +29,7 @@ public class CategoryService {
         categoryRepository.delete(id);
     }
 
-    public List<Category> findCategoryBySearchTextNotDeleted(String searchText) {
+    public List<Category> findCategoryBySearchText(String searchText) {
         return categoryRepository.findCategoryBySearchTextNotDeleted(searchText);
     }
 }

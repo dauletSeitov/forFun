@@ -10,7 +10,7 @@ import java.util.List;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query("select C from Category C where C.isDeleted = false and C.name = :categoryName")
-    Category findOneNotDeletedByName(@Param("categoryName") String categoryName);
+    Category findOneNotDeletedByNameNotDeleted(@Param("categoryName") String categoryName);
 
     @Query("select C from Category C where C.isDeleted = false and UPPER(C.name) like CONCAT('%', UPPER(:searchText), '%')")
     List<Category> findCategoryBySearchTextNotDeleted(@Param("searchText") String searchText);

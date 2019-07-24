@@ -29,7 +29,7 @@ public class PostValidationServiceImpl implements PostValidationService{
             throw new MessageException("title can not be empty!");
         }
 
-        Category category = categoryRepository.findOneNotDeletedByName(postDto.getCategory());
+        Category category = categoryRepository.findOneNotDeletedByNameNotDeleted(postDto.getCategory());
 
         if(category == null){
             throw new MessageException(String.format("category {%s} does not exists!", postDto.getCategory()));

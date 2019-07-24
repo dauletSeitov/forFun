@@ -69,7 +69,7 @@ public class UserService {
     }
 
     public User findOneEntityByLogin(String login){
-        return userRepository.findOneByLogin(login);
+        return userRepository.findOneByLoginNotDeleted(login);
     }
 
     public Page<UserDto> findAll(Pageable pageable){
@@ -87,11 +87,11 @@ public class UserService {
 
         User user = requestUtils.getUser();
 
-        ResultHolderTwoLong aggregatedPostDataByUser = postRepository.getAggregatedDataByUser(user.getId());
+        ResultHolderTwoLong aggregatedPostDataByUser = postRepository.getAggregatedDataByUserNotDeleted(user.getId());
         ResultHolderTwoLong aggregatedCommentaryDataByUser = commentaryRepository.getAggregatedDataByUser(user.getId());
 
-        ResultHolderTwoLong aggregatedPostVotesDataByUser = userPostMapRepository.getAggregatedDataByUser(user.getId());
-        ResultHolderTwoLong aggregatedCommentVotesDataByUser = userCommentaryVoteHistoryRepository.getAggregatedDataByUser(user.getId());
+        ResultHolderTwoLong aggregatedPostVotesDataByUser = userPostMapRepository.getAggregatedDataByUserNotDeleted(user.getId());
+        ResultHolderTwoLong aggregatedCommentVotesDataByUser = userCommentaryVoteHistoryRepository.getAggregatedDataByUserNotDeleted(user.getId());
 
         CurrentUserDto currentUserDto = new CurrentUserDto();
         currentUserDto.setId(user.getId());
@@ -114,7 +114,7 @@ public class UserService {
 
     public User create(UserLoginDto userLoginDto) {
 
-        User user = userRepository.findOneByLogin(userLoginDto.getLogin());
+        User user = userRepository.findOneByLoginNotDeleted(userLoginDto.getLogin());
 
         if(user != null){
             user.setIsDeleted(true);

@@ -14,9 +14,11 @@
 -- delete account
 -- category validation
 -- create category, delete category
+-- add delete method in repositories
+-- add condition is deleted = false in repositories
 
-add condition is deleted = false in repositories
-add delete method in repositories
+
+add delete all post on delete account
 add unique to category, user login
 
 
