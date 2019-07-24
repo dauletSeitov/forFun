@@ -6,6 +6,7 @@ import just.fo.fun.common.vote.VoteService;
 import just.fo.fun.entities.Commentary;
 import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
+import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.utils.RequestUtils;
 import just.fo.fun.utils.Utils;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 @Transactional
 @Service
@@ -44,14 +46,23 @@ public class CommentaryService {
         return commentaryRepository.findAll();
     }
 
-    public void delete(Long id){
-        commentaryRepository.delete(id);
+    public void delete(Long commentaryId){
+
+        Commentary commentary = commentaryRepository.findOneById(commentaryId);
+
+        Objects.requireNonNull(commentary, "commentary not found");
+
+        if (commentary.getUser().getId().equals(requestUtils.getUser().getId())){
+            commentaryRepository.delete(commentaryId);
+        } else {
+            throw new MessageException("it's not your commentary");
+        }
     }
 
     public List<CommentaryDto> findAllByPostId(Long postId){
 
         List<CommentaryDto> parentles = commentaryRepository.getAllByParentIsNullAndPostIdOrderByRatingDesc(postId)
-                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());
+                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList()); //TODO remove copyProperties
 
         for (CommentaryDto commentaryDto : parentles) {
             recursion (commentaryDto);
@@ -63,7 +74,7 @@ public class CommentaryService {
     private void recursion (CommentaryDto commentaryDto){
 
         List<CommentaryDto> children = commentaryRepository.getAllByParentIdOrderByRatingDesc(commentaryDto.getId())
-                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());
+                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());//TODO remove copyProperties
 
         if (CollectionUtils.isEmpty(children))
             return;

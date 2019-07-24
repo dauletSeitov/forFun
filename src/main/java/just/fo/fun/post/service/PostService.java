@@ -94,16 +94,14 @@ public class PostService {
         return postRepository.save(postDtoToPost(postDto));
     }
 
-    public void delete(Long id){
+    public void delete(Long postId){
 
-        Objects.requireNonNull(id, "id can not be null");
+        Post post = postRepository.findOne(postId);
 
-        Post post = postRepository.findOne(id);
-
-        Objects.requireNonNull(id, "post not found!");
+        Objects.requireNonNull(postId, "post not found!");
 
         if (post.getUser().getId().equals(requestUtils.getUser().getId())){
-            postRepository.delete(id);
+            postRepository.delete(postId);
 
         } else {
 
@@ -131,6 +129,10 @@ public class PostService {
 
     public Page<PostDto> findPostBySearchText(String searchText, Pageable request) {
         return postRepository.findPostBySearchText(searchText, request).map(this::postDtoToPost);
+    }
+
+    public Page<PostDto> findPostByCategory(String category, Pageable request) {
+        return postRepository.findPostByCategory(category, request).map(this::postDtoToPost);
     }
 
 
@@ -169,5 +171,7 @@ public class PostService {
         postDto.setCommentCount(commentaryCount);
         return postDto;
     }
+
+
     //-------------------CONVERTER----------------------------
 }

@@ -7,10 +7,10 @@
 -- add localhost:8080/api/post/1    comment count, and sign is up vote
 -- create post
 -- create comment
+-- getPostByCategory
+-- delete comment
 
-getPostByCategory
 create category, delete category
-delete comment
 delete account
 add unique to category, user login
 add condition in repositories
