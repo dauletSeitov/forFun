@@ -7,7 +7,7 @@ backend (REST) for social network to share memes.
 | ---      |  ------  |
 | java   | 1.8   |
 | spring boot  | 1.5   |
-| postgres   | 9.6   |
+| postgres   | 9.6 db name fun  |
 | flyway | 5.0 |
 | swagger| 2.9 http://localhost:8080/api/swagger-ui.html|
 
