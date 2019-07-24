@@ -35,4 +35,11 @@ public class DSLPostRepository {
                         .execute();
 
         }
+
+
+//        @Autowired
+//        private SQLQueryFactory queryFactory;
+
+//QCommentary commentary = QCommentary.commentary;
+//List<DBCommentary> fetch = queryFactory.select(commentary).from(commentary).fetch();
 }

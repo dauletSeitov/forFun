@@ -22,9 +22,6 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
     @Query("select C from Commentary C where C.isDeleted = false and C.id = :commentId")
     Commentary findOneById(@Param("commentId") Long commentId);
 
-    @Query("update  Commentary set isDeleted = true where id = :commentaryId")
-    void delete(@Param("commentaryId") Long commentaryId);
-
     @Query("select new just.fo.fun.post.model.ResultHolderTwoLong(sum(C.rating), sum(1)) from Commentary C " +
             "where C.isDeleted = false " +
             "and C.post.isDeleted = false " +
@@ -38,4 +35,10 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
             "and C.user.isDeleted = false " +
             "and C.post.id = :postId")
     Long getCommentaryCountByPostId(@Param("postId") Long postId);
+
+    @Query("update  Commentary set isDeleted = true where id = :commentaryId")
+    void delete(@Param("commentaryId") Long commentaryId);
+
+    @Query("update  Commentary C set C.isDeleted = true where C.user.id = :userId")
+    void deleteByUserId(@Param("userId") Long userId);
 }

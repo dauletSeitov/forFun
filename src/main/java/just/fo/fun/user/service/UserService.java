@@ -79,6 +79,10 @@ public class UserService {
 
     public void delete(Long userId){
         //TODO logout
+
+        postRepository.deleteByUserId(userId);
+        commentaryRepository.deleteByUserId(userId);
+
         userRepository.delete(userId);
     }
 
