@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findOneByLoginNotDeleted(@Param("login") String login);
 
     @Query("select u from User u where u.isDeleted = false and u.id = :id")
-    User findOneNotDeleted(@Param("id") Long id);
+    User findOneByIdNotDeleted(@Param("id") Long id);
 
     @Query("update User set isDeleted = true where id = :userId")
     void delete(@Param("userId") Long userId);

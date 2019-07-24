@@ -60,12 +60,12 @@ public class UserService {
     }
 
     public UserDto findOne(Long id){
-        final User user = userRepository.findOneNotDeleted(id);
+        final User user = userRepository.findOneByIdNotDeleted(id);
         return Objects.isNull(user) ? null : new UserDto(user);
     }
 
     public User findOneEntity(Long id){
-        return userRepository.findOneNotDeleted(id);
+        return userRepository.findOneByIdNotDeleted(id);
     }
 
     public User findOneEntityByLogin(String login){
@@ -92,10 +92,10 @@ public class UserService {
         User user = requestUtils.getUser();
 
         ResultHolderTwoLong aggregatedPostDataByUser = postRepository.getAggregatedDataByUserNotDeleted(user.getId());
-        ResultHolderTwoLong aggregatedCommentaryDataByUser = commentaryRepository.getAggregatedDataByUser(user.getId());
+        ResultHolderTwoLong aggregatedCommentaryDataByUser = commentaryRepository.getAggregatedDataByUserNotDeleted(user.getId());
 
-        ResultHolderTwoLong aggregatedPostVotesDataByUser = userPostMapRepository.getAggregatedDataByUserNotDeleted(user.getId());
-        ResultHolderTwoLong aggregatedCommentVotesDataByUser = userCommentaryVoteHistoryRepository.getAggregatedDataByUserNotDeleted(user.getId());
+        ResultHolderTwoLong aggregatedPostVotesDataByUser = userPostMapRepository.getAggregatedDataByUserIdNotDeleted(user.getId());
+        ResultHolderTwoLong aggregatedCommentVotesDataByUser = userCommentaryVoteHistoryRepository.getAggregatedDataByUserIdNotDeleted(user.getId());
 
         CurrentUserDto currentUserDto = new CurrentUserDto();
         currentUserDto.setId(user.getId());
@@ -131,7 +131,7 @@ public class UserService {
 
     public User update(UserLoginDto userLoginDto) {
 
-        User userToUpdate = userRepository.findOneNotDeleted(userLoginDto.getId());
+        User userToUpdate = userRepository.findOneByIdNotDeleted(userLoginDto.getId());
 
         Objects.requireNonNull(userToUpdate, "user not found!");
 

@@ -30,6 +30,6 @@ public class CategoryService {
     }
 
     public List<Category> findCategoryBySearchText(String searchText) {
-        return categoryRepository.findCategoryBySearchTextNotDeleted(searchText);
+        return categoryRepository.findAllBySearchTextNotDeleted(searchText);
     }
 }

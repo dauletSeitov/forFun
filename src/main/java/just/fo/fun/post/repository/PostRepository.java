@@ -26,7 +26,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "and P.user.isDeleted = false " +
             "and P.created > :beginningWith " +
             "and P.rating > :hotPageLevel")
-    Page<Post> findHotNotDeleted(@Param("hotPageLevel") Long hotPageLevel, @Param("beginningWith") LocalDateTime beginningWith, Pageable pageable);
+    Page<Post> findAllHotByLevelAndTimeNotDeleted(@Param("hotPageLevel") Long hotPageLevel, @Param("beginningWith") LocalDateTime beginningWith, Pageable pageable);
 
 
     @Query("select new just.fo.fun.post.model.ResultHolderTwoLong(sum(P.rating), sum (1)) from Post P " +
@@ -41,7 +41,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "and P.user.isDeleted = false " +
             "and P.user.id = :userId " +
             "and UPPER(P.title) like CONCAT('%', UPPER(:searchText), '%')")
-    Page<Post> findPostByUserIdNotDeleted(@Param("userId") Long userId, @Param("searchText") String searchText, Pageable pageable);
+    Page<Post> findAllPostByUserIdNotDeleted(@Param("userId") Long userId, @Param("searchText") String searchText, Pageable pageable);
 
 
     @Query("select C.post from Commentary C " +
@@ -49,7 +49,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "and C.post.isDeleted = false " +
             "and C.user.isDeleted = false " +
             "and C.user.id = :userId")
-    Page<Post> findPostFromCommentaryByUserIdNotDeleted(@Param("userId") Long userId, Pageable pageable);
+    Page<Post> findAllPostFromCommentaryByUserIdNotDeleted(@Param("userId") Long userId, Pageable pageable);
 
 
     @Query("select U.post from UserPostVoteHistory U " +
@@ -59,28 +59,28 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             "and U.user.isDeleted = false " +
             "and U.user.id = :userId " +
             "and (:isUpVote = true and U.isUpVoted = true or :isUpVote = false and U.isDownVoted = true)")
-    Page<Post> findMyAssessmentsNotDeleted(@Param("isUpVote") Boolean isUpVote, @Param("userId") Long userId, Pageable request);
+    Page<Post> findAllMyAssessmentsByUserIdNotDeleted(@Param("isUpVote") Boolean isUpVote, @Param("userId") Long userId, Pageable request);
 
 
     @Query("select P from Post P " +
             "where P.isDeleted = false " +
             "and P.user.isDeleted = false " +
             "and UPPER(P.title) like CONCAT('%', UPPER(:searchText), '%')")
-    Page<Post> findPostBySearchTextNotDeleted(@Param("searchText") String searchText, Pageable request);
+    Page<Post> findAllPostBySearchTextNotDeleted(@Param("searchText") String searchText, Pageable request);
 
 
     @Query("select P from Post P " +
             "where P.isDeleted = false " +
             "and P.user.isDeleted = false " +
             "and P.category.name = :category")
-    Page<Post> findPostByCategoryNotDeleted(@Param("category") String category, Pageable request);
+    Page<Post> findAllPostByCategoryNotDeleted(@Param("category") String category, Pageable request);
 
 
     @Query("select P from Post P " +
             "where P.isDeleted = false " +
             "and P.user.isDeleted = false " +
             "and P.category.id = :categoryId")
-    Page<Post> findPostByCategoryNotDeleted(@Param("categoryId") Integer categoryId, Pageable request);
+    Page<Post> findAllPostByCategoryNotDeleted(@Param("categoryId") Integer categoryId, Pageable request);
 
 
     @Query("update Post set isDeleted = true where id = :postId")

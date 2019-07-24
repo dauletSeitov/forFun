@@ -51,7 +51,7 @@ public class CategoryValidationServiceImpl implements CategoryValidationService{
             throw new MessageException("id cant be empty!");
         }
 
-        Page<Post> post = postRepository.findPostByCategoryNotDeleted(categoryId, new PageRequest(0, 20));
+        Page<Post> post = postRepository.findAllPostByCategoryNotDeleted(categoryId, new PageRequest(0, 20));
 
         if(!CollectionUtils.isEmpty(post.getContent())){
             throw new MessageException("There are posts with this category!");

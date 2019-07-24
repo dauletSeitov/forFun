@@ -20,7 +20,7 @@ public interface UserCommentaryVoteHistoryRepository extends JpaRepository<UserC
             "and UP.user.isDeleted = false " +
             "and UP.commentary.id = :commentaryId " +
             "and UP.user.id = :userId")
-    UserCommentaryVoteHistory findByUserAndPostNotDeleted(@Param("userId") Long userId, @Param("commentaryId") Long commentaryId);
+    UserCommentaryVoteHistory findOneByUserIdAndPostIdNotDeleted(@Param("userId") Long userId, @Param("commentaryId") Long commentaryId);
 
     @Query("select new just.fo.fun.post.model.ResultHolderTwoLong(count(CASE WHEN UP.isUpVoted = true THEN 1 END), count(CASE WHEN UP.isDownVoted = true THEN 1 END)) " +
             "from UserCommentaryVoteHistory UP " +
@@ -31,5 +31,5 @@ public interface UserCommentaryVoteHistoryRepository extends JpaRepository<UserC
             "and UP.commentary.post.user.isDeleted = false " +
             "and UP.user.isDeleted = false " +
             "and UP.user.id = :id ")
-    ResultHolderTwoLong getAggregatedDataByUserNotDeleted(@Param("id") Long userId);
+    ResultHolderTwoLong getAggregatedDataByUserIdNotDeleted(@Param("id") Long userId);
 }

@@ -20,7 +20,7 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
             "and C.parent.id is null " +
             "and C.post.id = :postId " +
             "order by C.rating desc")
-    List<Commentary> findAllParentlessByPostId(@Param("postId") Long postId);
+    List<Commentary> findAllParentlessByPostIdNotDeleted(@Param("postId") Long postId);
 
     @Query("select C from Commentary C " +
             "where C.isDeleted = false " +
@@ -29,24 +29,24 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
             "and C.post.user.isDeleted = false " +
             "and C.parent.id = :parentId " +
             "order by C.rating desc")
-    List<Commentary> findAllByParentId(@Param("parentId") Long parentId);
+    List<Commentary> findAllByParentIdNotDeleted(@Param("parentId") Long parentId);
 
     @Query("select C from Commentary C where C.isDeleted = false and C.id = :commentId")
-    Commentary findOneById(@Param("commentId") Long commentId);
+    Commentary findOneByIdNotDeleted(@Param("commentId") Long commentId);
 
     @Query("select new just.fo.fun.post.model.ResultHolderTwoLong(sum(C.rating), sum(1)) from Commentary C " +
             "where C.isDeleted = false " +
             "and C.post.isDeleted = false " +
             "and C.user.isDeleted = false " +
             "and C.user.id = :id ")
-    ResultHolderTwoLong getAggregatedDataByUser(@Param("id") Long id);
+    ResultHolderTwoLong getAggregatedDataByUserNotDeleted(@Param("id") Long id);
 
     @Query("select sum(1) from Commentary C " +
             "where C.isDeleted = false " +
             "and C.post.isDeleted = false " +
             "and C.user.isDeleted = false " +
             "and C.post.id = :postId")
-    Long getCommentaryCountByPostId(@Param("postId") Long postId);
+    Long getCommentaryCountByPostIdNotDeleted(@Param("postId") Long postId);
 
     @Query("update  Commentary set isDeleted = true where id = :commentaryId")
     void delete(@Param("commentaryId") Long commentaryId);

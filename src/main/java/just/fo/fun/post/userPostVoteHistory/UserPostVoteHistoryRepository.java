@@ -18,7 +18,7 @@ public interface UserPostVoteHistoryRepository extends JpaRepository<UserPostVot
             "and UP.user.isDeleted = false " +
             "and UP.post.id = :postId " +
             "and UP.user.id = :userId")
-    UserPostVoteHistory findByUserAndPostNotDeleted(@Param("userId") Long userId, @Param("postId") Long postId);
+    UserPostVoteHistory findOneByUserIdAndPostIdNotDeleted(@Param("userId") Long userId, @Param("postId") Long postId);
 
     @Query("select new just.fo.fun.post.model.ResultHolderTwoLong(count(CASE WHEN UP.isUpVoted = true THEN 1 END), count(CASE WHEN UP.isDownVoted = true THEN 1 END)) " +
             "from UserPostVoteHistory UP " +
@@ -27,6 +27,6 @@ public interface UserPostVoteHistoryRepository extends JpaRepository<UserPostVot
             "and UP.post.user.isDeleted = false " +
             "and UP.user.isDeleted = false " +
             "and UP.user.id = :id ")
-    ResultHolderTwoLong getAggregatedDataByUserNotDeleted(@Param("id") Long userId);
+    ResultHolderTwoLong getAggregatedDataByUserIdNotDeleted(@Param("id") Long userId);
 
 }

@@ -13,7 +13,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Category findOneNotDeletedByNameNotDeleted(@Param("categoryName") String categoryName);
 
     @Query("select C from Category C where C.isDeleted = false and UPPER(C.name) like CONCAT('%', UPPER(:searchText), '%')")
-    List<Category> findCategoryBySearchTextNotDeleted(@Param("searchText") String searchText);
+    List<Category> findAllBySearchTextNotDeleted(@Param("searchText") String searchText);
 
     @Query("update Category set isDeleted = true where id = :categoryId")
     void delete(@Param("categoryId") Long categoryId);
