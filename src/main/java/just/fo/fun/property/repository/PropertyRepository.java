@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     @Query("select P from Property P where P.isDeleted = false and P.code = :code")
-    Property getPropertyByCode(@Param("code") PropertyService.PropertyCode code);
+    Property findOneByCodeNotDeleted(@Param("code") PropertyService.PropertyCode code);
 
 }

@@ -1,24 +1,30 @@
 1) swagger url: http://localhost:8080/api/swagger-ui.html
 
-
+2)  chto budem delat s udalennimi polzovatelyami commenti i posti ostavim?
 
 
 -- change pwd
 -- add localhost:8080/api/post/1    comment count, and sign is up vote
 -- create post
 -- create comment
+-- getPostByCategory
+-- delete comment
+-- add validation service to post, commentary
+-- delete post
+-- delete account
+-- category validation
+-- create category, delete category
+-- add delete method in repositories
+-- add condition is deleted = false in repositories
+-- add delete all post on delete account
+-- change CommentaryRepository native query
 
-getPostByCategory
-create category, delete category
-delete comment
-delete account
+
 add unique to category, user login
-add condition in repositories
-add validation service to post, commentary
+//TODO remove copyProperties
+//TODO page request
 
 
-
-delete post
 pwd encrypt
 logout
 email, phone service, push
@@ -33,9 +39,5 @@ confirm registration
 
 
 
-@Autowired
-private SQLQueryFactory queryFactory;
 
-//QCommentary commentary = QCommentary.commentary;
-//List<DBCommentary> fetch = queryFactory.select(commentary).from(commentary).fetch();
 

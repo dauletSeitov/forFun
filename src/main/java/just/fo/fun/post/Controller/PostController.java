@@ -40,7 +40,12 @@ public class PostController {
         return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
-    //TODO add getPostByCategory
+    @ApiOperation(value = "get post by category.")
+    @GetMapping("/category/{category}")
+    public ResponseEntity getPostByCategory(@PathVariable String category, Pageable request) {
+        Page<PostDto> posts = postService.findPostByCategory(category, request);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
 
     @ApiOperation(value = "returns one post.")
     @GetMapping("/{id}")
@@ -91,6 +96,8 @@ public class PostController {
     @ApiOperation(value = "deletes post by id.")
     @DeleteMapping("/{id}")
     public ResponseEntity delete (@PathVariable final Long id) {
+
+        postValidationService.validateId(id);
         postService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
 

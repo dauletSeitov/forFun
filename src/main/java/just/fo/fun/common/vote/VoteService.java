@@ -76,7 +76,7 @@ public class VoteService {
         Objects.requireNonNull(user, "user cant be empty");
         Objects.requireNonNull(postId, "post cant be empty");
 
-        UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findByUserAndPost(user.getId(), postId);
+        UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findOneByUserIdAndPostIdNotDeleted(user.getId(), postId);
 
         VoteData voteData;
 
@@ -88,7 +88,7 @@ public class VoteService {
 
         Long rating = changeRating(voteData);
 
-        Post post = postRepository.findOneById(postId);
+        Post post = postRepository.findOneByIdNotDeleted(postId);
 
         Objects.requireNonNull(post, "post cant be empty");
 
@@ -113,7 +113,7 @@ public class VoteService {
         Objects.requireNonNull(user, "user cant be empty");
         Objects.requireNonNull(commentId, "comment cant be empty");
 
-        UserCommentaryVoteHistory userCommentaryVoteHistory = userCommentaryVoteHistoryRepository.findByUserAndPost(user.getId(), commentId);
+        UserCommentaryVoteHistory userCommentaryVoteHistory = userCommentaryVoteHistoryRepository.findOneByUserIdAndPostIdNotDeleted(user.getId(), commentId);
 
         VoteData voteData;
         if (Objects.isNull(userCommentaryVoteHistory)){
@@ -124,7 +124,7 @@ public class VoteService {
 
         Long rating = changeRating(voteData);
 
-        Commentary commentary = commentaryRepository.findOneById(commentId);
+        Commentary commentary = commentaryRepository.findOneByIdNotDeleted(commentId);
 
         Objects.requireNonNull(commentary, "post cant be empty");
 

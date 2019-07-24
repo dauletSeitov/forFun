@@ -94,13 +94,16 @@ public class CommentaryController {
 
     }
 
+*/
+
     @DeleteMapping("/{id}")
     public ResponseEntity delete (@PathVariable final Long id) {
-        userService.delete(id);
+
+        commentaryValidationService.validateId(id);
+        commentaryService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
 
     }
-*/
 
     @ApiOperation(value = "get all commentaries by postId.")
     @GetMapping("/post-id/{postId}")

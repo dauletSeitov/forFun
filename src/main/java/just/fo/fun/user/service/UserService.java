@@ -55,21 +55,21 @@ public class UserService {
         userIncorrectAttempt = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.USER_INCORRECT_ATTEMPT);
     }
 
-    public User save(User user){
+    public User create(User user){
         return userRepository.save(user);
     }
 
     public UserDto findOne(Long id){
-        final User user = userRepository.findOneNotDeleted(id);
+        final User user = userRepository.findOneByIdNotDeleted(id);
         return Objects.isNull(user) ? null : new UserDto(user);
     }
 
     public User findOneEntity(Long id){
-        return userRepository.findOneNotDeleted(id);
+        return userRepository.findOneByIdNotDeleted(id);
     }
 
     public User findOneEntityByLogin(String login){
-        return userRepository.findOneByLogin(login);
+        return userRepository.findOneByLoginNotDeleted(login);
     }
 
     public Page<UserDto> findAll(Pageable pageable){
@@ -77,8 +77,13 @@ public class UserService {
         return page.map(UserDto::new);
     }
 
-    public void delete(Long id){
-        userRepository.delete(id);
+    public void delete(Long userId){
+        //TODO logout
+
+        postRepository.deleteByUserId(userId);
+        commentaryRepository.deleteByUserId(userId);
+
+        userRepository.delete(userId);
     }
 
 
@@ -86,11 +91,11 @@ public class UserService {
 
         User user = requestUtils.getUser();
 
-        ResultHolderTwoLong aggregatedPostDataByUser = postRepository.getAggregatedDataByUser(user.getId());
-        ResultHolderTwoLong aggregatedCommentaryDataByUser = commentaryRepository.getAggregatedDataByUser(user.getId());
+        ResultHolderTwoLong aggregatedPostDataByUser = postRepository.getAggregatedDataByUserNotDeleted(user.getId());
+        ResultHolderTwoLong aggregatedCommentaryDataByUser = commentaryRepository.getAggregatedDataByUserNotDeleted(user.getId());
 
-        ResultHolderTwoLong aggregatedPostVotesDataByUser = userPostMapRepository.getAggregatedDataByUser(user.getId());
-        ResultHolderTwoLong aggregatedCommentVotesDataByUser = userCommentaryVoteHistoryRepository.getAggregatedDataByUser(user.getId());
+        ResultHolderTwoLong aggregatedPostVotesDataByUser = userPostMapRepository.getAggregatedDataByUserIdNotDeleted(user.getId());
+        ResultHolderTwoLong aggregatedCommentVotesDataByUser = userCommentaryVoteHistoryRepository.getAggregatedDataByUserIdNotDeleted(user.getId());
 
         CurrentUserDto currentUserDto = new CurrentUserDto();
         currentUserDto.setId(user.getId());
@@ -111,14 +116,22 @@ public class UserService {
         return currentUserDto;
     }
 
-    public User save(UserLoginDto userLoginDto) {
+    public User create(UserLoginDto userLoginDto) {
+
+        User user = userRepository.findOneByLoginNotDeleted(userLoginDto.getLogin());
+
+        if(user != null){
+            user.setIsDeleted(true);
+            userRepository.save(user);
+        }
+
         userLoginDto.setStatus(UserState.EXPECTED_CONFIRMATION);
         return userRepository.save(convertUserLoginDtoToUser(userLoginDto));
     }
 
     public User update(UserLoginDto userLoginDto) {
 
-        User userToUpdate = userRepository.findOneNotDeleted(userLoginDto.getId());
+        User userToUpdate = userRepository.findOneByIdNotDeleted(userLoginDto.getId());
 
         Objects.requireNonNull(userToUpdate, "user not found!");
 

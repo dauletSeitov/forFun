@@ -13,7 +13,6 @@ import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
 import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.model.UserDto;
-import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -78,7 +77,7 @@ public class PostService {
                 break;
             default:
 
-                page = postRepository.findHot(hotPageLevel, LocalDateTime.now().minusDays(hotPageDays), pageable);
+                page = postRepository.findAllHotByLevelAndTimeNotDeleted(hotPageLevel, LocalDateTime.now().minusDays(hotPageDays), pageable);
 
         }
 
@@ -94,16 +93,14 @@ public class PostService {
         return postRepository.save(postDtoToPost(postDto));
     }
 
-    public void delete(Long id){
+    public void delete(Long postId){
 
-        Objects.requireNonNull(id, "id can not be null");
+        Post post = postRepository.findOne(postId);
 
-        Post post = postRepository.findOne(id);
-
-        Objects.requireNonNull(id, "post not found!");
+        Objects.requireNonNull(postId, "post not found!");
 
         if (post.getUser().getId().equals(requestUtils.getUser().getId())){
-            postRepository.delete(id);
+            postRepository.delete(postId);
 
         } else {
 
@@ -117,20 +114,24 @@ public class PostService {
 
 
     public Page<PostDto> findMyPosts(String searchText, Pageable request) {
-        return postRepository.findPostByUserId(requestUtils.getUser().getId(), searchText, request).map(this::postDtoToPost);
+        return postRepository.findAllPostByUserIdNotDeleted(requestUtils.getUser().getId(), searchText, request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findPostFromCommentaryByUserId(Pageable request) {
-        return postRepository.findPostFromCommentaryByUserId(requestUtils.getUser().getId(), request).map(this::postDtoToPost);
+        return postRepository.findAllPostFromCommentaryByUserIdNotDeleted(requestUtils.getUser().getId(), request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findMyAssessments(Boolean isUpVote, Pageable request) {
         Objects.requireNonNull(isUpVote, "required param isUpVote");
-        return postRepository.findMyAssessments(isUpVote,requestUtils.getUser().getId(), request).map(this::postDtoToPost);
+        return postRepository.findAllMyAssessmentsByUserIdNotDeleted(isUpVote,requestUtils.getUser().getId(), request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findPostBySearchText(String searchText, Pageable request) {
-        return postRepository.findPostBySearchText(searchText, request).map(this::postDtoToPost);
+        return postRepository.findAllPostBySearchTextNotDeleted(searchText, request).map(this::postDtoToPost);
+    }
+
+    public Page<PostDto> findPostByCategory(String category, Pageable request) {
+        return postRepository.findAllPostByCategoryNotDeleted(category, request).map(this::postDtoToPost);
     }
 
 
@@ -142,7 +143,7 @@ public class PostService {
         post.setImageUrl(postDto.getImageUrl());
         post.setRating(postDto.getRating());
 
-        Category category = categoryRepository.findOneNotDeletedByName(postDto.getCategory());
+        Category category = categoryRepository.findOneNotDeletedByNameNotDeleted(postDto.getCategory());
         post.setCategory(category);
 
         post.setUser(requestUtils.getUser());
@@ -153,8 +154,8 @@ public class PostService {
 
     public PostDto postDtoToPost(Post post) {
 
-        Long commentaryCount = commentaryRepository.getCommentaryCountByPostId(post.getId());
-        UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findByUserAndPost(requestUtils.getUser().getId(), post.getId());
+        Long commentaryCount = commentaryRepository.getCommentaryCountByPostIdNotDeleted(post.getId());
+        UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findOneByUserIdAndPostIdNotDeleted(requestUtils.getUser().getId(), post.getId());
 
         PostDto postDto = new PostDto();
 
@@ -169,5 +170,7 @@ public class PostService {
         postDto.setCommentCount(commentaryCount);
         return postDto;
     }
+
+
     //-------------------CONVERTER----------------------------
 }
