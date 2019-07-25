@@ -18,11 +18,10 @@
 -- add condition is deleted = false in repositories
 -- add delete all post on delete account
 -- change CommentaryRepository native query
+-- //TODO remove copyProperties
+-- //TODO page request
+-- add unique to category, user login
 
-
-add unique to category, user login
-//TODO remove copyProperties
-//TODO page request
 
 
 pwd encrypt

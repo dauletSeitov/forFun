@@ -107,9 +107,9 @@ public class CommentaryController {
 
     @ApiOperation(value = "get all commentaries by postId.")
     @GetMapping("/post-id/{postId}")
-    public ResponseEntity getCommentaryByPostId(@PathVariable final Long postId) {
+    public ResponseEntity getCommentaryByPostId(@PathVariable final Long postId, Pageable pageable) {
 
-        List<CommentaryDto> result = commentaryService.findAllByPostId(postId);
+        Page result = commentaryService.findAllByPostId(postId, pageable);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

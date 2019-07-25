@@ -8,15 +8,19 @@ import just.fo.fun.entities.Post;
 import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.repository.PostRepository;
+import just.fo.fun.user.model.UserDto;
 import just.fo.fun.utils.RequestUtils;
-import just.fo.fun.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
 @Transactional
 @Service
 public class CommentaryService {
@@ -59,22 +63,28 @@ public class CommentaryService {
         }
     }
 
-    public List<CommentaryDto> findAllByPostId(Long postId){ //TODO page request
+    public Page findAllByPostId(Long postId, Pageable pageable){
 
-        List<CommentaryDto> parentles = commentaryRepository.findAllParentlessByPostIdNotDeleted(postId)
-                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList()); //TODO remove copyProperties
+        Page<Commentary> commentaries = commentaryRepository.findAllParentlessByPostIdNotDeleted(postId, pageable);
+
+        if (CollectionUtils.isEmpty(commentaries.getContent())){
+            return commentaries;
+        }
+
+        List<CommentaryDto> parentles = commentaries.getContent()
+                .stream().map(CommentaryService::commentaryToCommentaryDto).collect(Collectors.toList());
 
         for (CommentaryDto commentaryDto : parentles) {
             recursion (commentaryDto);
         }
 
-        return  parentles;
+        return new PageImpl<>(parentles, pageable, commentaries.getTotalElements());
     }
 
     private void recursion (CommentaryDto commentaryDto){
 
         List<CommentaryDto> children = commentaryRepository.findAllByParentIdNotDeleted(commentaryDto.getId())
-                .stream().map(itm -> Utils.copyProperties(itm, new CommentaryDto())).collect(Collectors.toList());//TODO remove copyProperties
+                .stream().map(CommentaryService::commentaryToCommentaryDto).collect(Collectors.toList());
 
         if (CollectionUtils.isEmpty(children))
             return;
@@ -116,6 +126,22 @@ public class CommentaryService {
         commentary.setUser(user);
 
         return commentary;
+    }
+
+
+    private static CommentaryDto commentaryToCommentaryDto(Commentary commentary) {
+
+        CommentaryDto commentaryDto = new CommentaryDto();
+
+        commentaryDto.setId(commentary.getId());
+        commentaryDto.setImageUrl(commentary.getImageUrl());
+        commentaryDto.setParentId(commentary.getParent() == null ? null :commentary.getParent().getId());
+        commentaryDto.setPostId(commentary.getPost().getId());
+        commentaryDto.setText(commentary.getText());
+        commentaryDto.setRating(commentary.getRating());
+        commentaryDto.setUser(new UserDto(commentary.getUser()));
+
+        return commentaryDto;
     }
     //converter
 

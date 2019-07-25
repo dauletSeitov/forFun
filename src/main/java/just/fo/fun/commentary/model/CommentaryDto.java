@@ -1,5 +1,6 @@
 package just.fo.fun.commentary.model;
 
+import just.fo.fun.user.model.UserDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -18,6 +19,8 @@ public class CommentaryDto {
     private Long id;
 
     private Long userId;
+
+    private UserDto user;
 
     private String text;
 
