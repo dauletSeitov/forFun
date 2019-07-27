@@ -5,7 +5,7 @@ import just.fo.fun.exception.MessageException;
 import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.model.UserChangePasswordDto;
 import just.fo.fun.user.model.UserLoginDto;
-import just.fo.fun.user.model.UserState;
+import just.fo.fun.user.model.UserStatus;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -93,7 +93,7 @@ public class UserValidationServiceImpl implements UserValidationService {
 
         User user = userService.findOneEntityByLogin(userLoginDto.getLogin());
 
-        if (user != null && UserState.ACTIVE.equals(user.getState())){
+        if (user != null && UserStatus.ACTIVE.equals(user.getState())){
             throw new MessageException("you already have active account!");
         }
 
