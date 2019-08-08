@@ -80,6 +80,7 @@ public class UserService {
     public void delete(Long userId){
         //TODO logout
 
+        //TODO add if user deletes account change status post authos as deleted user
         postRepository.deleteByUserId(userId);
         commentaryRepository.deleteByUserId(userId);
 
@@ -125,7 +126,7 @@ public class UserService {
             userRepository.save(user);
         }
 
-        userLoginDto.setStatus(UserState.EXPECTED_CONFIRMATION);
+        userLoginDto.setStatus(UserStatus.EXPECTED_CONFIRMATION);
         return userRepository.save(convertUserLoginDtoToUser(userLoginDto));
     }
 

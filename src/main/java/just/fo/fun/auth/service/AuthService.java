@@ -6,6 +6,7 @@ import com.auth0.jwt.JWTVerifyException;
 import just.fo.fun.auth.model.AuthToken;
 import just.fo.fun.auth.model.UserType;
 import just.fo.fun.entities.User;
+import just.fo.fun.user.model.UserStatus;
 import just.fo.fun.user.service.UserService;
 import just.fo.fun.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class AuthService {
         User user = userService.findOneEntity(authToken.getPrincipal());
         requestUtils.setUser(user);
 
-        if (user == null) { //TODO add is blocked is deleted
+        if (user == null || UserStatus.EXPECTED_CONFIRMATION.equals(user.getState())) {
             authToken.setAuthenticated(false);
         } else {
             authToken.setAuthenticated(true);

@@ -33,6 +33,7 @@ public class CategoryController {
 
     }
 
+    //TODO add user privelegy  add PUT
 // not supported
 //    @PutMapping
 //    public ResponseEntity updateCategory(@Valid @RequestBody final Category category) {
@@ -60,7 +61,7 @@ public class CategoryController {
 //    }
 
     @GetMapping("/search/{searchText}")
-    public ResponseEntity getCategories(@PathVariable String searchText) { //TODO rating for category how much post created to this category. and return by sorting by rating
+    public ResponseEntity getCategories(@PathVariable String searchText) {
 
         List<Category> categories = categoryService.findCategoryBySearchText(searchText);
 
