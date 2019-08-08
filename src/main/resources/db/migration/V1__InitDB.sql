@@ -17,6 +17,14 @@ create table "user"
     locked_time             timestamp
 );
 
+CREATE UNIQUE INDEX user_not_deleted
+    ON "user"( (CASE WHEN IS_DELETED = false
+                           THEN login
+                       ELSE NULL
+        END) );
+
+
+
 create table category
 (
     id         bigint       not null
@@ -25,6 +33,14 @@ create table category
     is_deleted boolean default false,
     name       varchar(255) not null
 );
+
+CREATE UNIQUE INDEX category_not_deleted
+    ON category( (CASE WHEN IS_DELETED = false
+                         THEN name
+                     ELSE NULL
+        END) );
+
+
 
 
 create table post
@@ -45,6 +61,8 @@ create table post
         constraint post_user_fk
             references "user"
 );
+
+
 
 create table commentary
 (
@@ -67,6 +85,8 @@ create table commentary
             references "user"
 );
 
+
+
 create table hibernate_sequences
 (
     sequence_name          varchar(255) not null
@@ -74,6 +94,8 @@ create table hibernate_sequences
             primary key,
     sequence_next_hi_value bigint
 );
+
+
 
 create table property
 (
@@ -107,6 +129,9 @@ create table translations
     ru         varchar(255)
 );
 
+
+
+
 create table user_post_vote_history
 (
     id            bigint not null
@@ -122,6 +147,10 @@ create table user_post_vote_history
         constraint user_post_vote_history_user_fk
             references "user"
 );
+
+
+
+
 
 create table user_commentary_vote_history
 (

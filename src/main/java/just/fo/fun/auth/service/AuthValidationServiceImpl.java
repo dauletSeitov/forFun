@@ -4,7 +4,7 @@ import just.fo.fun.auth.model.AuthDto;
 import just.fo.fun.entities.User;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.property.servise.PropertyService;
-import just.fo.fun.user.model.UserState;
+import just.fo.fun.user.model.UserStatus;
 import just.fo.fun.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class AuthValidationServiceImpl implements AuthValidationService {
             throw new MessageException("incorrect login or password!");
         }
 
-        if (UserState.EXPECTED_CONFIRMATION.equals(user.getState())){
+        if (UserStatus.EXPECTED_CONFIRMATION.equals(user.getState())){
             throw new MessageException("your account expects confirmation!");
         }
 

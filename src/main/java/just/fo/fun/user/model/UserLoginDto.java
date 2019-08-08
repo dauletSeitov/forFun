@@ -26,6 +26,6 @@ public class UserLoginDto {
 
     private String phone;
 
-    private UserState status;
+    private UserStatus status;
 
 }

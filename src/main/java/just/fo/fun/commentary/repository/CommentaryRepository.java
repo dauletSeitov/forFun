@@ -2,6 +2,8 @@ package just.fo.fun.commentary.repository;
 
 import just.fo.fun.entities.Commentary;
 import just.fo.fun.post.model.ResultHolderTwoLong;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +22,7 @@ public interface CommentaryRepository extends JpaRepository<Commentary, Long> {
             "and C.parent.id is null " +
             "and C.post.id = :postId " +
             "order by C.rating desc")
-    List<Commentary> findAllParentlessByPostIdNotDeleted(@Param("postId") Long postId);
+    Page<Commentary> findAllParentlessByPostIdNotDeleted(@Param("postId") Long postId, Pageable pageable);
 
     @Query("select C from Commentary C " +
             "where C.isDeleted = false " +

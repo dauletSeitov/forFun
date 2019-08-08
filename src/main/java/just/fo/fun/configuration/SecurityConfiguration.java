@@ -31,6 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
+                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/v2/**", "/webjars/**").permitAll()
+
                 .antMatchers(HttpMethod.POST,"/auth/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/sign-up").permitAll()
                 .antMatchers("/**").authenticated();
