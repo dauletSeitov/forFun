@@ -50,6 +50,7 @@ create table post
             primary key,
     is_deleted  boolean default false,
     image_url   varchar(512),
+    tag         varchar(255),
     rating      bigint  default '0' not null,
     title       varchar(255),
     updated     timestamp,

@@ -2,10 +2,10 @@ package just.fo.fun.user.Controller;
 
 import io.swagger.annotations.ApiOperation;
 import just.fo.fun.user.model.UserChangePasswordDto;
+import just.fo.fun.user.service.UserService;
 import just.fo.fun.user.service.UserValidationService;
 import just.fo.fun.user.model.CurrentUserDto;
 import just.fo.fun.user.model.UserLoginDto;
-import just.fo.fun.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

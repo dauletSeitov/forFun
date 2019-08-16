@@ -65,7 +65,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("select P from Post P " +
             "where P.isDeleted = false " +
             "and P.user.isDeleted = false " +
-            "and UPPER(P.title) like CONCAT('%', UPPER(:searchText), '%')")
+            "and (UPPER(P.title) like CONCAT('%', UPPER(:searchText), '%')" +
+            "or UPPER(P.tag) like CONCAT('%', UPPER(:searchText), '%'))")
     Page<Post> findAllPostBySearchTextNotDeleted(@Param("searchText") String searchText, Pageable request);
 
 

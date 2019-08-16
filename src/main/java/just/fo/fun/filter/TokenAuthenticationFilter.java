@@ -17,7 +17,7 @@ import java.io.IOException;
 public class TokenAuthenticationFilter implements Filter {
 
     @Autowired
-    private AuthService authenticate;
+    private AuthService authService;
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -29,7 +29,7 @@ public class TokenAuthenticationFilter implements Filter {
 
         try {
             String token = getToken((HttpServletRequest) servletRequest);
-            authenticate.authenticate(token);
+            authService.authenticate(token);
         } catch (AuthenticationException e) {
             log.warn("Token auth failed", e);
         }

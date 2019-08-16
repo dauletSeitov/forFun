@@ -23,8 +23,9 @@ public class Post extends SuperEntity{
 
     private String title;
 
-    @Length(max = 512)
     private String imageUrl;
+
+    private String tag;
 
     @Column
     @UpdateTimestamp
@@ -36,7 +37,6 @@ public class Post extends SuperEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-    @Column(columnDefinition="bigint default '0'")
     private Long rating;
 
 }
