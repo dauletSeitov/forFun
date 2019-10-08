@@ -1,0 +1,30 @@
+#server.port = 8090
+server:
+  contextPath: /api
+spring:
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/fun}
+    username: funny
+    password: ynnuf
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+      write-dates-as-timestamps: false
+logging:
+  level:
+    root: ERROR
+  file: fun.log
+
+jwt:
+  secret: 4Mslow3VXhWb45Rbne6gcYwGwNjc9X
+  audience: darth
+  issuer: vader
+  expiration: 3600

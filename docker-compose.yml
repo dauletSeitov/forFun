@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  fun:
+    build: .
+    image: fun_core
+    container_name: fun_core
+    ports:
+      - 8080:8080
+    environment:
+      - DATASOURCE_URL=jdbc:postgresql://postgres:5432/fun
+#      - APP_ROOT_HOST=$MY_IP
+#      - APP_ROOT_PORT=8180
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: funny
+      POSTGRES_DB: fun
+      POSTGRES_PASSWORD: ynnuf
+
+#      - LISTEN_PORT=8180
+#      - APP_ROOT_HOST=$MY_IP
+#      - APP_ROOT_PORT=8181
+#      - APP_CUSTOMER_HOST=$MY_IP
+#      - APP_CUSTOMER_PORT=8181
+#      - APP_MANAGER_HOST=$MY_IP
+#      - APP_MANAGER_PORT=8182
+#      - APP_AUTH_SERVER_HOST=$MY_IP
+#      - APP_AUTH_SERVER_PORt=5000
+#      - APP_CORE_HOST=$MY_IP
+#      - APP_CORE_PORT=8080
+#      - APP_INTEGRATION_HOST=$MY_IP
+#      - APP_INTEGRATION_PORT=8070
+#      - APP_USER_SERVER_HOST=$MY_IP
+#      - APP_USER_SERVER_PORT=5005
+#      - APP_PAY_SERVER_HOST=$MY_IP
+#      - APP_PAY_SERVER_PORT=8050
+#      - APP_ADMIN_PANEL_HOST=$MY_IP
+#      - APP_ADMIN_PANEL_PORT=7070

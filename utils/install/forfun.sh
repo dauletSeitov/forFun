@@ -1,6 +1,6 @@
 #!/bin/sh
 # cd /srv
-JAR=`ls for-fun-*.jar`
+JAR=`ls forfun-*.jar`
 
 ## Oracle
 # DRIVER=ojdbc8.jar
@@ -10,5 +10,5 @@ DRIVER=postgresql-42.1.1.jar
 # DRIVER=sqljdbc42.jar
 JMX="-Xms256m -Xmx512m"
 #DEBUG="-Xdebug -Xrunjdwp:transport=dt_socket,address=8455,server=y,suspend=n"
-DEBUG=
+#DEBUG=java -Dfile.encoding=UTF-8 $JMX $DEBUG -Dloader.path=$DRIVER,$DATA,$INTEGRATOR,$MANAGER -jar -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5050 $JAR
 java -Dfile.encoding=UTF-8 $JMX $DEBUG  -jar $JAR

@@ -87,7 +87,7 @@ dependencies {
 jar {
 
     version = version + '-' + getDPVersion()
-    baseName = 'for-fun'
+    baseName = 'forfun'
 
 }
 
@@ -95,12 +95,10 @@ task postCopyResource {
     doLast {
         copy {
             from('src/main/resources') {
-                include 'application.properties'
+                include 'application.yml'
             }
             from('utils/install') {
-               // include 'for-fun.sh'
-                include 'for-fun-test.sh'
-                //include 'for-fun-debug.sh'
+                include 'forfun.sh'
             }
             into "${project.buildDir}/libs"
 
