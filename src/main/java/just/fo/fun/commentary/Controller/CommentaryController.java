@@ -6,6 +6,7 @@ import just.fo.fun.commentary.service.CommentaryService;
 import just.fo.fun.commentary.service.CommentaryValidationService;
 import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.service.PostService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,18 +17,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/commentary")
 public class CommentaryController {
 
-    @Autowired
-    private CommentaryService commentaryService;
-
-    @Autowired
-    private PostService postService;
-
-    @Autowired
-    private CommentaryValidationService commentaryValidationService;
+    private final CommentaryService commentaryService;
+    private final PostService postService;
+    private final CommentaryValidationService commentaryValidationService;
 
     @ApiOperation(value = "create commentary.")
     @PostMapping

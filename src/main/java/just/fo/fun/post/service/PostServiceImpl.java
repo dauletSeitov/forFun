@@ -14,6 +14,7 @@ import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
 import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.utils.RequestUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,30 +27,18 @@ import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class PostServiceImpl implements PostService{
 
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private RequestUtils requestUtils;
-
-    @Autowired
-    private VoteService voteService;
-
-    @Autowired
-    private PropertyService propertyService;
-
-    @Autowired
-    private CommentaryRepository commentaryRepository;
-
-    @Autowired
-    private UserPostVoteHistoryRepository userPostVoteHistoryRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final PostRepository postRepository;
+    private final RequestUtils requestUtils;
+    private final VoteService voteService;
+    private final PropertyService propertyService;
+    private final CommentaryRepository commentaryRepository;
+    private final UserPostVoteHistoryRepository userPostVoteHistoryRepository;
+    private final CategoryRepository categoryRepository;
 
     private Long hotPageLevel;
 

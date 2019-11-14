@@ -6,6 +6,7 @@ import just.fo.fun.user.service.UserService;
 import just.fo.fun.user.service.UserValidationService;
 import just.fo.fun.user.model.CurrentUserDto;
 import just.fo.fun.user.model.UserLoginDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,15 +17,13 @@ import javax.validation.Valid;
 
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserValidationService userValidationService;
+    private final UserService userService;
+    private final UserValidationService userValidationService;
 
     @ApiOperation(value = "to get current current user data.")
     @GetMapping("/current/user-data")

@@ -5,6 +5,7 @@ import just.fo.fun.entities.Category;
 import just.fo.fun.entities.Post;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.repository.PostRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,13 +14,11 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryValidationServiceImpl implements CategoryValidationService{
 
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
-    private PostRepository postRepository;
+    private final CategoryRepository categoryRepository;
+    private final PostRepository postRepository;
 
     @Override
     public void validateCreate(Category category) {

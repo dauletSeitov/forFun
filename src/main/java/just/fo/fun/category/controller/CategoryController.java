@@ -3,6 +3,7 @@ package just.fo.fun.category.controller;
 import just.fo.fun.category.service.CategoryService;
 import just.fo.fun.category.service.CategoryValidationService;
 import just.fo.fun.entities.Category;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,14 +14,12 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/category")
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private CategoryValidationService categoryValidationService;
+    private final CategoryService categoryService;
+    private final CategoryValidationService categoryValidationService;
 
     @PostMapping
     public ResponseEntity createCategory(@RequestBody final Category category) {

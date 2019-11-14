@@ -5,26 +5,20 @@ import just.fo.fun.commentary.userCommentaryVoteHistory.UserCommentaryVoteHistor
 import just.fo.fun.entities.*;
 import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.post.userPostVoteHistory.UserPostVoteHistoryRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
-
+@RequiredArgsConstructor
 @Service
 public class VoteServiceImpl implements VoteService{
 
-    @Autowired
-    private UserPostVoteHistoryRepository userPostVoteHistoryRepository;
-
-    @Autowired
-    private UserCommentaryVoteHistoryRepository userCommentaryVoteHistoryRepository;
-
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private CommentaryRepository commentaryRepository;
+    private final UserPostVoteHistoryRepository userPostVoteHistoryRepository;
+    private final UserCommentaryVoteHistoryRepository userCommentaryVoteHistoryRepository;
+    private final PostRepository postRepository;
+    private final CommentaryRepository commentaryRepository;
 
 
 

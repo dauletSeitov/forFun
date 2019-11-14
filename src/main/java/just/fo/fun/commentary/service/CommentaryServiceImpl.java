@@ -10,6 +10,7 @@ import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.repository.PostRepository;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.utils.RequestUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -21,21 +22,15 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class CommentaryServiceImpl implements CommentaryService{
 
-    @Autowired
-    private CommentaryRepository commentaryRepository;
-
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private RequestUtils requestUtils;
-
-    @Autowired
-    private VoteService voteService;
+    private final CommentaryRepository commentaryRepository;
+    private final PostRepository postRepository;
+    private final RequestUtils requestUtils;
+    private final VoteService voteService;
 
     public Commentary create(CommentaryDto commentaryDto){
         commentaryDto.setRating(0L);

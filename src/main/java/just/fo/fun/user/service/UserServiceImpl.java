@@ -11,6 +11,7 @@ import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.model.*;
 import just.fo.fun.user.repository.UserRepository;
 import just.fo.fun.utils.RequestUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,29 +23,17 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Slf4j
+@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RequestUtils requestUtils;
-
-    @Autowired
-    private PostRepository postRepository;
-
-    @Autowired
-    private UserPostVoteHistoryRepository userPostMapRepository;
-
-    @Autowired
-    private UserCommentaryVoteHistoryRepository userCommentaryVoteHistoryRepository;
-
-    @Autowired
-    private CommentaryRepository commentaryRepository;
-
-    @Autowired
-    private PropertyService propertyService;
+    private final UserRepository userRepository;
+    private final RequestUtils requestUtils;
+    private final PostRepository postRepository;
+    private final UserPostVoteHistoryRepository userPostMapRepository;
+    private final UserCommentaryVoteHistoryRepository userCommentaryVoteHistoryRepository;
+    private final CommentaryRepository commentaryRepository;
+    private final PropertyService propertyService;
 
     private Long userLockTime;
     private Long userIncorrectAttempt;

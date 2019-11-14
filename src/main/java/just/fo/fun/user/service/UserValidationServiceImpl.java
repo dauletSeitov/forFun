@@ -7,6 +7,7 @@ import just.fo.fun.user.model.UserChangePasswordDto;
 import just.fo.fun.user.model.UserLoginDto;
 import just.fo.fun.user.model.UserStatus;
 import just.fo.fun.utils.RequestUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -14,17 +15,13 @@ import org.springframework.util.StringUtils;
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 
+@RequiredArgsConstructor
 @Service
 public class UserValidationServiceImpl implements UserValidationService {
 
-    @Autowired
-    private PropertyService propertyService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private RequestUtils requestUtils;
+    private final PropertyService propertyService;
+    private final UserService userService;
+    private final RequestUtils requestUtils;
 
     private Long acceptableAge;
     private String loginRegex;

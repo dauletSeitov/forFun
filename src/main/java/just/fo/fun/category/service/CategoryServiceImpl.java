@@ -2,16 +2,17 @@ package just.fo.fun.category.service;
 
 import just.fo.fun.category.repository.CategoryRepository;
 import just.fo.fun.entities.Category;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService{
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public Category create(Category category){
         return categoryRepository.save(category);

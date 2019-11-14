@@ -1,12 +1,12 @@
-package just.fo.fun.post.Controller;
+package just.fo.fun.post.controller;
 
 import io.swagger.annotations.ApiOperation;
 import just.fo.fun.post.model.PostDto;
 import just.fo.fun.post.model.enums.PageType;
 import just.fo.fun.post.service.PostService;
 import just.fo.fun.post.service.PostValidationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -16,15 +16,13 @@ import javax.validation.constraints.NotNull;
 
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/post")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
-
-    @Autowired
-    private PostValidationService postValidationService;
+    private final PostService postService;
+    private final PostValidationService postValidationService;
 
     @ApiOperation(value = "returns post by parameter pageType where pageType is [HOT, FRESH, TRENDING].")
     @GetMapping

@@ -4,15 +4,16 @@ import just.fo.fun.category.repository.CategoryRepository;
 import just.fo.fun.entities.Category;
 import just.fo.fun.exception.MessageException;
 import just.fo.fun.post.model.PostDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+@RequiredArgsConstructor
 @Service
 public class PostValidationServiceImpl implements PostValidationService{
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public void validateCreate(PostDto postDto) {
