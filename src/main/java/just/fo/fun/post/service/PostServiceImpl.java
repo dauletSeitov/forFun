@@ -15,7 +15,6 @@ import just.fo.fun.property.servise.PropertyService;
 import just.fo.fun.user.model.UserDto;
 import just.fo.fun.utils.RequestUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -30,7 +29,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class PostServiceImpl implements PostService{
+public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final RequestUtils requestUtils;
@@ -45,7 +44,7 @@ public class PostServiceImpl implements PostService{
     private Long hotPageDays;
 
     @PostConstruct
-    private void init(){
+    private void init() {
 
         hotPageLevel = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_LEVEL);
         hotPageDays = propertyService.getLongPropertyByCode(PropertyService.PropertyCode.HOT_PAGE_DAYS);
@@ -56,7 +55,7 @@ public class PostServiceImpl implements PostService{
 
         Page<Post> page;
 
-        switch (pageType){
+        switch (pageType) {
             case TRENDING:
                 page = postRepository.findAll(pageable); //TODO add algorithm to trending
                 break;
@@ -73,22 +72,22 @@ public class PostServiceImpl implements PostService{
         return page.map(this::postDtoToPost);
     }
 
-    public PostDto findOne(Long id){
+    public PostDto findOne(Long id) {
         return postDtoToPost(postRepository.findOne(id));
     }
 
-    public Post save(PostDto postDto){
+    public Post save(PostDto postDto) {
         postDto.setRating(0L);
         return postRepository.save(postDtoToPost(postDto));
     }
 
-    public void delete(Long postId){
+    public void delete(Long postId) {
 
         Post post = postRepository.findOne(postId);
 
         Objects.requireNonNull(postId, "post not found!");
 
-        if (post.getUser().getId().equals(requestUtils.getUser().getId())){
+        if (post.getUser().getId().equals(requestUtils.getUser().getId())) {
             postRepository.delete(postId);
 
         } else {
@@ -112,7 +111,7 @@ public class PostServiceImpl implements PostService{
 
     public Page<PostDto> findMyAssessments(Boolean isUpVote, Pageable request) {
         Objects.requireNonNull(isUpVote, "required param isUpVote");
-        return postRepository.findAllMyAssessmentsByUserIdNotDeleted(isUpVote,requestUtils.getUser().getId(), request).map(this::postDtoToPost);
+        return postRepository.findAllMyAssessmentsByUserIdNotDeleted(isUpVote, requestUtils.getUser().getId(), request).map(this::postDtoToPost);
     }
 
     public Page<PostDto> findPostBySearchText(String searchText, Pageable request) {
@@ -145,7 +144,6 @@ public class PostServiceImpl implements PostService{
     public PostDto postDtoToPost(Post post) {
 
         Long commentaryCount = commentaryRepository.getCommentaryCountByPostIdNotDeleted(post.getId());
-        UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findOneByUserIdAndPostIdNotDeleted(requestUtils.getUser().getId(), post.getId());
 
         PostDto postDto = new PostDto();
 
@@ -156,7 +154,12 @@ public class PostServiceImpl implements PostService{
         postDto.setCategory(post.getCategory().getName());
         postDto.setRating(post.getRating());
         postDto.setUser(new UserDto(post.getUser()));
-        postDto.setIsUpVoted(userPostVoteHistory != null && userPostVoteHistory.getIsUpVoted() != null && userPostVoteHistory.getIsUpVoted());
+
+        if (requestUtils.getUser() != null) {
+            UserPostVoteHistory userPostVoteHistory = userPostVoteHistoryRepository.findOneByUserIdAndPostIdNotDeleted(requestUtils.getUser().getId(), post.getId());
+            postDto.setIsUpVoted(userPostVoteHistory != null && userPostVoteHistory.getIsUpVoted() != null && userPostVoteHistory.getIsUpVoted());
+        }
+
         postDto.setCommentCount(commentaryCount);
         postDto.setTag(post.getTag());
         return postDto;

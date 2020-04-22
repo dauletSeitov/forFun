@@ -19,8 +19,8 @@ spring:
       FAIL_ON_EMPTY_BEANS: false
       write-dates-as-timestamps: false
 logging:
-  level:
-    root: ERROR
+#  level:
+#    root: ERROR
   file: fun.log
 
 jwt:
